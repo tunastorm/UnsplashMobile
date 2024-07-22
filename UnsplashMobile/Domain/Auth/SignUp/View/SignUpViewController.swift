@@ -20,7 +20,7 @@ protocol SignUpViewDelegate {
     func addUser()
 }
 
-class SignUpViewController: BaseViewController<SignUpView, SignUpViewModel> {
+final class SignUpViewController: BaseViewController<SignUpView, SignUpViewModel> {
    
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -99,10 +99,10 @@ class SignUpViewController: BaseViewController<SignUpView, SignUpViewModel> {
     }
     
     @objc func pushSelectPhotoView() {
-//        let vc = SelectPhotoViewController()
-//        vc.delegate = self
-//        
-//        pushAfterView(view: vc, backButton: true, animated: true)
+        let vc = SelectPhotoViewController(view: SelectPhotoView())
+        vc.delegate = self
+        
+        pushAfterView(view: vc, backButton: true, animated: true)
     }
 }
 

@@ -25,7 +25,7 @@ final class SplashView: BaseView {
     
     let applicantLabel = UILabel().then {
         $0.textAlignment = .center
-        $0.font = Resource.Asset.Font.boldSystem16
+        $0.font = Resource.Asset.Font.boldSystem20
         $0.textColor = Resource.Asset.CIColor.blue
         $0.text = Resource.UIConstants.Text.applicantName
     }

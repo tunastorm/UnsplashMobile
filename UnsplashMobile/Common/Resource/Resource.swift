@@ -89,6 +89,12 @@ enum Resource {
             static let likeUnselected = UIImage(named: "like_unselected")
             static let loadingApple = UIImage (named: "loading_apple")
             
+            static func profileImage(number: Int) -> UIImage? {
+                guard number >= 0 && number <= 11 else {
+                    return nil
+                }
+                return UIImage(named: "profile_\(number)")
+            }
             
             static var randomProfile: UIImage {
                 return UIImage(named: "profile_\(Int.random(in: 0...11))")!

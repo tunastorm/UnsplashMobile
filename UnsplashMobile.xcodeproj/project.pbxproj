@@ -56,6 +56,10 @@
 		BCF5F6DA2C4E5E93002D9EA0 /* UIViewController + Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCF5F6D92C4E5E93002D9EA0 /* UIViewController + Extension.swift */; };
 		BCF5F6DC2C4E6513002D9EA0 /* BaseCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCF5F6DB2C4E6513002D9EA0 /* BaseCollectionViewCell.swift */; };
 		BCF5F6DE2C4E654F002D9EA0 /* BaseTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCF5F6DD2C4E654F002D9EA0 /* BaseTableViewCell.swift */; };
+		BCF5F6E32C4E77C6002D9EA0 /* SelectPhotoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCF5F6E22C4E77C6002D9EA0 /* SelectPhotoView.swift */; };
+		BCF5F6E52C4E77D8002D9EA0 /* SelectPhotoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCF5F6E42C4E77D8002D9EA0 /* SelectPhotoViewController.swift */; };
+		BCF5F6E72C4E78EF002D9EA0 /* SelectPhotoCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCF5F6E62C4E78EF002D9EA0 /* SelectPhotoCollectionViewController.swift */; };
+		BCF5F6E92C4E797A002D9EA0 /* SelectePhotoCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCF5F6E82C4E797A002D9EA0 /* SelectePhotoCollectionViewCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -116,6 +120,10 @@
 		BCF5F6D92C4E5E93002D9EA0 /* UIViewController + Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController + Extension.swift"; sourceTree = "<group>"; };
 		BCF5F6DB2C4E6513002D9EA0 /* BaseCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseCollectionViewCell.swift; sourceTree = "<group>"; };
 		BCF5F6DD2C4E654F002D9EA0 /* BaseTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseTableViewCell.swift; sourceTree = "<group>"; };
+		BCF5F6E22C4E77C6002D9EA0 /* SelectPhotoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectPhotoView.swift; sourceTree = "<group>"; };
+		BCF5F6E42C4E77D8002D9EA0 /* SelectPhotoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectPhotoViewController.swift; sourceTree = "<group>"; };
+		BCF5F6E62C4E78EF002D9EA0 /* SelectPhotoCollectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectPhotoCollectionViewController.swift; sourceTree = "<group>"; };
+		BCF5F6E82C4E797A002D9EA0 /* SelectePhotoCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectePhotoCollectionViewCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -233,6 +241,7 @@
 				BCF5F6A02C4E4CC6002D9EA0 /* Splash */,
 				BCF5F6C52C4E5A35002D9EA0 /* Onboarding */,
 				BCF5F6CE2C4E5CA3002D9EA0 /* SignUp */,
+				BCF5F6DF2C4E778F002D9EA0 /* SelectPhoto */,
 			);
 			path = Auth;
 			sourceTree = "<group>";
@@ -377,6 +386,25 @@
 			path = View;
 			sourceTree = "<group>";
 		};
+		BCF5F6DF2C4E778F002D9EA0 /* SelectPhoto */ = {
+			isa = PBXGroup;
+			children = (
+				BCF5F6E12C4E77B9002D9EA0 /* View */,
+			);
+			path = SelectPhoto;
+			sourceTree = "<group>";
+		};
+		BCF5F6E12C4E77B9002D9EA0 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				BCF5F6E22C4E77C6002D9EA0 /* SelectPhotoView.swift */,
+				BCF5F6E42C4E77D8002D9EA0 /* SelectPhotoViewController.swift */,
+				BCF5F6E62C4E78EF002D9EA0 /* SelectPhotoCollectionViewController.swift */,
+				BCF5F6E82C4E797A002D9EA0 /* SelectePhotoCollectionViewCell.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -486,6 +514,8 @@
 				BCF5F6C12C4E5940002D9EA0 /* Observable.swift in Sources */,
 				BCF5F6542C4E2058002D9EA0 /* SceneDelegate.swift in Sources */,
 				BCF5F68A2C4E2AA3002D9EA0 /* APIClient.swift in Sources */,
+				BCF5F6E52C4E77D8002D9EA0 /* SelectPhotoViewController.swift in Sources */,
+				BCF5F6E32C4E77C6002D9EA0 /* SelectPhotoView.swift in Sources */,
 				BCF5F6D62C4E5D09002D9EA0 /* SignUpViewModel.swift in Sources */,
 				BCF5F68F2C4E2BBF002D9EA0 /* SearchPhotosResponse.swift in Sources */,
 				BCF5F6A62C4E4D9D002D9EA0 /* BaseViewModel.swift in Sources */,
@@ -497,10 +527,12 @@
 				BCF5F6BF2C4E533C002D9EA0 /* TextInputFilter.swift in Sources */,
 				BCF5F6BA2C4E529B002D9EA0 /* PhotoManager.swift in Sources */,
 				BCF5F6C32C4E59DA002D9EA0 /* TextInputError.swift in Sources */,
+				BCF5F6E72C4E78EF002D9EA0 /* SelectPhotoCollectionViewController.swift in Sources */,
 				BCF5F6942C4E3277002D9EA0 /* UIColor+Extension.swift in Sources */,
 				BCF5F6A82C4E4DB7002D9EA0 /* BaseView.swift in Sources */,
 				BCF5F6AC2C4E4F46002D9EA0 /* RespositoryResult.swift in Sources */,
 				BCF5F6DC2C4E6513002D9EA0 /* BaseCollectionViewCell.swift in Sources */,
+				BCF5F6E92C4E797A002D9EA0 /* SelectePhotoCollectionViewCell.swift in Sources */,
 				BCF5F6D22C4E5CC6002D9EA0 /* SignUpView.swift in Sources */,
 				BCF5F6C72C4E5A47002D9EA0 /* SplashView.swift in Sources */,
 				BCF5F6AF2C4E4FA3002D9EA0 /* ViewTransition.swift in Sources */,
