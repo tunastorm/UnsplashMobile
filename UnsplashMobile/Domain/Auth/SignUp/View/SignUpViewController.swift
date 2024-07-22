@@ -14,95 +14,17 @@ protocol SelectPhotoDelegate {
     func receiveSelectedPhoto<T>(data: T)
 }
 
+protocol SignUpViewDelegate {
+    
+    func checkNickName(nickname: String)
+    func addUser()
+}
+
 class SignUpViewController: BaseViewController<SignUpView, SignUpViewModel> {
    
-    let profileView = UIView()
-    let profileImageView = UIImageView().then {
-        $0.contentMode = .scaleAspectFit
-        $0.layer.borderWidth = Resource.Border.width3
-        $0.layer.borderColor = Resource.CIColor.blue.cgColor
-        $0.layer.cornerRadius = Resource.CornerRadious.profileImageView
-        $0.layer.masksToBounds = true
-    }
-    let cameraIconView = UIView().then {
-        $0.backgroundColor = Resource.CIColor.blue
-        $0.layer.cornerRadius = Resource.CornerRadious.cameraIcon
-        $0.layer.masksToBounds = true
-    }
-    let cameraIcon = UIImageView(image: Resource.Asset.SystemImage.cameraFill).then {
-        $0.contentMode = .scaleAspectFit
-        $0.tintColor = Resource.CIColor.white
-    }
-    let nickNameTextField = UITextField().then {
-        $0.addTarget(self, action: #selector(checkNickName), for: .editingChanged)
-    }
-    let lineView = UIView().then {
-        $0.backgroundColor = Resource.CIColor.lightGray
-    }
-    let messageLabel = UILabel().then {
-        $0.textAlignment = .left
-        $0.textColor = Resource.CIColor.red
-    }
-    let completeButton = UIButton().then {
-        $0.backgroundColor = Resource.CIColor.blue
-        $0.layer.cornerRadius = Resource.CornerRadious.startButton
-        $0.layer.masksToBounds = true
-        $0.setTitle(Resource.Text.startButton, for: .normal)
-        $0.setTitleColor(Resource.CIColor.white, for: .normal)
-        $0.addTarget(self, action: #selector(addUser), for: .touchUpInside)
-    }
-
     override func viewDidLoad() {
         super.viewDidLoad()
-    }
-    
-    override func configHierarchy() {
-        view.addSubview(profileView)
-        profileView.addSubview(profileImageView)
-        profileView.addSubview(cameraIconView)
-        cameraIconView.addSubview(cameraIcon)
-        view.addSubview(nickNameTextField)
-        view.addSubview(lineView)
-        view.addSubview(messageLabel)
-        view.addSubview(completeButton)
-    }
-    
-    override func configLayout() {
-        profileView.snp.makeConstraints {
-            $0.size.equalTo(120)
-            $0.top.equalTo(view.safeAreaLayoutGuide).inset(20)
-            $0.centerX.equalTo(view.safeAreaLayoutGuide)
-        }
-        profileImageView.snp.makeConstraints {
-            $0.edges.equalToSuperview()
-        }
-        cameraIconView.snp.makeConstraints {
-            $0.size.equalTo(30)
-            $0.bottom.trailing.equalToSuperview()
-        }
-        cameraIcon.snp.makeConstraints {
-            $0.edges.equalToSuperview().inset(5)
-        }
-        nickNameTextField.snp.makeConstraints {
-            $0.height.equalTo(50)
-            $0.horizontalEdges.equalTo(view.safeAreaLayoutGuide).inset(20)
-            $0.top.equalTo(profileView.snp.bottom).offset(50)
-        }
-        lineView.snp.makeConstraints {
-            $0.height.equalTo(1)
-            $0.horizontalEdges.equalTo(view.safeAreaLayoutGuide).inset(20)
-            $0.top.equalTo(nickNameTextField.snp.bottom)
-        }
-        messageLabel.snp.makeConstraints {
-            $0.height.equalTo(20)
-            $0.horizontalEdges.equalTo(view.safeAreaLayoutGuide).inset(20)
-            $0.top.equalTo(lineView.snp.bottom).offset(20)
-        }
-        completeButton.snp.makeConstraints {
-            $0.height.equalTo(60)
-            $0.horizontalEdges.equalTo(view.safeAreaLayoutGuide).inset(20)
-            $0.top.equalTo(messageLabel.snp.bottom).offset(40)
-        }
+        rootView?.delegate = self
     }
     
     override func bindData() {
@@ -111,7 +33,7 @@ class SignUpViewController: BaseViewController<SignUpView, SignUpViewModel> {
             self?.updatePresentationToggle()
         }
         viewModel?.outputValidationResult.bind { [weak self] result in
-            self?.messageLabel.text = result
+            self?.rootView?.messageLabel.text = result
         }
         viewModel?.outputAddUserResult.bind { [weak self] result in
             guard let status = result as? RepositoryStatus else {
@@ -133,7 +55,7 @@ class SignUpViewController: BaseViewController<SignUpView, SignUpViewModel> {
     
     override func configInteraction() {
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(pushSelectPhotoView))
-        profileView.addGestureRecognizer(tapGesture)
+        rootView?.profileView.addGestureRecognizer(tapGesture)
     }
     
     func setUpdatePresentation() {
@@ -141,24 +63,23 @@ class SignUpViewController: BaseViewController<SignUpView, SignUpViewModel> {
     }
     
     private func configProfileToggle(_ nickname: String?, _ imageName: String) {
-        print(#function, nickname, imageName)
-        profileImageView.image = UIImage(named: imageName)
-        nickNameTextField.text = nickname
+        rootView?.profileImageView.image = UIImage(named: imageName)
+        rootView?.nickNameTextField.text = nickname
     }
     
     private func updatePresentationToggle() {
         print(#function, viewModel?.outputUpdatePresentation.value )
         if let isUpdatePresentation = viewModel?.outputUpdatePresentation.value, isUpdatePresentation {
-            navigationItem.title = Resource.Text.editProfileTitle
-            let barButtonItem = UIBarButtonItem(title: Resource.Text.saveNewProfile,
+            navigationItem.title = Resource.UIConstants.Text.editProfileTitle
+            let barButtonItem = UIBarButtonItem(title: Resource.UIConstants.Text.saveNewProfile,
                                                 style: .plain, target: self, action: #selector(updateUser))
             navigationItem.rightBarButtonItem = barButtonItem
-            completeButton.isHidden = true
-            nickNameTextField.placeholder = nil
+            rootView?.completeButton.isHidden = true
+            rootView?.nickNameTextField.placeholder = ""
         } else {
-            navigationItem.title = Resource.Text.profileSetting
-            completeButton.isHidden = false
-            nickNameTextField.placeholder = Resource.Text.nickNamePlaceholder
+            navigationItem.title = Resource.UIConstants.Text.profileSetting
+            rootView?.completeButton.isHidden = false
+            rootView?.nickNameTextField.placeholder = Resource.UIConstants.Text.nickNamePlaceholder
         }
     }
     
@@ -170,22 +91,11 @@ class SignUpViewController: BaseViewController<SignUpView, SignUpViewModel> {
         sceneDelegate.changeRootVCWithNavi(nextVC, animated: false)
     }
     
-    @objc private func addUser() {
-        guard let nickname = nickNameTextField.text, let imageName = profileImageView.image?.name else {
-            return
-        }
-        self.viewModel?.inputAddUser.value = (nickname, imageName)
-    }
-    
     @objc private func updateUser() {
-        guard let nickname = nickNameTextField.text, let imageName = profileImageView.image?.name else {
+        guard let nickname = rootView?.nickNameTextField.text, let imageName = rootView?.profileImageView.image?.name else {
             return
         }
         self.viewModel?.inputUpdateUser.value = (nickname, imageName)
-    }
-    
-    @objc func checkNickName(_ sender: UITextField) {
-        viewModel?.inputNickNameValidate.value = sender.text
     }
     
     @objc func pushSelectPhotoView() {
@@ -211,8 +121,24 @@ extension SignUpViewController: SelectPhotoDelegate  {
     
     func receiveSelectedPhoto<T>(data: T) {
         guard let image = data as? UIImage else { return }
-        profileImageView.image = image
+        rootView?.profileImageView.image = image
     }
+}
+
+
+extension SignUpViewController: SignUpViewDelegate {
+    
+    func checkNickName(nickname: String) {
+        viewModel?.inputNickNameValidate.value = nickname
+    }
+    
+    func addUser() {
+        guard let nickname = rootView?.nickNameTextField.text, let imageName = rootView?.profileImageView.image?.name else {
+            return
+        }
+        self.viewModel?.inputAddUser.value = (nickname, imageName)
+    }
+    
 }
 
 

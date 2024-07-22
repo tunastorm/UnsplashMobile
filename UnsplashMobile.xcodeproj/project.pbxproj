@@ -54,6 +54,8 @@
 		BCF5F6D62C4E5D09002D9EA0 /* SignUpViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCF5F6D52C4E5D09002D9EA0 /* SignUpViewModel.swift */; };
 		BCF5F6D82C4E5D2C002D9EA0 /* UIImage+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCF5F6D72C4E5D2C002D9EA0 /* UIImage+Extension.swift */; };
 		BCF5F6DA2C4E5E93002D9EA0 /* UIViewController + Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCF5F6D92C4E5E93002D9EA0 /* UIViewController + Extension.swift */; };
+		BCF5F6DC2C4E6513002D9EA0 /* BaseCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCF5F6DB2C4E6513002D9EA0 /* BaseCollectionViewCell.swift */; };
+		BCF5F6DE2C4E654F002D9EA0 /* BaseTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCF5F6DD2C4E654F002D9EA0 /* BaseTableViewCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -112,6 +114,8 @@
 		BCF5F6D52C4E5D09002D9EA0 /* SignUpViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpViewModel.swift; sourceTree = "<group>"; };
 		BCF5F6D72C4E5D2C002D9EA0 /* UIImage+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+Extension.swift"; sourceTree = "<group>"; };
 		BCF5F6D92C4E5E93002D9EA0 /* UIViewController + Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController + Extension.swift"; sourceTree = "<group>"; };
+		BCF5F6DB2C4E6513002D9EA0 /* BaseCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseCollectionViewCell.swift; sourceTree = "<group>"; };
+		BCF5F6DD2C4E654F002D9EA0 /* BaseTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseTableViewCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -206,7 +210,9 @@
 				BCF5F69C2C4E464C002D9EA0 /* BaseViewController.swift */,
 				BCF5F6A52C4E4D9D002D9EA0 /* BaseViewModel.swift */,
 				BCF5F6A72C4E4DB7002D9EA0 /* BaseView.swift */,
+				BCF5F6DB2C4E6513002D9EA0 /* BaseCollectionViewCell.swift */,
 				BCF5F6C02C4E5940002D9EA0 /* Observable.swift */,
+				BCF5F6DD2C4E654F002D9EA0 /* BaseTableViewCell.swift */,
 			);
 			path = Base;
 			sourceTree = "<group>";
@@ -483,6 +489,7 @@
 				BCF5F6D62C4E5D09002D9EA0 /* SignUpViewModel.swift in Sources */,
 				BCF5F68F2C4E2BBF002D9EA0 /* SearchPhotosResponse.swift in Sources */,
 				BCF5F6A62C4E4D9D002D9EA0 /* BaseViewModel.swift in Sources */,
+				BCF5F6DE2C4E654F002D9EA0 /* BaseTableViewCell.swift in Sources */,
 				BCF5F6972C4E336C002D9EA0 /* HexaColor.swift in Sources */,
 				BCF5F6D82C4E5D2C002D9EA0 /* UIImage+Extension.swift in Sources */,
 				BCF5F6CD2C4E5B2D002D9EA0 /* OnboardingView.swift in Sources */,
@@ -493,6 +500,7 @@
 				BCF5F6942C4E3277002D9EA0 /* UIColor+Extension.swift in Sources */,
 				BCF5F6A82C4E4DB7002D9EA0 /* BaseView.swift in Sources */,
 				BCF5F6AC2C4E4F46002D9EA0 /* RespositoryResult.swift in Sources */,
+				BCF5F6DC2C4E6513002D9EA0 /* BaseCollectionViewCell.swift in Sources */,
 				BCF5F6D22C4E5CC6002D9EA0 /* SignUpView.swift in Sources */,
 				BCF5F6C72C4E5A47002D9EA0 /* SplashView.swift in Sources */,
 				BCF5F6AF2C4E4FA3002D9EA0 /* ViewTransition.swift in Sources */,

@@ -77,7 +77,7 @@ class SignUpViewModel: BaseViewModel {
             outputValidationResult.value = error.nickNameMessage
             return
         }
-        outputValidationResult.value = Resource.Text.nickNameSuccess
+        outputValidationResult.value = Resource.UIConstants.Text.nickNameSuccess
         signUpInfo = (true, nickname)
     }
 

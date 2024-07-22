@@ -42,7 +42,7 @@ class BaseViewController<View: BaseView, ViewModel: BaseViewModel>: UIViewContro
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        configNavigationbar(navigationColor: Resource.CIColor.white, shadowImage: true)
+        configNavigationbar(navigationColor: Resource.Asset.CIColor.white, shadowImage: true)
     }
     
     func configHierarchy() {
@@ -54,7 +54,7 @@ class BaseViewController<View: BaseView, ViewModel: BaseViewModel>: UIViewContro
     }
     
     func configView() {
-        view.backgroundColor = Resource.CIColor.white
+        view.backgroundColor = Resource.Asset.CIColor.white
     }
     
     func bindData() {
@@ -66,11 +66,11 @@ class BaseViewController<View: BaseView, ViewModel: BaseViewModel>: UIViewContro
     }
     
     func configNavigationbar(navigationColor: UIColor, shadowImage: Bool) {
-        let textAttributes = [NSAttributedString.Key.foregroundColor: Resource.CIColor.black]
+        let textAttributes = [NSAttributedString.Key.foregroundColor: Resource.Asset.CIColor.black]
         let appearance = UINavigationBarAppearance()
         appearance.backgroundColor = navigationColor
         appearance.shadowImage = shadowImage ? nil : UIImage()
-        appearance.shadowColor = shadowImage ? Resource.CIColor.lightGray : .clear
+        appearance.shadowColor = shadowImage ? Resource.Asset.CIColor.lightGray : .clear
         appearance.titleTextAttributes = textAttributes
         self.navigationController?.navigationBar.standardAppearance = appearance
         self.navigationController?.navigationBar.scrollEdgeAppearance = appearance

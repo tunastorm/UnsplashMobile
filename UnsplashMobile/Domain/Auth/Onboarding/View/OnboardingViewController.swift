@@ -18,19 +18,24 @@ final class OnboadingViewController: BaseViewController<OnboardingView, BaseView
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        rootView?.delegate = self
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        configNavigationbar(navigationColor: Resource.CIColor.white, shadowImage: false)
+        configNavigationbar(navigationColor: Resource.Asset.CIColor.white, shadowImage: false)
     }
     
     override func configNavigationbar(navigationColor: UIColor, shadowImage: Bool) {
         super.configNavigationbar(navigationColor: navigationColor, shadowImage: shadowImage)
     }
+}
+
+extension OnboadingViewController: OnboardingViewDelegate {
     
     func pushToSignUpViewController() {
         let vc = SignUpViewController(view: SignUpView(), viewModel: SignUpViewModel())
         pushAfterView(view: vc, backButton: true, animated: true)
     }
+    
 }
 

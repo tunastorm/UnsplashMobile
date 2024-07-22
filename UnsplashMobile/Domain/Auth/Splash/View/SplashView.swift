@@ -14,8 +14,8 @@ final class SplashView: BaseView {
     let appTitle = UILabel().then {
         $0.textAlignment = .left
         $0.font = .boldSystemFont(ofSize: 40)
-        $0.textColor = Resource.CIColor.blue
-        $0.text = Resource.Text.appTitle
+        $0.textColor = Resource.Asset.CIColor.blue
+        $0.text = Resource.UIConstants.Text.appTitle
         $0.numberOfLines = 0
     }
     
@@ -25,9 +25,9 @@ final class SplashView: BaseView {
     
     let applicantLabel = UILabel().then {
         $0.textAlignment = .center
-        $0.font = Resource.Font.boldSystem16
-        $0.textColor = Resource.CIColor.blue
-        $0.text = Resource.Text.applicantName
+        $0.font = Resource.Asset.Font.boldSystem16
+        $0.textColor = Resource.Asset.CIColor.blue
+        $0.text = Resource.UIConstants.Text.applicantName
     }
     
     override func configHierarchy() {

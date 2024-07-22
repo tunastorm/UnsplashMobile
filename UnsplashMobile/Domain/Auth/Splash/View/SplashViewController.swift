@@ -20,7 +20,7 @@ class SplashViewController: BaseViewController<BaseView, SplashViewModel> {
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        configNavigationbar(navigationColor: Resource.CIColor.white, shadowImage: false)
+        configNavigationbar(navigationColor: Resource.Asset.CIColor.white, shadowImage: false)
     }
     
     override func configNavigationbar(navigationColor: UIColor, shadowImage: Bool) {

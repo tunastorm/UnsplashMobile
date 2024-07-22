@@ -14,8 +14,8 @@ final class OnboardingView: BaseView {
     private let appTitle = UILabel().then {
         $0.textAlignment = .left
         $0.font = .boldSystemFont(ofSize: 40)
-        $0.textColor = Resource.CIColor.blue
-        $0.text = Resource.Text.appTitle
+        $0.textColor = Resource.Asset.CIColor.blue
+        $0.text = Resource.UIConstants.Text.appTitle
         $0.numberOfLines = 0
     }
     
@@ -24,12 +24,12 @@ final class OnboardingView: BaseView {
     }
     
     private let startButton = UIButton().then {
-        $0.titleLabel?.font = Resource.Font.boldSystem16
-        $0.setTitleColor(Resource.CIColor.white, for: .normal)
-        $0.backgroundColor = Resource.CIColor.blue
-        $0.layer.cornerRadius = Resource.CornerRadious.startButton
+        $0.titleLabel?.font = Resource.Asset.Font.boldSystem16
+        $0.setTitleColor(Resource.Asset.CIColor.white, for: .normal)
+        $0.backgroundColor = Resource.Asset.CIColor.blue
+        $0.layer.cornerRadius = Resource.UIConstants.CornerRadious.startButton
         $0.layer.masksToBounds = true
-        $0.setTitle(Resource.Text.startButton, for: .normal)
+        $0.setTitle(Resource.UIConstants.Text.startButton, for: .normal)
         $0.addTarget(self, action: #selector(goSignUpViewController), for: .touchUpInside)
     }
     
@@ -52,7 +52,7 @@ final class OnboardingView: BaseView {
             $0.centerX.equalTo(safeAreaLayoutGuide)
         }
         startButton.snp.makeConstraints {
-            $0.height.equalTo(60)
+            $0.height.equalTo(40)
             $0.bottom.horizontalEdges.equalTo(safeAreaLayoutGuide).inset(20)
         }
     }

@@ -1,5 +1,5 @@
 //
-//  BaseView.swift
+//  BaseTableViewCell.swift
 //  UnsplashMobile
 //
 //  Created by 유철원 on 7/22/24.
@@ -7,15 +7,12 @@
 
 import UIKit
 
-class BaseView: UIView {
-        
-    override init(frame: CGRect) {
-        super.init(frame: frame)
+class BaseTableViewCell: UITableViewCell {
+    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
+        super.init(style: style, reuseIdentifier: reuseIdentifier)
         configHierarchy()
         configLayout()
         configView()
-        configInteraction()
-        configExternalResource()
     }
     
     required init?(coder: NSCoder) {
@@ -31,14 +28,7 @@ class BaseView: UIView {
     }
     
     func configView() {
-        self.backgroundColor = Resource.Asset.CIColor.white
-    }
-    
-    func configInteraction() {
-        
-    }
-    
-    func configExternalResource() {
         
     }
 }
+
