@@ -24,11 +24,12 @@
 		BCF5F6882C4E25D8002D9EA0 /* RealmSwift in Frameworks */ = {isa = PBXBuildFile; productRef = BCF5F6872C4E25D8002D9EA0 /* RealmSwift */; };
 		BCF5F68A2C4E2AA3002D9EA0 /* APIClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCF5F6892C4E2AA3002D9EA0 /* APIClient.swift */; };
 		BCF5F68C2C4E2B30002D9EA0 /* APIError.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCF5F68B2C4E2B30002D9EA0 /* APIError.swift */; };
-		BCF5F68F2C4E2BBF002D9EA0 /* UnsplashResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCF5F68E2C4E2BBF002D9EA0 /* UnsplashResponse.swift */; };
-		BCF5F6912C4E2FEC002D9EA0 /* SearchPhotos.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCF5F6902C4E2FEC002D9EA0 /* SearchPhotos.swift */; };
+		BCF5F68F2C4E2BBF002D9EA0 /* SearchPhotosResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCF5F68E2C4E2BBF002D9EA0 /* SearchPhotosResponse.swift */; };
+		BCF5F6912C4E2FEC002D9EA0 /* TopicPhotosResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCF5F6902C4E2FEC002D9EA0 /* TopicPhotosResponse.swift */; };
 		BCF5F6942C4E3277002D9EA0 /* UIColor+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCF5F6932C4E3277002D9EA0 /* UIColor+Extension.swift */; };
 		BCF5F6972C4E336C002D9EA0 /* HexaColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCF5F6962C4E336C002D9EA0 /* HexaColor.swift */; };
 		BCF5F6982C4E377B002D9EA0 /* RealmSwift in Embed Frameworks */ = {isa = PBXBuildFile; productRef = BCF5F6872C4E25D8002D9EA0 /* RealmSwift */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
+		BCF5F69B2C4E414A002D9EA0 /* APIManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCF5F69A2C4E414A002D9EA0 /* APIManager.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -58,10 +59,11 @@
 		BCF5F6722C4E24EC002D9EA0 /* APIRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIRouter.swift; sourceTree = "<group>"; };
 		BCF5F6892C4E2AA3002D9EA0 /* APIClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIClient.swift; sourceTree = "<group>"; };
 		BCF5F68B2C4E2B30002D9EA0 /* APIError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIError.swift; sourceTree = "<group>"; };
-		BCF5F68E2C4E2BBF002D9EA0 /* UnsplashResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnsplashResponse.swift; sourceTree = "<group>"; };
-		BCF5F6902C4E2FEC002D9EA0 /* SearchPhotos.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchPhotos.swift; sourceTree = "<group>"; };
+		BCF5F68E2C4E2BBF002D9EA0 /* SearchPhotosResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchPhotosResponse.swift; sourceTree = "<group>"; };
+		BCF5F6902C4E2FEC002D9EA0 /* TopicPhotosResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopicPhotosResponse.swift; sourceTree = "<group>"; };
 		BCF5F6932C4E3277002D9EA0 /* UIColor+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Extension.swift"; sourceTree = "<group>"; };
 		BCF5F6962C4E336C002D9EA0 /* HexaColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HexaColor.swift; sourceTree = "<group>"; };
+		BCF5F69A2C4E414A002D9EA0 /* APIManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIManager.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -134,6 +136,7 @@
 				BCF5F6722C4E24EC002D9EA0 /* APIRouter.swift */,
 				BCF5F6892C4E2AA3002D9EA0 /* APIClient.swift */,
 				BCF5F68B2C4E2B30002D9EA0 /* APIError.swift */,
+				BCF5F69A2C4E414A002D9EA0 /* APIManager.swift */,
 			);
 			path = Network;
 			sourceTree = "<group>";
@@ -178,8 +181,8 @@
 		BCF5F68D2C4E2B8A002D9EA0 /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				BCF5F68E2C4E2BBF002D9EA0 /* UnsplashResponse.swift */,
-				BCF5F6902C4E2FEC002D9EA0 /* SearchPhotos.swift */,
+				BCF5F68E2C4E2BBF002D9EA0 /* SearchPhotosResponse.swift */,
+				BCF5F6902C4E2FEC002D9EA0 /* TopicPhotosResponse.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -290,14 +293,15 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BCF5F69B2C4E414A002D9EA0 /* APIManager.swift in Sources */,
 				BCF5F6562C4E2058002D9EA0 /* ViewController.swift in Sources */,
 				BCF5F6732C4E24EC002D9EA0 /* APIRouter.swift in Sources */,
-				BCF5F6912C4E2FEC002D9EA0 /* SearchPhotos.swift in Sources */,
+				BCF5F6912C4E2FEC002D9EA0 /* TopicPhotosResponse.swift in Sources */,
 				BCF5F6522C4E2058002D9EA0 /* AppDelegate.swift in Sources */,
 				BCF5F66C2C4E23E5002D9EA0 /* APIKey.swift in Sources */,
 				BCF5F6542C4E2058002D9EA0 /* SceneDelegate.swift in Sources */,
 				BCF5F68A2C4E2AA3002D9EA0 /* APIClient.swift in Sources */,
-				BCF5F68F2C4E2BBF002D9EA0 /* UnsplashResponse.swift in Sources */,
+				BCF5F68F2C4E2BBF002D9EA0 /* SearchPhotosResponse.swift in Sources */,
 				BCF5F6972C4E336C002D9EA0 /* HexaColor.swift in Sources */,
 				BCF5F68C2C4E2B30002D9EA0 /* APIError.swift in Sources */,
 				BCF5F6942C4E3277002D9EA0 /* UIColor+Extension.swift in Sources */,

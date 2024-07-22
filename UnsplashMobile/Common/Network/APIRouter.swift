@@ -10,11 +10,12 @@ import Alamofire
 
 enum APIRouter: URLRequestConvertible {
     // 열거형 asoociate value
+    case topicPhotos(_ id: TopicID, _ sort: Sorting, _ page: Int)
     case searchPhotos(_ query: String, _ sort: Sorting, _ page: Int)
 
     var method: HTTPMethod {
         switch self {
-        case .searchPhotos:
+        case .topicPhotos, .searchPhotos:
             return .get
         }
     }
@@ -25,6 +26,8 @@ enum APIRouter: URLRequestConvertible {
     
     private var path: String {
         switch self {
+        case .topicPhotos(let id, let sort, let page):
+            return "/topics/\(id.query)/photos"
         case .searchPhotos:
             return "/search/photos"
         }
@@ -43,13 +46,17 @@ enum APIRouter: URLRequestConvertible {
             APIRouter.defaultParameters["query"] = query
             APIRouter.defaultParameters["page"] = page
             APIRouter.defaultParameters["order_by"] = sort.rawValue
-            return  APIRouter.defaultParameters
+        case .topicPhotos(let id, let sort, let page):
+            APIRouter.defaultParameters["per_page"] = 10
+            APIRouter.defaultParameters["page"] = page
+            APIRouter.defaultParameters["order_by"] = sort.rawValue
         }
+        return  APIRouter.defaultParameters
     }
     
     var encoding: ParameterEncoding {
         switch self {
-        case .searchPhotos:
+        case .topicPhotos, .searchPhotos:
             return URLEncoding.default
         }
     }
@@ -84,5 +91,64 @@ enum APIRouter: URLRequestConvertible {
         }
         
         return urlRequest
+    }
+}
+
+
+
+
+enum TopicID: String {
+    case architectureInterior
+    case goldenHour
+    case wallpapers
+    case nature
+    case ThreeDementionRenders
+    case travel
+    case texturesPatterns
+    case streetPhotography
+    case film
+    case archival
+    case experimental
+    case animals
+    case fashionBeauty
+    case people
+    case businessWork
+    case foodDrink
+    
+    var query: String {
+        return switch self {
+        case .architectureInterior:
+            "architecture-interior"
+        case .goldenHour:
+            "golden-hour"
+        case .wallpapers:
+            "wallpapers"
+        case .nature:
+            "nature"
+        case .ThreeDementionRenders:
+            "3d-renders"
+        case .travel:
+            "travel"
+        case .texturesPatterns:
+            "textures-patterns"
+        case .streetPhotography:
+            "street-photography"
+        case .film:
+            "film"
+        case .archival:
+            "archival"
+        case .experimental:
+            "experimental"
+        case .animals:
+            "animals"
+        case .fashionBeauty:
+            "fashion-beauty"
+        case .people:
+            "people"
+        case .businessWork:
+            "business-work"
+        case .foodDrink:
+            "food-drink"
+        }
     }
 }

@@ -13,17 +13,8 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         
         view.backgroundColor = .white
-        
-        
-        
-        
-        let router = APIRouter.searchPhotos("flower", .latest, 1)
-        APIClient.request(UnsplashResponse<SearchPhotos>.self, router: router) { response in
-            dump(response)
-        } failure: { error in
-            print(error)
-        }
-
+    
+        APIManager.shared.callRequestTopicPhotos(.animals, .relevant, page: 1)
     }
 }
 

@@ -21,7 +21,7 @@ class APIClient {
 //        AF.request(router).responseString() { response in
 //            dump(response.result)
 //        }
-        
+//        
         AF.request(router)
             .responseDecodable(of: object) { response in
                 switch response.result {

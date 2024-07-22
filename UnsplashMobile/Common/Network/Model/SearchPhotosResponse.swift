@@ -7,10 +7,10 @@
 
 import Foundation
 
-struct UnsplashResponse<T: Decodable>: Decodable {
+struct SearchPhotosResponse<T: Decodable>: Decodable {
     var total: Int
     var totalPages: Int
-    var results: [T]
+    var results: [T] = []
     
     enum CodingKeys: String, CodingKey {
         case total
@@ -19,14 +19,29 @@ struct UnsplashResponse<T: Decodable>: Decodable {
     }
 }
 
-struct CoverPhoto: Decodable {
+struct Photo: Decodable {
+//    let id: Int
+//    let title: String
+//    let description: String?
+//    let publishedAt: Date
+//    let updatedAt: Date
     let id: String
-    let createdAt: Date
+    let createdAt: String
     let width: Int
     let height: Int
-    let color: Int16
+    let color: String
     let likes: Int
     let urls: URLs
+    
+    enum CodingKeys: String, CodingKey {
+        case id
+        case createdAt = "created_at"
+        case width
+        case height
+        case color
+        case likes
+        case urls
+    }
 }
 
 struct User: Decodable {
