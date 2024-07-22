@@ -44,7 +44,7 @@ struct Photo: Decodable {
     }
 }
 
-struct User: Decodable {
+struct Artist: Decodable {
     let name: String
     let profileImage: ProfileImage
     

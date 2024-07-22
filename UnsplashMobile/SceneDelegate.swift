@@ -20,7 +20,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         
         window = UIWindow(windowScene: scene)
         
-        let mainViewController = ViewController()
+        let mainViewController = SplashViewController(view: SplashView(), viewModel: SplashViewModel())
         let navigationController = UINavigationController(rootViewController: mainViewController)
         window?.rootViewController = navigationController
         window?.makeKeyAndVisible()
@@ -54,6 +54,20 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // to restore the scene back to its current state.
     }
 
+    func changeRootVC(_ vc: UIViewController, animated: Bool) {
+        guard let window = self.window else { return }
+        window.rootViewController = vc
+        
+        UIView.transition(with: window, duration: 2.0, options: [.transitionCrossDissolve], animations: nil, completion: nil)
+    }
+    
+    func changeRootVCWithNavi(_ vc: UIViewController, animated: Bool) {
+        guard let window = self.window else { return }
+        let nav = UINavigationController(rootViewController: vc)
+        window.rootViewController = nav
+        
+        UIView.transition(with: window, duration: 2.0, options: [.transitionCrossDissolve], animations: nil, completion: nil)
+    }
 
 }
 

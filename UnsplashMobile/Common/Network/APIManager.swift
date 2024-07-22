@@ -26,10 +26,17 @@ final class APIManager {
     func callRequestTopicPhotos(_ topicID: TopicID, _ sort: APIRouter.Sorting, page: Int) {
         let router = APIRouter.topicPhotos(topicID, sort, page)
         APIClient.request([Photo].self, router: router) { response in
-            let topicPhotos = TopicPhotosResponse<Photo>(results: response)
-            dump(topicPhotos)
+            dump(response)
         } failure: { error in
             print(error)
         }
+    }
+    
+    private func callRequestStatistics() {
+        
+    }
+    
+    private func callRequestRandomPhoto() {
+        
     }
 }
