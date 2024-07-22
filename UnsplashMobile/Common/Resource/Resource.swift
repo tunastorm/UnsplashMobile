@@ -75,7 +75,6 @@ enum Resource {
             static let cameraFill = UIImage(systemName: "camera.fill")
             static let chevronRight = UIImage(systemName: "chevron.right")
             static let clock = UIImage(systemName: "clock")
-           
             static let xmark = UIImage(systemName: "xmark")
             static let person = UIImage(systemName: "person")
             static let networkSlash = UIImage(systemName: "network.slash")
@@ -85,9 +84,15 @@ enum Resource {
         enum NamedImage {
             static let empty = UIImage(named: "empty")
             static let launch = UIImage(named: "launchImage")
-            static let likeSelected = UIImage(named: "like_selected")
-            static let likeUnselected = UIImage(named: "like_unselected")
             static let loadingApple = UIImage (named: "loading_apple")
+            static let tabTrend = UIImage(named: "tab_trend")
+            static let tabTrendInActive = UIImage(named: "tap_trend_inactive")
+            static let tabRandom = UIImage(named: "tab_random")
+            static let tabRandomInActive = UIImage(named: "tab_random_inactive")
+            static let tabSearch = UIImage(named: "tab_search")
+            static let tabSearchInActive = UIImage(named: "tab_search_inactive")
+            static let tabLike = UIImage(named: "tab_like")
+            static let tabLikeInActive = UIImage(named: "tab_like_inactive")
             
             static func profileImage(number: Int) -> UIImage? {
                 guard number >= 0 && number <= 11 else {

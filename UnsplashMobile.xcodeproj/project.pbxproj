@@ -60,6 +60,20 @@
 		BCF5F6E52C4E77D8002D9EA0 /* SelectPhotoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCF5F6E42C4E77D8002D9EA0 /* SelectPhotoViewController.swift */; };
 		BCF5F6E72C4E78EF002D9EA0 /* SelectPhotoCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCF5F6E62C4E78EF002D9EA0 /* SelectPhotoCollectionViewController.swift */; };
 		BCF5F6E92C4E797A002D9EA0 /* SelectePhotoCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCF5F6E82C4E797A002D9EA0 /* SelectePhotoCollectionViewCell.swift */; };
+		BCF5F6EB2C4E7B3B002D9EA0 /* UnsplashTabBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCF5F6EA2C4E7B3B002D9EA0 /* UnsplashTabBar.swift */; };
+		BCF5F6ED2C4E7C1A002D9EA0 /* CALayer+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCF5F6EC2C4E7C1A002D9EA0 /* CALayer+Extension.swift */; };
+		BCF5F6FB2C4E7ED9002D9EA0 /* TopicPhotosViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCF5F6FA2C4E7ED9002D9EA0 /* TopicPhotosViewController.swift */; };
+		BCF5F6FD2C4E8241002D9EA0 /* TopicPhotosView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCF5F6FC2C4E8241002D9EA0 /* TopicPhotosView.swift */; };
+		BCF5F6FF2C4E8263002D9EA0 /* TopicPhotosViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCF5F6FE2C4E8263002D9EA0 /* TopicPhotosViewModel.swift */; };
+		BCF5F7012C4E8292002D9EA0 /* RandomPhotoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCF5F7002C4E8292002D9EA0 /* RandomPhotoViewController.swift */; };
+		BCF5F7032C4E82A5002D9EA0 /* RandomPhotoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCF5F7022C4E82A5002D9EA0 /* RandomPhotoView.swift */; };
+		BCF5F7052C4E82BF002D9EA0 /* RandomPhotoViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCF5F7042C4E82BF002D9EA0 /* RandomPhotoViewModel.swift */; };
+		BCF5F7072C4E82E8002D9EA0 /* SearchPhotosViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCF5F7062C4E82E8002D9EA0 /* SearchPhotosViewController.swift */; };
+		BCF5F7092C4E8300002D9EA0 /* SearchPhotosView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCF5F7082C4E8300002D9EA0 /* SearchPhotosView.swift */; };
+		BCF5F70B2C4E831F002D9EA0 /* SearchPhotosViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCF5F70A2C4E831F002D9EA0 /* SearchPhotosViewModel.swift */; };
+		BCF5F70D2C4E8340002D9EA0 /* LikedPhotosViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCF5F70C2C4E8340002D9EA0 /* LikedPhotosViewController.swift */; };
+		BCF5F70F2C4E8353002D9EA0 /* LikedPhotosView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCF5F70E2C4E8353002D9EA0 /* LikedPhotosView.swift */; };
+		BCF5F7112C4E836B002D9EA0 /* LikedPhotosViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCF5F7102C4E836B002D9EA0 /* LikedPhotosViewModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -124,6 +138,20 @@
 		BCF5F6E42C4E77D8002D9EA0 /* SelectPhotoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectPhotoViewController.swift; sourceTree = "<group>"; };
 		BCF5F6E62C4E78EF002D9EA0 /* SelectPhotoCollectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectPhotoCollectionViewController.swift; sourceTree = "<group>"; };
 		BCF5F6E82C4E797A002D9EA0 /* SelectePhotoCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectePhotoCollectionViewCell.swift; sourceTree = "<group>"; };
+		BCF5F6EA2C4E7B3B002D9EA0 /* UnsplashTabBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnsplashTabBar.swift; sourceTree = "<group>"; };
+		BCF5F6EC2C4E7C1A002D9EA0 /* CALayer+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CALayer+Extension.swift"; sourceTree = "<group>"; };
+		BCF5F6FA2C4E7ED9002D9EA0 /* TopicPhotosViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopicPhotosViewController.swift; sourceTree = "<group>"; };
+		BCF5F6FC2C4E8241002D9EA0 /* TopicPhotosView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopicPhotosView.swift; sourceTree = "<group>"; };
+		BCF5F6FE2C4E8263002D9EA0 /* TopicPhotosViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopicPhotosViewModel.swift; sourceTree = "<group>"; };
+		BCF5F7002C4E8292002D9EA0 /* RandomPhotoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RandomPhotoViewController.swift; sourceTree = "<group>"; };
+		BCF5F7022C4E82A5002D9EA0 /* RandomPhotoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RandomPhotoView.swift; sourceTree = "<group>"; };
+		BCF5F7042C4E82BF002D9EA0 /* RandomPhotoViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RandomPhotoViewModel.swift; sourceTree = "<group>"; };
+		BCF5F7062C4E82E8002D9EA0 /* SearchPhotosViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchPhotosViewController.swift; sourceTree = "<group>"; };
+		BCF5F7082C4E8300002D9EA0 /* SearchPhotosView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchPhotosView.swift; sourceTree = "<group>"; };
+		BCF5F70A2C4E831F002D9EA0 /* SearchPhotosViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchPhotosViewModel.swift; sourceTree = "<group>"; };
+		BCF5F70C2C4E8340002D9EA0 /* LikedPhotosViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LikedPhotosViewController.swift; sourceTree = "<group>"; };
+		BCF5F70E2C4E8353002D9EA0 /* LikedPhotosView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LikedPhotosView.swift; sourceTree = "<group>"; };
+		BCF5F7102C4E836B002D9EA0 /* LikedPhotosViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LikedPhotosViewModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -250,6 +278,10 @@
 			isa = PBXGroup;
 			children = (
 				BCF5F6C42C4E5A21002D9EA0 /* TabBar */,
+				BCF5F6EE2C4E7E29002D9EA0 /* TopicPhotos */,
+				BCF5F6EF2C4E7E34002D9EA0 /* RandomPhoto */,
+				BCF5F6F02C4E7E41002D9EA0 /* SearchPhotos */,
+				BCF5F6F12C4E7E50002D9EA0 /* LikedPhotos */,
 			);
 			path = Unsplah;
 			sourceTree = "<group>";
@@ -268,6 +300,7 @@
 				BCF5F6932C4E3277002D9EA0 /* UIColor+Extension.swift */,
 				BCF5F6D72C4E5D2C002D9EA0 /* UIImage+Extension.swift */,
 				BCF5F6D92C4E5E93002D9EA0 /* UIViewController + Extension.swift */,
+				BCF5F6EC2C4E7C1A002D9EA0 /* CALayer+Extension.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -339,6 +372,7 @@
 		BCF5F6C42C4E5A21002D9EA0 /* TabBar */ = {
 			isa = PBXGroup;
 			children = (
+				BCF5F6EA2C4E7B3B002D9EA0 /* UnsplashTabBar.swift */,
 			);
 			path = TabBar;
 			sourceTree = "<group>";
@@ -401,6 +435,110 @@
 				BCF5F6E42C4E77D8002D9EA0 /* SelectPhotoViewController.swift */,
 				BCF5F6E62C4E78EF002D9EA0 /* SelectPhotoCollectionViewController.swift */,
 				BCF5F6E82C4E797A002D9EA0 /* SelectePhotoCollectionViewCell.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		BCF5F6EE2C4E7E29002D9EA0 /* TopicPhotos */ = {
+			isa = PBXGroup;
+			children = (
+				BCF5F6F32C4E7E69002D9EA0 /* View */,
+				BCF5F6F22C4E7E63002D9EA0 /* ViewModel */,
+			);
+			path = TopicPhotos;
+			sourceTree = "<group>";
+		};
+		BCF5F6EF2C4E7E34002D9EA0 /* RandomPhoto */ = {
+			isa = PBXGroup;
+			children = (
+				BCF5F6F52C4E7E70002D9EA0 /* View */,
+				BCF5F6F42C4E7E6C002D9EA0 /* ViewModel */,
+			);
+			path = RandomPhoto;
+			sourceTree = "<group>";
+		};
+		BCF5F6F02C4E7E41002D9EA0 /* SearchPhotos */ = {
+			isa = PBXGroup;
+			children = (
+				BCF5F6F82C4E7E7B002D9EA0 /* View */,
+				BCF5F6F72C4E7E77002D9EA0 /* ViewModel */,
+			);
+			path = SearchPhotos;
+			sourceTree = "<group>";
+		};
+		BCF5F6F12C4E7E50002D9EA0 /* LikedPhotos */ = {
+			isa = PBXGroup;
+			children = (
+				BCF5F6F92C4E7E8C002D9EA0 /* View */,
+				BCF5F6F62C4E7E73002D9EA0 /* ViewModel */,
+			);
+			path = LikedPhotos;
+			sourceTree = "<group>";
+		};
+		BCF5F6F22C4E7E63002D9EA0 /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				BCF5F6FE2C4E8263002D9EA0 /* TopicPhotosViewModel.swift */,
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		BCF5F6F32C4E7E69002D9EA0 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				BCF5F6FC2C4E8241002D9EA0 /* TopicPhotosView.swift */,
+				BCF5F6FA2C4E7ED9002D9EA0 /* TopicPhotosViewController.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		BCF5F6F42C4E7E6C002D9EA0 /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				BCF5F7042C4E82BF002D9EA0 /* RandomPhotoViewModel.swift */,
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		BCF5F6F52C4E7E70002D9EA0 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				BCF5F7022C4E82A5002D9EA0 /* RandomPhotoView.swift */,
+				BCF5F7002C4E8292002D9EA0 /* RandomPhotoViewController.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		BCF5F6F62C4E7E73002D9EA0 /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				BCF5F7102C4E836B002D9EA0 /* LikedPhotosViewModel.swift */,
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		BCF5F6F72C4E7E77002D9EA0 /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				BCF5F70A2C4E831F002D9EA0 /* SearchPhotosViewModel.swift */,
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		BCF5F6F82C4E7E7B002D9EA0 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				BCF5F7082C4E8300002D9EA0 /* SearchPhotosView.swift */,
+				BCF5F7062C4E82E8002D9EA0 /* SearchPhotosViewController.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		BCF5F6F92C4E7E8C002D9EA0 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				BCF5F70E2C4E8353002D9EA0 /* LikedPhotosView.swift */,
+				BCF5F70C2C4E8340002D9EA0 /* LikedPhotosViewController.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -497,42 +635,56 @@
 			files = (
 				BCF5F6D42C4E5CD1002D9EA0 /* SignUpViewController.swift in Sources */,
 				BCF5F69F2C4E46ED002D9EA0 /* Resource.swift in Sources */,
+				BCF5F7072C4E82E8002D9EA0 /* SearchPhotosViewController.swift in Sources */,
 				BCF5F6B82C4E51F2002D9EA0 /* LikedPhoto.swift in Sources */,
+				BCF5F6EB2C4E7B3B002D9EA0 /* UnsplashTabBar.swift in Sources */,
+				BCF5F7012C4E8292002D9EA0 /* RandomPhotoViewController.swift in Sources */,
+				BCF5F70F2C4E8353002D9EA0 /* LikedPhotosView.swift in Sources */,
+				BCF5F6FB2C4E7ED9002D9EA0 /* TopicPhotosViewController.swift in Sources */,
 				BCF5F6B12C4E4FC0002D9EA0 /* ColumnManager.swift in Sources */,
 				BCF5F69B2C4E414A002D9EA0 /* APIManager.swift in Sources */,
 				BCF5F6562C4E2058002D9EA0 /* SplashViewController.swift in Sources */,
 				BCF5F6BD2C4E52E1002D9EA0 /* Utils.swift in Sources */,
 				BCF5F6A42C4E4CFB002D9EA0 /* SplashViewModel.swift in Sources */,
 				BCF5F6CB2C4E5B1E002D9EA0 /* OnboardingViewController.swift in Sources */,
+				BCF5F6FD2C4E8241002D9EA0 /* TopicPhotosView.swift in Sources */,
 				BCF5F6732C4E24EC002D9EA0 /* APIRouter.swift in Sources */,
 				BCF5F6DA2C4E5E93002D9EA0 /* UIViewController + Extension.swift in Sources */,
 				BCF5F6522C4E2058002D9EA0 /* AppDelegate.swift in Sources */,
+				BCF5F70D2C4E8340002D9EA0 /* LikedPhotosViewController.swift in Sources */,
 				BCF5F6B32C4E4FFC002D9EA0 /* ReusableIdentifier.swift in Sources */,
 				BCF5F66C2C4E23E5002D9EA0 /* APIKey.swift in Sources */,
 				BCF5F69D2C4E464C002D9EA0 /* BaseViewController.swift in Sources */,
 				BCF5F6B62C4E5055002D9EA0 /* User.swift in Sources */,
 				BCF5F6C12C4E5940002D9EA0 /* Observable.swift in Sources */,
 				BCF5F6542C4E2058002D9EA0 /* SceneDelegate.swift in Sources */,
+				BCF5F70B2C4E831F002D9EA0 /* SearchPhotosViewModel.swift in Sources */,
 				BCF5F68A2C4E2AA3002D9EA0 /* APIClient.swift in Sources */,
 				BCF5F6E52C4E77D8002D9EA0 /* SelectPhotoViewController.swift in Sources */,
 				BCF5F6E32C4E77C6002D9EA0 /* SelectPhotoView.swift in Sources */,
+				BCF5F6FF2C4E8263002D9EA0 /* TopicPhotosViewModel.swift in Sources */,
 				BCF5F6D62C4E5D09002D9EA0 /* SignUpViewModel.swift in Sources */,
+				BCF5F7112C4E836B002D9EA0 /* LikedPhotosViewModel.swift in Sources */,
 				BCF5F68F2C4E2BBF002D9EA0 /* SearchPhotosResponse.swift in Sources */,
 				BCF5F6A62C4E4D9D002D9EA0 /* BaseViewModel.swift in Sources */,
 				BCF5F6DE2C4E654F002D9EA0 /* BaseTableViewCell.swift in Sources */,
+				BCF5F7052C4E82BF002D9EA0 /* RandomPhotoViewModel.swift in Sources */,
 				BCF5F6972C4E336C002D9EA0 /* HexaColor.swift in Sources */,
 				BCF5F6D82C4E5D2C002D9EA0 /* UIImage+Extension.swift in Sources */,
 				BCF5F6CD2C4E5B2D002D9EA0 /* OnboardingView.swift in Sources */,
 				BCF5F68C2C4E2B30002D9EA0 /* APIError.swift in Sources */,
 				BCF5F6BF2C4E533C002D9EA0 /* TextInputFilter.swift in Sources */,
+				BCF5F6ED2C4E7C1A002D9EA0 /* CALayer+Extension.swift in Sources */,
 				BCF5F6BA2C4E529B002D9EA0 /* PhotoManager.swift in Sources */,
 				BCF5F6C32C4E59DA002D9EA0 /* TextInputError.swift in Sources */,
 				BCF5F6E72C4E78EF002D9EA0 /* SelectPhotoCollectionViewController.swift in Sources */,
+				BCF5F7032C4E82A5002D9EA0 /* RandomPhotoView.swift in Sources */,
 				BCF5F6942C4E3277002D9EA0 /* UIColor+Extension.swift in Sources */,
 				BCF5F6A82C4E4DB7002D9EA0 /* BaseView.swift in Sources */,
 				BCF5F6AC2C4E4F46002D9EA0 /* RespositoryResult.swift in Sources */,
 				BCF5F6DC2C4E6513002D9EA0 /* BaseCollectionViewCell.swift in Sources */,
 				BCF5F6E92C4E797A002D9EA0 /* SelectePhotoCollectionViewCell.swift in Sources */,
+				BCF5F7092C4E8300002D9EA0 /* SearchPhotosView.swift in Sources */,
 				BCF5F6D22C4E5CC6002D9EA0 /* SignUpView.swift in Sources */,
 				BCF5F6C72C4E5A47002D9EA0 /* SplashView.swift in Sources */,
 				BCF5F6AF2C4E4FA3002D9EA0 /* ViewTransition.swift in Sources */,

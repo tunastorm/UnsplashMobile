@@ -35,9 +35,9 @@ class SplashViewController: BaseViewController<BaseView, SplashViewModel> {
     
     func authonticateUser() {
         if let user = viewModel?.outputUser.value {
-//            let tabBar = TabBarController()
-//            nextView = tabBar
-//            withNavi = false
+            let tabBar = UnsplashTabBarController()
+            nextView = tabBar
+            withNavi = false
         } else {
             let nextVC = OnboadingViewController(view: OnboardingView())
             nextView = nextVC
