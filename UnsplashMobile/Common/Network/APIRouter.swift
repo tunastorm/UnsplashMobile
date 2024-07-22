@@ -20,7 +20,7 @@ enum APIRouter: URLRequestConvertible {
     }
     
     static let headers: HTTPHeaders = [
-        "Authorization" : APIKey.Unsplash.accessKey
+        "Authorization" : "Client-ID " + APIKey.Unsplash.accessKey
     ]
     
     private var path: String {
@@ -68,39 +68,6 @@ enum APIRouter: URLRequestConvertible {
                 "정확도"
             case .relevant:
                 "날짜순"
-            }
-        }
-    }
-    
-    enum Color: String, CaseIterable {
-        case black
-        case white
-        case yellow
-        case red
-        case purple
-        case green
-        case blue
-        
-        var name: String{
-            return self.rawValue
-        }
-        
-        var krName: String {
-            return switch self {
-            case .black:
-                "검정"
-            case .white:
-                "흰색"
-            case .yellow:
-                "노랑"
-            case .red:
-                "빨강"
-            case .purple:
-                "보라"
-            case .green:
-                "초록"
-            case .blue:
-                "파랑"
             }
         }
     }

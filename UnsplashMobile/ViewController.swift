@@ -8,12 +8,22 @@
 import UIKit
 
 class ViewController: UIViewController {
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
+        
+        view.backgroundColor = .white
+        
+        
+        
+        
+        let router = APIRouter.searchPhotos("flower", .latest, 1)
+        APIClient.request(UnsplashResponse<SearchPhotos>.self, router: router) { response in
+            dump(response)
+        } failure: { error in
+            print(error)
+        }
+
     }
-
-
 }
 
