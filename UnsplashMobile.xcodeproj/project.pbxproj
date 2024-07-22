@@ -10,9 +10,9 @@
 		BCF5F6522C4E2058002D9EA0 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCF5F6512C4E2058002D9EA0 /* AppDelegate.swift */; };
 		BCF5F6542C4E2058002D9EA0 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCF5F6532C4E2058002D9EA0 /* SceneDelegate.swift */; };
 		BCF5F6562C4E2058002D9EA0 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCF5F6552C4E2058002D9EA0 /* ViewController.swift */; };
-		BCF5F6592C4E2058002D9EA0 /* Base in Resources */ = {isa = PBXBuildFile; fileRef = BCF5F6582C4E2058002D9EA0 /* Base */; };
 		BCF5F65B2C4E2059002D9EA0 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BCF5F65A2C4E2059002D9EA0 /* Assets.xcassets */; };
 		BCF5F65E2C4E2059002D9EA0 /* Base in Resources */ = {isa = PBXBuildFile; fileRef = BCF5F65D2C4E2059002D9EA0 /* Base */; };
+		BCF5F6682C4E2141002D9EA0 /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = BCF5F6672C4E2141002D9EA0 /* .gitignore */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -20,10 +20,10 @@
 		BCF5F6512C4E2058002D9EA0 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		BCF5F6532C4E2058002D9EA0 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		BCF5F6552C4E2058002D9EA0 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
-		BCF5F6582C4E2058002D9EA0 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		BCF5F65A2C4E2059002D9EA0 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		BCF5F65D2C4E2059002D9EA0 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		BCF5F65F2C4E2059002D9EA0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		BCF5F6672C4E2141002D9EA0 /* .gitignore */ = {isa = PBXFileReference; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -40,6 +40,7 @@
 		BCF5F6452C4E2058002D9EA0 = {
 			isa = PBXGroup;
 			children = (
+				BCF5F6672C4E2141002D9EA0 /* .gitignore */,
 				BCF5F6502C4E2058002D9EA0 /* UnsplashMobile */,
 				BCF5F64F2C4E2058002D9EA0 /* Products */,
 			);
@@ -59,7 +60,6 @@
 				BCF5F6512C4E2058002D9EA0 /* AppDelegate.swift */,
 				BCF5F6532C4E2058002D9EA0 /* SceneDelegate.swift */,
 				BCF5F6552C4E2058002D9EA0 /* ViewController.swift */,
-				BCF5F6572C4E2058002D9EA0 /* Main.storyboard */,
 				BCF5F65A2C4E2059002D9EA0 /* Assets.xcassets */,
 				BCF5F65C2C4E2059002D9EA0 /* LaunchScreen.storyboard */,
 				BCF5F65F2C4E2059002D9EA0 /* Info.plist */,
@@ -126,8 +126,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				BCF5F65B2C4E2059002D9EA0 /* Assets.xcassets in Resources */,
+				BCF5F6682C4E2141002D9EA0 /* .gitignore in Resources */,
 				BCF5F65E2C4E2059002D9EA0 /* Base in Resources */,
-				BCF5F6592C4E2058002D9EA0 /* Base in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -147,14 +147,6 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
-		BCF5F6572C4E2058002D9EA0 /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				BCF5F6582C4E2058002D9EA0 /* Base */,
-			);
-			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
 		BCF5F65C2C4E2059002D9EA0 /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -297,9 +289,9 @@
 				INFOPLIST_FILE = UnsplashMobile/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
-				INFOPLIST_KEY_UIMainStoryboardFile = Main;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = UIInterfaceOrientationPortrait;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -307,9 +299,13 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = tunastorm.UnsplashMobile;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -325,9 +321,9 @@
 				INFOPLIST_FILE = UnsplashMobile/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
-				INFOPLIST_KEY_UIMainStoryboardFile = Main;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = UIInterfaceOrientationPortrait;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -335,9 +331,13 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = tunastorm.UnsplashMobile;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};
