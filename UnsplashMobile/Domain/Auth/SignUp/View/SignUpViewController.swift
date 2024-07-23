@@ -17,7 +17,7 @@ protocol SelectPhotoDelegate {
 protocol SignUpViewDelegate {
     func checkNickName(nickname: String)
     func setMBTI(_ fieldIndex: Int, _ alphabetIndex: Int) 
-    func addUser()
+    func addUser(_ nickname: String, _ imageName: String)
 }
 
 final class SignUpViewController: BaseViewController<SignUpView, SignUpViewModel> {
@@ -60,7 +60,7 @@ final class SignUpViewController: BaseViewController<SignUpView, SignUpViewModel
     
     override func configInteraction() {
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(pushSelectPhotoView))
-        rootView?.profileView.addGestureRecognizer(tapGesture)
+        rootView?.addTapGestureProfileView(tapGesture)
     }
     
     func setUpdatePresentation() {
@@ -88,10 +88,10 @@ final class SignUpViewController: BaseViewController<SignUpView, SignUpViewModel
     }
     
     @objc private func updateUser() {
-        guard let nickname = rootView?.nickNameTextField.text, let imageName = rootView?.profileImageView.image?.name else {
+        guard let userInfo = rootView?.getNicknameAndImageName() else {
             return
         }
-        self.viewModel?.inputUpdateUser.value = (nickname, imageName)
+        self.viewModel?.inputUpdateUser.value = userInfo
     }
     
     @objc func pushSelectPhotoView() {
@@ -117,7 +117,7 @@ extension SignUpViewController: SelectPhotoDelegate  {
     
     func receiveSelectedPhoto<T>(data: T) {
         guard let image = data as? UIImage else { return }
-        rootView?.profileImageView.image = image
+        rootView?.setSelectedProfileImage(image)
     }
 }
 
@@ -130,12 +130,10 @@ extension SignUpViewController: SignUpViewDelegate {
     
     func setMBTI(_ fieldIndex: Int, _ alphabetIndex: Int) {
         viewModel?.inputSelectMBTIAlphabet.value = (fieldIndex, alphabetIndex)
+        viewModel?.inputMBTIValidation.value = ()
     }
     
-    func addUser() {
-        guard let nickname = rootView?.nickNameTextField.text, let imageName = rootView?.profileImageView.image?.name else {
-            return
-        }
+    func addUser(_ nickname: String, _ imageName: String) {
         self.viewModel?.inputAddUser.value = (nickname, imageName)
     }
     

@@ -14,12 +14,11 @@ final class SignUpView: BaseView {
     
     var delegate: SignUpViewDelegate?
     
-    let profileView = UIView()
-    let profileImageView = UIImageView().then {
+    private let profileView = UIView()
+    private let profileImageView = UIImageView().then {
         $0.contentMode = .scaleAspectFit
         $0.layer.borderWidth = Resource.UIConstants.Border.width3
         $0.layer.borderColor = Resource.Asset.CIColor.blue.cgColor
-        $0.layer.cornerRadius = Resource.UIConstants.CornerRadious.profileImageView
         $0.layer.masksToBounds = true
     }
     private let cameraIconView = UIView().then {
@@ -31,13 +30,13 @@ final class SignUpView: BaseView {
         $0.contentMode = .scaleAspectFit
         $0.tintColor = Resource.Asset.CIColor.white
     }
-    let nickNameTextField = UITextField().then {
+    private let nickNameTextField = UITextField().then {
         $0.addTarget(self, action: #selector(checkNickName), for: .editingChanged)
     }
     private let lineView = UIView().then {
         $0.backgroundColor = Resource.Asset.CIColor.lightGray
     }
-    let messageLabel = UILabel().then {
+    private let messageLabel = UILabel().then {
         $0.textAlignment = .left
         $0.textColor = Resource.Asset.CIColor.red
     }
@@ -48,9 +47,9 @@ final class SignUpView: BaseView {
         $0.text = Resource.UIConstants.Text.mbtiLabel
     }
     
-    let mbtiHorizontalStackView = UIStackView()
+    private let mbtiHorizontalStackView = UIStackView()
     
-    let mbtiAlphabetLabel: (Int, String) -> UILabel = { index, alphabet in
+    private let mbtiAlphabetLabel: (Int, String) -> UILabel = { index, alphabet in
         let label = UILabel()
         label.text = alphabet
         label.textAlignment = .center
@@ -61,7 +60,7 @@ final class SignUpView: BaseView {
         return label
     }
     
-    let completeButton = UIButton().then {
+    private let completeButton = UIButton().then {
         $0.backgroundColor = Resource.Asset.CIColor.gray
         $0.layer.cornerRadius = Resource.UIConstants.CornerRadious.startButton
         $0.layer.masksToBounds = true
@@ -138,6 +137,18 @@ final class SignUpView: BaseView {
         configMBTIStackView()
     }
     
+    override func layoutIfNeeded() {
+        super.layoutIfNeeded()
+        profileImageView.layer.cornerRadius = profileImageView.frame.height * 0.5
+        mbtiHorizontalStackView.arrangedSubviews.forEach { view in
+            let verticalStackView = view as? UIStackView
+            verticalStackView?.arrangedSubviews.forEach { view in
+                guard let label = view.subviews.first else { return }
+                label.layer.cornerRadius = label.frame.height * 0.5
+            }
+        }
+    }
+    
     private func configMBTIStackView() {
         MBTI.allCases.forEach { field in
             configVerticalStackView(field)
@@ -157,6 +168,10 @@ final class SignUpView: BaseView {
         field.valuePair.enumerated().forEach { index, alphabet in
             let view = UIView()
             let tap = UITapGestureRecognizer(target: self, action: #selector(mbtiAlphabetViewClicked))
+            stackView.addArrangedSubview(view)
+            view.snp.makeConstraints {
+                $0.height.equalTo(60)
+            }
             let label = mbtiAlphabetLabel(index, alphabet)
             view.tag = field.rawValue
             view.addGestureRecognizer(tap)
@@ -164,39 +179,42 @@ final class SignUpView: BaseView {
             label.snp.makeConstraints {
                 $0.edges.equalToSuperview().inset(5)
             }
-            label.backgroundColor = Resource.Asset.CIColor.blue
-            stackView.addArrangedSubview(view)
-            view.snp.makeConstraints {
-                $0.height.equalTo(60)
-            }
         }
         mbtiHorizontalStackView.addArrangedSubview(stackView)
     }
-
     
-    @objc func mbtiAlphabetViewClicked(_ sender: UITapGestureRecognizer) {
+    @objc private func checkNickName(_ sender: UITextField) {
+        guard let nickname = sender.text else { return }
+        delegate?.checkNickName(nickname: nickname)
+    }
+    
+    @objc private func mbtiAlphabetViewClicked(_ sender: UITapGestureRecognizer) {
         guard let fieldIndex = sender.view?.tag, let alphabetIndex = sender.view?.subviews.first?.tag else {
             return
         }
         delegate?.setMBTI(fieldIndex, alphabetIndex)
     }
     
+    @objc private func signUp() {
+        guard let nickname = nickNameTextField.text, let imageName = profileImageView.image?.name else {
+            return
+        }
+        delegate?.addUser(nickname, imageName)
+    }
+    
+    func addTapGestureProfileView(_ tapGesture: UITapGestureRecognizer) {
+        profileView.addGestureRecognizer(tapGesture)
+    }
     
     func updatePresentationViewToggle(_ isUpdatePresentation: Bool?) {
         if let isUpdatePresentation, isUpdatePresentation {
-//            navigationItem.title = Resource.UIConstants.Text.editProfileTitle
-//            let barButtonItem = UIBarButtonItem(title: Resource.UIConstants.Text.saveNewProfile,
-//                                                style: .plain, target: self, action: #selector(updateUser))
-//            navigationItem.rightBarButtonItem = barButtonItem
             completeButton.isHidden = true
             nickNameTextField.placeholder = ""
         } else {
-//            navigationItem.title = Resource.UIConstants.Text.profileSetting
             completeButton.isHidden = false
             nickNameTextField.placeholder = Resource.UIConstants.Text.nickNamePlaceholder
         }
     }
-    
     
     func mbtiAlphabetViewToggle(_ fieldIndex : Int, _ alphabetIndex: Int) {
         let verticalStackView = mbtiHorizontalStackView.arrangedSubviews[fieldIndex] as? UIStackView
@@ -224,18 +242,23 @@ final class SignUpView: BaseView {
         }
     }
     
-    func nickNameValidationToggle(_ result: (Bool, String)) {
-        completeButton.isUserInteractionEnabled = result.0
-        completeButton.backgroundColor = result.0 ? Resource.Asset.CIColor.blue : Resource.Asset.CIColor.gray
-        messageLabel.text = result.1
+    func nickNameValidationToggle(_ result: (ValidationStatus, String)) {
+        let isValid = result.0 == .allIsValid
+        let message = result.1
+        completeButton.isUserInteractionEnabled =  isValid
+        completeButton.backgroundColor =  isValid ? Resource.Asset.CIColor.blue : Resource.Asset.CIColor.gray
+        messageLabel.text = message
+        messageLabel.textColor =  isValid ? Resource.Asset.CIColor.blue : Resource.Asset.CIColor.red
     }
     
-    @objc func checkNickName(_ sender: UITextField) {
-        guard let nickname = sender.text else { return }
-        delegate?.checkNickName(nickname: nickname)
+    func setSelectedProfileImage(_ image: UIImage) {
+        profileImageView.image = image
     }
     
-    @objc func signUp() {
-        delegate?.addUser()
+    func getNicknameAndImageName() -> (String, String)? {
+        guard let nickname = nickNameTextField.text, let imageName = profileImageView.image?.name else {
+            return nil
+        }
+        return (nickname, imageName)
     }
 }

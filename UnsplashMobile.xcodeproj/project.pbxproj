@@ -45,7 +45,7 @@
 		BCF5F6BD2C4E52E1002D9EA0 /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCF5F6BC2C4E52E1002D9EA0 /* Utils.swift */; };
 		BCF5F6BF2C4E533C002D9EA0 /* TextInputFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCF5F6BE2C4E533C002D9EA0 /* TextInputFilter.swift */; };
 		BCF5F6C12C4E5940002D9EA0 /* Observable.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCF5F6C02C4E5940002D9EA0 /* Observable.swift */; };
-		BCF5F6C32C4E59DA002D9EA0 /* TextInputError.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCF5F6C22C4E59DA002D9EA0 /* TextInputError.swift */; };
+		BCF5F6C32C4E59DA002D9EA0 /* ValidationStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCF5F6C22C4E59DA002D9EA0 /* ValidationStatus.swift */; };
 		BCF5F6C72C4E5A47002D9EA0 /* SplashView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCF5F6C62C4E5A47002D9EA0 /* SplashView.swift */; };
 		BCF5F6CB2C4E5B1E002D9EA0 /* OnboardingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCF5F6CA2C4E5B1E002D9EA0 /* OnboardingViewController.swift */; };
 		BCF5F6CD2C4E5B2D002D9EA0 /* OnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCF5F6CC2C4E5B2D002D9EA0 /* OnboardingView.swift */; };
@@ -124,7 +124,7 @@
 		BCF5F6BC2C4E52E1002D9EA0 /* Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utils.swift; sourceTree = "<group>"; };
 		BCF5F6BE2C4E533C002D9EA0 /* TextInputFilter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextInputFilter.swift; sourceTree = "<group>"; };
 		BCF5F6C02C4E5940002D9EA0 /* Observable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Observable.swift; sourceTree = "<group>"; };
-		BCF5F6C22C4E59DA002D9EA0 /* TextInputError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextInputError.swift; sourceTree = "<group>"; };
+		BCF5F6C22C4E59DA002D9EA0 /* ValidationStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ValidationStatus.swift; sourceTree = "<group>"; };
 		BCF5F6C62C4E5A47002D9EA0 /* SplashView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashView.swift; sourceTree = "<group>"; };
 		BCF5F6CA2C4E5B1E002D9EA0 /* OnboardingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingViewController.swift; sourceTree = "<group>"; };
 		BCF5F6CC2C4E5B2D002D9EA0 /* OnboardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingView.swift; sourceTree = "<group>"; };
@@ -367,7 +367,7 @@
 			children = (
 				BCF5F6BC2C4E52E1002D9EA0 /* Utils.swift */,
 				BCF5F6BE2C4E533C002D9EA0 /* TextInputFilter.swift */,
-				BCF5F6C22C4E59DA002D9EA0 /* TextInputError.swift */,
+				BCF5F6C22C4E59DA002D9EA0 /* ValidationStatus.swift */,
 			);
 			path = Util;
 			sourceTree = "<group>";
@@ -679,7 +679,7 @@
 				BCF5F6BF2C4E533C002D9EA0 /* TextInputFilter.swift in Sources */,
 				BCF5F6ED2C4E7C1A002D9EA0 /* CALayer+Extension.swift in Sources */,
 				BCF5F6BA2C4E529B002D9EA0 /* PhotoManager.swift in Sources */,
-				BCF5F6C32C4E59DA002D9EA0 /* TextInputError.swift in Sources */,
+				BCF5F6C32C4E59DA002D9EA0 /* ValidationStatus.swift in Sources */,
 				BCF5F6E72C4E78EF002D9EA0 /* SelectPhotoCollectionViewController.swift in Sources */,
 				BCF5F7032C4E82A5002D9EA0 /* RandomPhotoView.swift in Sources */,
 				BCF5F6942C4E3277002D9EA0 /* UIColor+Extension.swift in Sources */,
