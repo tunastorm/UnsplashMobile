@@ -74,6 +74,7 @@
 		BCF5F70D2C4E8340002D9EA0 /* LikedPhotosViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCF5F70C2C4E8340002D9EA0 /* LikedPhotosViewController.swift */; };
 		BCF5F70F2C4E8353002D9EA0 /* LikedPhotosView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCF5F70E2C4E8353002D9EA0 /* LikedPhotosView.swift */; };
 		BCF5F7112C4E836B002D9EA0 /* LikedPhotosViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCF5F7102C4E836B002D9EA0 /* LikedPhotosViewModel.swift */; };
+		BCF5F7152C4E89A6002D9EA0 /* MBTI.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCF5F7142C4E89A6002D9EA0 /* MBTI.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -152,6 +153,7 @@
 		BCF5F70C2C4E8340002D9EA0 /* LikedPhotosViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LikedPhotosViewController.swift; sourceTree = "<group>"; };
 		BCF5F70E2C4E8353002D9EA0 /* LikedPhotosView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LikedPhotosView.swift; sourceTree = "<group>"; };
 		BCF5F7102C4E836B002D9EA0 /* LikedPhotosViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LikedPhotosViewModel.swift; sourceTree = "<group>"; };
+		BCF5F7142C4E89A6002D9EA0 /* MBTI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MBTI.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -247,8 +249,8 @@
 				BCF5F6A52C4E4D9D002D9EA0 /* BaseViewModel.swift */,
 				BCF5F6A72C4E4DB7002D9EA0 /* BaseView.swift */,
 				BCF5F6DB2C4E6513002D9EA0 /* BaseCollectionViewCell.swift */,
-				BCF5F6C02C4E5940002D9EA0 /* Observable.swift */,
 				BCF5F6DD2C4E654F002D9EA0 /* BaseTableViewCell.swift */,
+				BCF5F6C02C4E5940002D9EA0 /* Observable.swift */,
 			);
 			path = Base;
 			sourceTree = "<group>";
@@ -355,6 +357,7 @@
 			children = (
 				BCF5F6B52C4E5055002D9EA0 /* User.swift */,
 				BCF5F6B72C4E51F2002D9EA0 /* LikedPhoto.swift */,
+				BCF5F7142C4E89A6002D9EA0 /* MBTI.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -681,6 +684,7 @@
 				BCF5F7032C4E82A5002D9EA0 /* RandomPhotoView.swift in Sources */,
 				BCF5F6942C4E3277002D9EA0 /* UIColor+Extension.swift in Sources */,
 				BCF5F6A82C4E4DB7002D9EA0 /* BaseView.swift in Sources */,
+				BCF5F7152C4E89A6002D9EA0 /* MBTI.swift in Sources */,
 				BCF5F6AC2C4E4F46002D9EA0 /* RespositoryResult.swift in Sources */,
 				BCF5F6DC2C4E6513002D9EA0 /* BaseCollectionViewCell.swift in Sources */,
 				BCF5F6E92C4E797A002D9EA0 /* SelectePhotoCollectionViewCell.swift in Sources */,

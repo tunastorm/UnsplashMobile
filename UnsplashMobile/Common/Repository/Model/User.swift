@@ -13,13 +13,14 @@ final class User: Object {
     @Persisted var nickname: String
     @Persisted var profileImage: String
     @Persisted var signUpDate: Date
-    // mbti 프로퍼티 필요
+    @Persisted var mbti: String
     @Persisted var likedList: List<LikedPhoto>
     
-    convenience init(nickname: String, profilImage: String) {
+    convenience init(nickname: String, profilImage: String, mbti: String) {
         self.init()
         self.nickname = nickname
         self.profileImage = profilImage
+        self.mbti = mbti
         self.signUpDate = Date()
     }
     
@@ -28,6 +29,7 @@ final class User: Object {
         case nickname
         case profileImage
         case signUpDate
+        case mbti
         case likedList
         
         var name: String {
@@ -44,6 +46,8 @@ final class User: Object {
                "프로필 이미지"
             case .signUpDate:
                 "가입일"
+            case .mbti:
+                "MBTI"
             case .likedList:
                 "좋아요 목록"
             }

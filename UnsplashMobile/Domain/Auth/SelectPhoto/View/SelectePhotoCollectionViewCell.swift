@@ -47,7 +47,7 @@ class SelectPhotoCollectionViewCell: BaseCollectionViewCell {
     
     func configUnselectedUI() {
         imageView.layer.borderWidth = Resource.UIConstants.Border.width1
-        imageView.layer.borderColor = Resource.Asset.CIColor.lightGray.cgColor
+        imageView.layer.borderColor = Resource.Asset.CIColor.gray.cgColor
         imageView.alpha = Resource.UIConstants.Alpha.half
     }
     

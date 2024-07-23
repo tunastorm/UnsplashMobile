@@ -30,6 +30,7 @@ enum Resource {
             static let likeButton = CGFloat(10)
             static let sortingButton = CGFloat(17)
             static let settingProfileImage = CGFloat(40)
+            static let mbtiButton = CGFloat(26)
         }
         
         enum Text {
@@ -44,6 +45,7 @@ enum Resource {
             static let nickNamePlaceholder = "닉네임을 입력해주세요 :)"
             static let specialFilter = "@#$%"
             static let nickNameSuccess = "사용할 수 있는 닉네임이에요"
+            static let mbtiLabel = "MBTI"
 
             static let mainViewTitle = "님의 MEANING OUT"
             static let noListMessgae = "최근 검색어가 없어요"

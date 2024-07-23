@@ -15,8 +15,8 @@ protocol SelectPhotoDelegate {
 }
 
 protocol SignUpViewDelegate {
-    
     func checkNickName(nickname: String)
+    func setMBTI(_ fieldIndex: Int, _ alphabetIndex: Int) 
     func addUser()
 }
 
@@ -29,18 +29,23 @@ final class SignUpViewController: BaseViewController<SignUpView, SignUpViewModel
     
     override func bindData() {
         viewModel?.outputViewDidLoadTrigger.bind { [weak self] userInfo in
-            self?.configProfileToggle(userInfo.0, userInfo.1)
+            self?.rootView?.configProfileToggle(userInfo.0, userInfo.1, userInfo.2)
             self?.updatePresentationToggle()
         }
         viewModel?.outputValidationResult.bind { [weak self] result in
-            self?.rootView?.messageLabel.text = result
+            guard let result else { return }
+            self?.rootView?.nickNameValidationToggle(result)
+        }
+        viewModel?.outputUpdatedMBTIAlphabet.bind{ [weak self] mbtiInfo in
+            guard let mbtiInfo else { return }
+            self?.rootView?.mbtiAlphabetViewToggle(mbtiInfo.0, mbtiInfo.1)
         }
         viewModel?.outputAddUserResult.bind { [weak self] result in
             guard let status = result as? RepositoryStatus else {
                 self?.rootView?.makeToast(result.message, duration: 3.0, position: .bottom)
                 return
             }
-            self?.goMainViewController()
+            self?.goTopicPhotosViewController()
         }
         viewModel?.outputUpdateUserResult.bind { [weak self] result in
             guard let status = result as? RepositoryStatus else {
@@ -62,28 +67,19 @@ final class SignUpViewController: BaseViewController<SignUpView, SignUpViewModel
         viewModel?.inputUpdatePresentation.value = ()
     }
     
-    private func configProfileToggle(_ nickname: String?, _ imageName: String) {
-        rootView?.profileImageView.image = UIImage(named: imageName)
-        rootView?.nickNameTextField.text = nickname
-    }
-    
     private func updatePresentationToggle() {
-        print(#function, viewModel?.outputUpdatePresentation.value )
         if let isUpdatePresentation = viewModel?.outputUpdatePresentation.value, isUpdatePresentation {
             navigationItem.title = Resource.UIConstants.Text.editProfileTitle
             let barButtonItem = UIBarButtonItem(title: Resource.UIConstants.Text.saveNewProfile,
                                                 style: .plain, target: self, action: #selector(updateUser))
             navigationItem.rightBarButtonItem = barButtonItem
-            rootView?.completeButton.isHidden = true
-            rootView?.nickNameTextField.placeholder = ""
         } else {
             navigationItem.title = Resource.UIConstants.Text.profileSetting
-            rootView?.completeButton.isHidden = false
-            rootView?.nickNameTextField.placeholder = Resource.UIConstants.Text.nickNamePlaceholder
         }
+        rootView?.updatePresentationViewToggle(viewModel?.outputUpdatePresentation.value)
     }
     
-    func goMainViewController() {
+    private func goTopicPhotosViewController() {
         let nextVC = SplashViewController(view: SplashView(), viewModel: SplashViewModel())
         guard let sceneDelegate = UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate else {
             return
@@ -130,6 +126,10 @@ extension SignUpViewController: SignUpViewDelegate {
     
     func checkNickName(nickname: String) {
         viewModel?.inputNickNameValidate.value = nickname
+    }
+    
+    func setMBTI(_ fieldIndex: Int, _ alphabetIndex: Int) {
+        viewModel?.inputSelectMBTIAlphabet.value = (fieldIndex, alphabetIndex)
     }
     
     func addUser() {
