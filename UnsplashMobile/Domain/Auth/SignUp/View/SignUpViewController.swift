@@ -80,7 +80,7 @@ final class SignUpViewController: BaseViewController<SignUpView, SignUpViewModel
     }
     
     private func goTopicPhotosViewController() {
-        let nextVC = SplashViewController(view: SplashView(), viewModel: SplashViewModel())
+        let nextVC = UnsplashTabBarController()
         guard let sceneDelegate = UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate else {
             return
         }

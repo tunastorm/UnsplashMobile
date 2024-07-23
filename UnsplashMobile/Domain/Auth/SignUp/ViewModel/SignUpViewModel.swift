@@ -21,23 +21,19 @@ class SignUpViewModel: BaseViewModel {
     var outputViewDidLoadTrigger: Observable<(String?,String,[Int]?)> = Observable((nil,"",nil))
     var outputAddUserResult: Observable<RepositoryResult> = Observable(RepositoryError.createFailed)
     var outputUpdateUserResult: Observable<RepositoryResult> = Observable(RepositoryError.updatedFailed)
-    var outputValidationResult: Observable<(ValidationStatus, String)?> = Observable(nil)
+    var outputValidationResult: Observable<ValidationStatus?> = Observable(nil)
     var outputUpdatedMBTIAlphabet: Observable<(Int,Int)?> = Observable(nil)
 
     var selectedPhoto: IndexPath?
     var mbtiList: [Int] = [9,9,9,9]
-    private var validationStatus: (ValidationStatus,String) = (.idle, ValidationStatus.idle.message)
+    private var validationStatus: (ValidationStatus,ValidationStatus) = (.idle, .idle)
    
     override func transform() {
         inputUpdatePresentation.bind { [weak self] _ in
             self?.outputUpdatePresentation.value = true
         }
         inputViewDidLoadTrigger.bind { [weak self] _ in
-            self?.getUser()
-            guard let isUpdatePresentation = self?.outputUpdatePresentation.value, !isUpdatePresentation else {
-                return
-            }
-            self?.outputValidationResult.value = self?.validationStatus
+            self?.initialConfig()
         }
         inputNickNameValidate.bind { [weak self] _ in
             self?.validation(target: .nickname)
@@ -56,72 +52,65 @@ class SignUpViewModel: BaseViewModel {
         }
     }
     
+    private func initialConfig() {
+        getUser()
+        guard !outputUpdatePresentation.value else { return }
+        outputValidationResult.value = .idle
+    }
+    
     private func getUser() {
         self.user = repository.fetchAll(obejct: object, sortKey: User.Column.signUpDate).first
-        
         let nickname = user?.nickname == nil ? nil : user?.nickname
         let imageName = user?.profileImage == nil ? Resource.Asset.NamedImage.randomProfile.name : user?.profileImage
         let mbtiList = user?.mbti == nil ? mbtiList : MBTI.convertToIntegerArray(combination: user?.mbti ?? "ESTJ")
         guard let imageName, let row = Int(imageName.replacingOccurrences(of: "profile_", with: "")) else {
             return
         }
-        print(#function, nickname, imageName, row, mbtiList)
         selectedPhoto = IndexPath(row: row, section: 0)
         outputViewDidLoadTrigger.value = (nickname, imageName, mbtiList)
     }
     
     private func validation(target: ValidationTarget) {
+        var result = outputValidationResult.value
         switch target {
-        case .nickname: validationStatus = nicknameValidation()
-        case .mbti: validationStatus =  mbtiValidation()
+        case .nickname: validationStatus.0 = nicknameValidation()
+        case .mbti: validationStatus.1 = mbtiValidation()
         }
-        outputValidationResult.value = validationStatus
-        print(#function,"| end | validationStatus: ", validationStatus)
+        switch validationStatus {
+        case (.idle, .idle): result = .idle
+        case (.nicknameIsValid, .mbtiIsValid): result = .allIsValid
+        default:
+            result = validationStatus.1 == .mbtiIsValid ? validationStatus.0 : .mbtiInCorrect
+        }
+        outputValidationResult.value = result
     }
     
-    private func nicknameValidation() -> (ValidationStatus, String) {
-        print(#function,"| start | validationStatus: ", validationStatus)
+    private func nicknameValidation() -> ValidationStatus {
         guard let inputText = inputNickNameValidate.value else {
-            let status: ValidationStatus = .idle
-            return (status, status.message)
+            return .idle
         }
         guard let nickname = Utils.textFilter.removeSerialSpace(inputText), inputText.count - nickname.count <= 1 else {
-            let status = (validationStatus.0 == .mbtiIsValid) ? validationStatus.0 : .nicknameInCorrect
-            return (status, TextinputFilterError.haveSpace.nickNameMessage)
+            return .nicknameWithSpace
         }
         if let error = Utils.textFilter.filterCount(inputText) {
-            let status = (validationStatus.0 == .mbtiIsValid) ? validationStatus.0 : .nicknameInCorrect
-            return (status, error.nickNameMessage)
+            return error
         }
         if let error = Utils.textFilter.filterSpecial(inputText) {
-            let status = (validationStatus.0 == .mbtiIsValid) ? validationStatus.0 : .nicknameInCorrect
-            return (status, error.nickNameMessage)
+            return error
         }
         if let error = Utils.textFilter.filterNumber(inputText) {
-            let status = (validationStatus.0 == .mbtiIsValid) ? validationStatus.0 : .nicknameInCorrect
-            return (status, error.nickNameMessage)
+            return error
         }
-        if validationStatus.0 == .mbtiIsValid {
-            let status: ValidationStatus = .allIsValid
-            return (status, status.message)
-        }
-        let status: ValidationStatus = .nicknameIsValid
-        return (status, status.message)
+        return .nicknameIsValid
     }
     
-    private func mbtiValidation() -> (ValidationStatus, String) {
+    private func mbtiValidation() -> ValidationStatus {
         print(#function,"| start | validationStatus: ", validationStatus)
         let mbtiCheckSum = mbtiList.reduce(0, +)
         if  mbtiCheckSum > 4 ||  mbtiCheckSum < 0 {
-            let status = (validationStatus.0 == .nicknameIsValid) ? validationStatus.0 : .mbtiInCorrect
-            return  (status, status.message)
+            return ValidationStatus.mbtiInCorrect
         }
-        if validationStatus.0 == .nicknameIsValid {
-            let status: ValidationStatus = .allIsValid
-            return (status, status.message)
-        }
-        let status: ValidationStatus = .mbtiIsValid
-        return (status, status.message)
+        return ValidationStatus.mbtiIsValid
     }
     
     private func setMBTIList() {

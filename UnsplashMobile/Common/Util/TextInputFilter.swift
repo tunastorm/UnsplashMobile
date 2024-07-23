@@ -29,34 +29,33 @@ final class TextInputFilter {
         return (inputText == trimed && trimed.count - replaced.count <= 1) ? replaced : nil
     }
     
-    func filterSpace(_ inputText: String ) -> TextinputFilterError? {
-        guard spaceFilter(inputText) else {
-            return nil
+    func filterSpace(_ inputText: String ) -> ValidationStatus? {
+        guard let replaced = removeSerialSpace(inputText) else {
+            return ValidationStatus.nicknameWithSpace
         }
-        return TextinputFilterError.haveSpace
+        return nil
     }
     
-    
-    func filterCount(_ inputText: String) -> TextinputFilterError? {
+    func filterCount(_ inputText: String) -> ValidationStatus? {
         guard countFilter(inputText) else {
             return nil
         }
-        return TextinputFilterError.countOver
+        return ValidationStatus.nicknameCountOver
     }
     
-    func filterSpecial(_ inputText: String) -> TextinputFilterError? {
+    func filterSpecial(_ inputText: String) -> ValidationStatus? {
         let specialStr = inputText.filter({ specialFilter.contains($0) })
         guard specialStr.count > 0 else {
             return nil
         }
-        return TextinputFilterError.haveSpecial
+        return ValidationStatus.nicknameWithSpecialCharacter
     }
     
-    func filterNumber(_ inputText: String) -> TextinputFilterError? {
+    func filterNumber(_ inputText: String) -> ValidationStatus? {
         let numberStr = inputText.filter({ $0.isNumber })
         guard numberStr.count > 0 else {
             return nil
         }
-        return TextinputFilterError.haveNumber
+        return ValidationStatus.nicknameWithNumber
     }
 }

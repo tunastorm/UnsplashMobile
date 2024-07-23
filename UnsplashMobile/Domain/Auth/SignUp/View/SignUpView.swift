@@ -206,6 +206,16 @@ final class SignUpView: BaseView {
         profileView.addGestureRecognizer(tapGesture)
     }
     
+    func configProfileToggle(_ nickname: String?, _ imageName: String, _ mbtiList: [Int]?){
+        profileImageView.image = UIImage(named: imageName)
+        nickNameTextField.text = nickname
+        layoutIfNeeded()
+        guard let mbtiList else { return }
+        mbtiList.enumerated().forEach { fieldIndex, alphabetIndex in
+            mbtiAlphabetViewToggle(fieldIndex, alphabetIndex)
+        }
+    }
+    
     func updatePresentationViewToggle(_ isUpdatePresentation: Bool?) {
         if let isUpdatePresentation, isUpdatePresentation {
             completeButton.isHidden = true
@@ -233,21 +243,11 @@ final class SignUpView: BaseView {
         }
     }
     
-    func configProfileToggle(_ nickname: String?, _ imageName: String, _ mbtiList: [Int]?){
-        profileImageView.image = UIImage(named: imageName)
-        nickNameTextField.text = nickname
-        guard let mbtiList else { return }
-        mbtiList.enumerated().forEach { fieldIndex, alphabetIndex in
-            mbtiAlphabetViewToggle(fieldIndex, alphabetIndex)
-        }
-    }
-    
-    func nickNameValidationToggle(_ result: (ValidationStatus, String)) {
-        let isValid = result.0 == .allIsValid
-        let message = result.1
+    func nickNameValidationToggle(_ result: ValidationStatus) {
+        let isValid = result == .allIsValid
         completeButton.isUserInteractionEnabled =  isValid
         completeButton.backgroundColor =  isValid ? Resource.Asset.CIColor.blue : Resource.Asset.CIColor.gray
-        messageLabel.text = message
+        messageLabel.text = result.message
         messageLabel.textColor =  isValid ? Resource.Asset.CIColor.blue : Resource.Asset.CIColor.red
     }
     
