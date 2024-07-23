@@ -33,7 +33,7 @@ class SignUpViewModel: BaseViewModel {
             self?.outputUpdatePresentation.value = true
         }
         inputViewDidLoadTrigger.bind { [weak self] _ in
-            self?.initialConfig()
+            self?.getUser()
         }
         inputNickNameValidate.bind { [weak self] _ in
             self?.validation(target: .nickname)
@@ -50,12 +50,6 @@ class SignUpViewModel: BaseViewModel {
         inputUpdateUser.bind { [weak self] _ in
             self?.updateUser()
         }
-    }
-    
-    private func initialConfig() {
-        getUser()
-        guard !outputUpdatePresentation.value else { return }
-        outputValidationResult.value = .idle
     }
     
     private func getUser() {
@@ -76,13 +70,14 @@ class SignUpViewModel: BaseViewModel {
         case .nickname: validationStatus.0 = nicknameValidation()
         case .mbti: validationStatus.1 = mbtiValidation()
         }
+        print(#function, "validationStatus: ", validationStatus)
         switch validationStatus {
-        case (.idle, .idle): result = .idle
         case (.nicknameIsValid, .mbtiIsValid): result = .allIsValid
         default:
-            result = validationStatus.1 == .mbtiIsValid ? validationStatus.0 : .mbtiInCorrect
+            result = validationStatus.0
         }
         outputValidationResult.value = result
+        print(#function, "outputValidationResult: ",outputValidationResult.value)
     }
     
     private func nicknameValidation() -> ValidationStatus {

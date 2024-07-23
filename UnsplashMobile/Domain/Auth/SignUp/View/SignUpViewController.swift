@@ -32,7 +32,7 @@ final class SignUpViewController: BaseViewController<SignUpView, SignUpViewModel
             self?.rootView?.configProfileToggle(userInfo.0, userInfo.1, userInfo.2)
             self?.updatePresentationToggle()
         }
-        viewModel?.outputValidationResult.bind { [weak self] result in
+        viewModel?.outputValidationResult.bind { [weak self] result in 
             guard let result else { return }
             self?.rootView?.nickNameValidationToggle(result)
         }

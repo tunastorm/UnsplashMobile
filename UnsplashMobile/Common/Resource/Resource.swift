@@ -36,8 +36,7 @@ enum Resource {
         enum Text {
             static let appTitle = "Unsplash\nMobile"
             static let applicantName = "유철원"
-            static let startButton = "시작하기"
-            static let guestUser = "guest"
+            static let compeleteButton = "완료"
             static let searchTabBar = "검색"
             static let settingTabBar = "설정"
             

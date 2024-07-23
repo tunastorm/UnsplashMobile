@@ -64,7 +64,7 @@ final class SignUpView: BaseView {
         $0.backgroundColor = Resource.Asset.CIColor.gray
         $0.layer.cornerRadius = Resource.UIConstants.CornerRadious.startButton
         $0.layer.masksToBounds = true
-        $0.setTitle(Resource.UIConstants.Text.startButton, for: .normal)
+        $0.setTitle(Resource.UIConstants.Text.compeleteButton, for: .normal)
         $0.setTitleColor(Resource.Asset.CIColor.white, for: .normal)
         $0.addTarget(self, action: #selector(signUp), for: .touchUpInside)
         $0.isUserInteractionEnabled = false
@@ -248,7 +248,8 @@ final class SignUpView: BaseView {
         completeButton.isUserInteractionEnabled =  isValid
         completeButton.backgroundColor =  isValid ? Resource.Asset.CIColor.blue : Resource.Asset.CIColor.gray
         messageLabel.text = result.message
-        messageLabel.textColor =  isValid ? Resource.Asset.CIColor.blue : Resource.Asset.CIColor.red
+        messageLabel.textColor = (isValid || result == .nicknameIsValid)
+        ? Resource.Asset.CIColor.blue : Resource.Asset.CIColor.red
     }
     
     func setSelectedProfileImage(_ image: UIImage) {
