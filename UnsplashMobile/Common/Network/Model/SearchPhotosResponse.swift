@@ -20,18 +20,14 @@ struct SearchPhotosResponse<T: Decodable>: Decodable {
 }
 
 struct Photo: Decodable {
-//    let id: Int
-//    let title: String
-//    let description: String?
-//    let publishedAt: Date
-//    let updatedAt: Date
     let id: String
     let createdAt: String
     let width: Int
     let height: Int
     let color: String
-    let likes: Int
     let urls: URLs
+    let likes: Int
+    let user: Artist
     
     enum CodingKeys: String, CodingKey {
         case id
@@ -39,8 +35,9 @@ struct Photo: Decodable {
         case width
         case height
         case color
-        case likes
         case urls
+        case likes
+        case user
     }
 }
 
@@ -62,7 +59,7 @@ struct URLs: Decodable {
     let raw: String
 //    let full: String
 //    let regular: String
-    let small: String
+    let small: String?
 //    let thumb: String
 }
 

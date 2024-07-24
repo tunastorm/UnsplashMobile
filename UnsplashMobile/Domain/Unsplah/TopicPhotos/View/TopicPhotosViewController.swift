@@ -8,5 +8,8 @@
 import UIKit
 
 class TopicPhotosViewController: BaseViewController<TopicPhotosView, TopicPhotosViewModel> {
-    
+    override func configView() {
+        APIManager.shared.callRequestStatistics("LF8gK8-HGSg")
+        APIManager.shared.callRequestRandomPhoto()
+    }
 }

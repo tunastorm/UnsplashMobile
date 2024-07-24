@@ -16,27 +16,37 @@ final class APIManager {
     
     func callRequestSearchPhotos(_ query: String, _ sort: APIRouter.Sorting, page: Int) {
         let router = APIRouter.searchPhotos(query, sort, page)
-        APIClient.request(SearchPhotosResponse<Photo>.self, router: router) { response in
-            dump(response)
+        APIClient.request(SearchPhotosResponse<Photo>.self, router: router) { result in
+            dump(result)
         } failure: { error in
-            print(error)
+            dump(error)
         }
     }
     
     func callRequestTopicPhotos(_ topicID: TopicID, _ sort: APIRouter.Sorting, page: Int) {
         let router = APIRouter.topicPhotos(topicID, sort, page)
-        APIClient.request([Photo].self, router: router) { response in
-            dump(response)
+        APIClient.request([Photo].self, router: router) { result in
+            dump(result)
         } failure: { error in
-            print(error)
+            dump(error)
         }
     }
     
-    private func callRequestStatistics() {
-        
+    func callRequestRandomPhoto() {
+        let router = APIRouter.randomPhoto
+        APIClient.request([Photo].self, router: router) { result in
+            dump(result)
+        } failure: { error in
+            dump(error)
+        }
     }
     
-    private func callRequestRandomPhoto() {
-        
+    func callRequestStatistics(_ photoID: String) {
+        let router = APIRouter.photoStatistics(photoID)
+        APIClient.request(PhotoStatisticsResponse.self, router: router) { result in
+            dump(result)
+        } failure: { error in
+            dump(error)
+        }
     }
 }

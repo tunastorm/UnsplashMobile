@@ -75,6 +75,7 @@
 		BCF5F70F2C4E8353002D9EA0 /* LikedPhotosView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCF5F70E2C4E8353002D9EA0 /* LikedPhotosView.swift */; };
 		BCF5F7112C4E836B002D9EA0 /* LikedPhotosViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCF5F7102C4E836B002D9EA0 /* LikedPhotosViewModel.swift */; };
 		BCF5F7152C4E89A6002D9EA0 /* MBTI.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCF5F7142C4E89A6002D9EA0 /* MBTI.swift */; };
+		BCF5F7672C50F2A3002D9EA0 /* PhotoStatisticsResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCF5F7662C50F2A3002D9EA0 /* PhotoStatisticsResponse.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -154,6 +155,7 @@
 		BCF5F70E2C4E8353002D9EA0 /* LikedPhotosView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LikedPhotosView.swift; sourceTree = "<group>"; };
 		BCF5F7102C4E836B002D9EA0 /* LikedPhotosViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LikedPhotosViewModel.swift; sourceTree = "<group>"; };
 		BCF5F7142C4E89A6002D9EA0 /* MBTI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MBTI.swift; sourceTree = "<group>"; };
+		BCF5F7662C50F2A3002D9EA0 /* PhotoStatisticsResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoStatisticsResponse.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -292,6 +294,7 @@
 			isa = PBXGroup;
 			children = (
 				BCF5F68E2C4E2BBF002D9EA0 /* SearchPhotosResponse.swift */,
+				BCF5F7662C50F2A3002D9EA0 /* PhotoStatisticsResponse.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -636,6 +639,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BCF5F7672C50F2A3002D9EA0 /* PhotoStatisticsResponse.swift in Sources */,
 				BCF5F6D42C4E5CD1002D9EA0 /* SignUpViewController.swift in Sources */,
 				BCF5F69F2C4E46ED002D9EA0 /* Resource.swift in Sources */,
 				BCF5F7072C4E82E8002D9EA0 /* SearchPhotosViewController.swift in Sources */,

@@ -12,10 +12,12 @@ enum APIRouter: URLRequestConvertible {
     // 열거형 asoociate value
     case topicPhotos(_ id: TopicID, _ sort: Sorting, _ page: Int)
     case searchPhotos(_ query: String, _ sort: Sorting, _ page: Int)
+    case randomPhoto
+    case photoStatistics(_ id: String)
 
     var method: HTTPMethod {
         switch self {
-        case .topicPhotos, .searchPhotos:
+        case .topicPhotos, .searchPhotos, .randomPhoto, .photoStatistics:
             return .get
         }
     }
@@ -25,38 +27,61 @@ enum APIRouter: URLRequestConvertible {
     ]
     
     private var path: String {
-        switch self {
+        return switch self {
         case .topicPhotos(let id, let sort, let page):
-            return "/topics/\(id.query)/photos"
+            "/topics/\(id.query)/photos"
         case .searchPhotos:
-            return "/search/photos"
+            "/search/photos"
+        case .randomPhoto:
+            "/photos/random"
+        case .photoStatistics(let id):
+            "/photos/\(id)/statistics"
         }
     }
     
-    static var defaultParameters: Parameters = [
-        "query" : "",
-        "page" : 1,
-        "per_page": 20,
-        "order_by": Sorting.latest,
-    ]
+    var baseParameters: Parameters {
+        switch self {
+        case .topicPhotos, .searchPhotos:
+            [ 
+                "query" : "",
+                "page" : 1,
+                "per_page": 20,
+                "order_by": Sorting.latest,
+            ]
+        case .randomPhoto:
+            [  
+                "count": 10
+            ]
+        case .photoStatistics:
+            [
+                "id" : "",
+                "resolution" : "days",
+                "quantity": 30
+            ]
+        }
+    }
+   
     
     private var parameters: Parameters? {
+        var parameters: Parameters = self.baseParameters
         switch self {
         case .searchPhotos(let query, let sort, let page):
-            APIRouter.defaultParameters["query"] = query
-            APIRouter.defaultParameters["page"] = page
-            APIRouter.defaultParameters["order_by"] = sort.rawValue
+            parameters["page"] = page
+            parameters["order_by"] = sort.rawValue
         case .topicPhotos(let id, let sort, let page):
-            APIRouter.defaultParameters["per_page"] = 10
-            APIRouter.defaultParameters["page"] = page
-            APIRouter.defaultParameters["order_by"] = sort.rawValue
+            parameters["per_page"] = 10
+            parameters["page"] = page
+            parameters["order_by"] = sort.rawValue
+        case .randomPhoto: break
+        case .photoStatistics(let id):
+            parameters["id"] = id
         }
-        return  APIRouter.defaultParameters
+        return parameters
     }
     
     var encoding: ParameterEncoding {
         switch self {
-        case .topicPhotos, .searchPhotos:
+        case .topicPhotos, .searchPhotos, .randomPhoto, .photoStatistics:
             return URLEncoding.default
         }
     }
