@@ -76,6 +76,10 @@
 		BCF5F7112C4E836B002D9EA0 /* LikedPhotosViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCF5F7102C4E836B002D9EA0 /* LikedPhotosViewModel.swift */; };
 		BCF5F7152C4E89A6002D9EA0 /* MBTI.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCF5F7142C4E89A6002D9EA0 /* MBTI.swift */; };
 		BCF5F7672C50F2A3002D9EA0 /* PhotoStatisticsResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCF5F7662C50F2A3002D9EA0 /* PhotoStatisticsResponse.swift */; };
+		BCF5F76A2C50F7E2002D9EA0 /* TopicPhotosModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCF5F7692C50F7E2002D9EA0 /* TopicPhotosModel.swift */; };
+		BCF654412C511A80008EB2CA /* TopicPhotosCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCF654402C511A80008EB2CA /* TopicPhotosCollectionViewCell.swift */; };
+		BCF654432C513A9A008EB2CA /* TopicPhotosSupplementrayHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCF654422C513A9A008EB2CA /* TopicPhotosSupplementrayHeaderView.swift */; };
+		BCF654452C513BD8008EB2CA /* BaseCollectionResuableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCF654442C513BD8008EB2CA /* BaseCollectionResuableView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -156,6 +160,10 @@
 		BCF5F7102C4E836B002D9EA0 /* LikedPhotosViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LikedPhotosViewModel.swift; sourceTree = "<group>"; };
 		BCF5F7142C4E89A6002D9EA0 /* MBTI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MBTI.swift; sourceTree = "<group>"; };
 		BCF5F7662C50F2A3002D9EA0 /* PhotoStatisticsResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoStatisticsResponse.swift; sourceTree = "<group>"; };
+		BCF5F7692C50F7E2002D9EA0 /* TopicPhotosModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopicPhotosModel.swift; sourceTree = "<group>"; };
+		BCF654402C511A80008EB2CA /* TopicPhotosCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopicPhotosCollectionViewCell.swift; sourceTree = "<group>"; };
+		BCF654422C513A9A008EB2CA /* TopicPhotosSupplementrayHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopicPhotosSupplementrayHeaderView.swift; sourceTree = "<group>"; };
+		BCF654442C513BD8008EB2CA /* BaseCollectionResuableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseCollectionResuableView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -253,6 +261,7 @@
 				BCF5F6DB2C4E6513002D9EA0 /* BaseCollectionViewCell.swift */,
 				BCF5F6DD2C4E654F002D9EA0 /* BaseTableViewCell.swift */,
 				BCF5F6C02C4E5940002D9EA0 /* Observable.swift */,
+				BCF654442C513BD8008EB2CA /* BaseCollectionResuableView.swift */,
 			);
 			path = Base;
 			sourceTree = "<group>";
@@ -360,7 +369,6 @@
 			children = (
 				BCF5F6B52C4E5055002D9EA0 /* User.swift */,
 				BCF5F6B72C4E51F2002D9EA0 /* LikedPhoto.swift */,
-				BCF5F7142C4E89A6002D9EA0 /* MBTI.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -403,6 +411,7 @@
 		BCF5F6CE2C4E5CA3002D9EA0 /* SignUp */ = {
 			isa = PBXGroup;
 			children = (
+				BCF5F76B2C510223002D9EA0 /* Model */,
 				BCF5F6D02C4E5CBA002D9EA0 /* View */,
 				BCF5F6CF2C4E5CB1002D9EA0 /* ViewModel */,
 			);
@@ -448,6 +457,7 @@
 		BCF5F6EE2C4E7E29002D9EA0 /* TopicPhotos */ = {
 			isa = PBXGroup;
 			children = (
+				BCF5F7682C50F7CD002D9EA0 /* Model */,
 				BCF5F6F32C4E7E69002D9EA0 /* View */,
 				BCF5F6F22C4E7E63002D9EA0 /* ViewModel */,
 			);
@@ -494,6 +504,8 @@
 			children = (
 				BCF5F6FC2C4E8241002D9EA0 /* TopicPhotosView.swift */,
 				BCF5F6FA2C4E7ED9002D9EA0 /* TopicPhotosViewController.swift */,
+				BCF654422C513A9A008EB2CA /* TopicPhotosSupplementrayHeaderView.swift */,
+				BCF654402C511A80008EB2CA /* TopicPhotosCollectionViewCell.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -547,6 +559,22 @@
 				BCF5F70C2C4E8340002D9EA0 /* LikedPhotosViewController.swift */,
 			);
 			path = View;
+			sourceTree = "<group>";
+		};
+		BCF5F7682C50F7CD002D9EA0 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				BCF5F7692C50F7E2002D9EA0 /* TopicPhotosModel.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		BCF5F76B2C510223002D9EA0 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				BCF5F7142C4E89A6002D9EA0 /* MBTI.swift */,
+			);
+			path = Model;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -665,6 +693,7 @@
 				BCF5F6B62C4E5055002D9EA0 /* User.swift in Sources */,
 				BCF5F6C12C4E5940002D9EA0 /* Observable.swift in Sources */,
 				BCF5F6542C4E2058002D9EA0 /* SceneDelegate.swift in Sources */,
+				BCF654452C513BD8008EB2CA /* BaseCollectionResuableView.swift in Sources */,
 				BCF5F70B2C4E831F002D9EA0 /* SearchPhotosViewModel.swift in Sources */,
 				BCF5F68A2C4E2AA3002D9EA0 /* APIClient.swift in Sources */,
 				BCF5F6E52C4E77D8002D9EA0 /* SelectPhotoViewController.swift in Sources */,
@@ -673,10 +702,12 @@
 				BCF5F6D62C4E5D09002D9EA0 /* SignUpViewModel.swift in Sources */,
 				BCF5F7112C4E836B002D9EA0 /* LikedPhotosViewModel.swift in Sources */,
 				BCF5F68F2C4E2BBF002D9EA0 /* SearchPhotosResponse.swift in Sources */,
+				BCF654432C513A9A008EB2CA /* TopicPhotosSupplementrayHeaderView.swift in Sources */,
 				BCF5F6A62C4E4D9D002D9EA0 /* BaseViewModel.swift in Sources */,
 				BCF5F6DE2C4E654F002D9EA0 /* BaseTableViewCell.swift in Sources */,
 				BCF5F7052C4E82BF002D9EA0 /* RandomPhotoViewModel.swift in Sources */,
 				BCF5F6972C4E336C002D9EA0 /* HexaColor.swift in Sources */,
+				BCF5F76A2C50F7E2002D9EA0 /* TopicPhotosModel.swift in Sources */,
 				BCF5F6D82C4E5D2C002D9EA0 /* UIImage+Extension.swift in Sources */,
 				BCF5F6CD2C4E5B2D002D9EA0 /* OnboardingView.swift in Sources */,
 				BCF5F68C2C4E2B30002D9EA0 /* APIError.swift in Sources */,
@@ -691,6 +722,7 @@
 				BCF5F7152C4E89A6002D9EA0 /* MBTI.swift in Sources */,
 				BCF5F6AC2C4E4F46002D9EA0 /* RespositoryResult.swift in Sources */,
 				BCF5F6DC2C4E6513002D9EA0 /* BaseCollectionViewCell.swift in Sources */,
+				BCF654412C511A80008EB2CA /* TopicPhotosCollectionViewCell.swift in Sources */,
 				BCF5F6E92C4E797A002D9EA0 /* SelectePhotoCollectionViewCell.swift in Sources */,
 				BCF5F7092C4E8300002D9EA0 /* SearchPhotosView.swift in Sources */,
 				BCF5F6D22C4E5CC6002D9EA0 /* SignUpView.swift in Sources */,

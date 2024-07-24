@@ -19,7 +19,7 @@ struct SearchPhotosResponse<T: Decodable>: Decodable {
     }
 }
 
-struct Photo: Decodable {
+struct Photo: Decodable, Hashable {
     let id: String
     let createdAt: String
     let width: Int
@@ -41,7 +41,8 @@ struct Photo: Decodable {
     }
 }
 
-struct Artist: Decodable {
+struct Artist: Decodable, Hashable {
+    let id = UUID()
     let name: String
     let profileImage: ProfileImage
     
@@ -51,11 +52,13 @@ struct Artist: Decodable {
     }
 }
 
-struct ProfileImage: Decodable {
+struct ProfileImage: Decodable, Hashable {
+    let id = UUID()
     let medium: String
 }
 
-struct URLs: Decodable {
+struct URLs: Decodable, Hashable {
+    let id = UUID()
     let raw: String
 //    let full: String
 //    let regular: String

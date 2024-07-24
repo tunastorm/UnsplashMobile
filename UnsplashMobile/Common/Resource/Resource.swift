@@ -45,7 +45,7 @@ enum Resource {
             static let specialFilter = "@#$%"
             static let mbtiLabel = "MBTI"
 
-            static let mainViewTitle = "님의 MEANING OUT"
+            static let TopicPhotosTitle = "OUR TOPIC"
             static let noListMessgae = "최근 검색어가 없어요"
             static let searchBarPlaceHolder = "브랜드, 상품 등을 입력하세요"
             static let currentSearched = "최근 검색"
@@ -74,9 +74,10 @@ enum Resource {
             static let heart = UIImage(systemName: "heart")
             static let cameraFill = UIImage(systemName: "camera.fill")
             static let chevronRight = UIImage(systemName: "chevron.right")
-            static let clock = UIImage(systemName: "clock")
-            static let xmark = UIImage(systemName: "xmark")
-            static let person = UIImage(systemName: "person")
+            static let starFill = UIImage(systemName: "star.fill")?.withTintColor(.systemYellow, renderingMode: .alwaysTemplate)
+//            static let clock = UIImage(systemName: "clock")
+//            static let xmark = UIImage(systemName: "xmark")
+//            static let person = UIImage(systemName: "person")
             static let networkSlash = UIImage(systemName: "network.slash")
             static let wifiExclamationmark = UIImage(systemName: "wifi.exclamationmark")?.withTintColor(Resource.Asset.CIColor.white, renderingMode: .alwaysOriginal)
         }
@@ -131,6 +132,7 @@ enum Resource {
             static let boldSystem18 = UIFont.boldSystemFont(ofSize: 18)
             static let boldSystem19 = UIFont.boldSystemFont(ofSize: 19)
             static let boldSystem20 = UIFont.boldSystemFont(ofSize: 20)
+            static let boldSystem30 = UIFont.boldSystemFont(ofSize: 30)
         }
         
         enum CIColor {

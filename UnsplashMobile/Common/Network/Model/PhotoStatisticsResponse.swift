@@ -22,7 +22,7 @@ struct HistoricalStatistics: Decodable {
     let values: [StatisticsValue]
 }
 
-struct StatisticsValue: Decodable {
+struct StatisticsValue: Decodable, Hashable {
     let date: String
     let value: Int
 }
