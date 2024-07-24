@@ -19,9 +19,12 @@ final class TopicPhotosCollectionViewCell: BaseCollectionViewCell {
     }
     
     let likeButton = UIButton().then {
+        let config = UIImage.SymbolConfiguration(pointSize: 10, weight: .light)
         $0.titleLabel?.font = Resource.Asset.Font.system13
-        $0.setImage(Resource.Asset.SystemImage.starFill, for: .normal)
+        $0.imageView?.backgroundColor = .clear
+        $0.setImage(Resource.Asset.SystemImage.starFill?.withConfiguration(config), for: .normal)
         $0.backgroundColor = Resource.Asset.CIColor.darkGray
+        $0.imageEdgeInsets = .init(top: 0, left: 0, bottom: 0, right: 10)
         $0.layer.masksToBounds = true
         $0.tintColor = .systemYellow
     }
@@ -45,6 +48,7 @@ final class TopicPhotosCollectionViewCell: BaseCollectionViewCell {
     
     override func layoutIfNeeded() {
         super.layoutIfNeeded()
+        likeButton.imageView?.frame.size = .init(width: 10, height: 10)
         likeButton.layer.cornerRadius = likeButton.frame.height * 0.5
         photoView.layer.cornerRadius = photoView.frame.height * 0.06
     }
