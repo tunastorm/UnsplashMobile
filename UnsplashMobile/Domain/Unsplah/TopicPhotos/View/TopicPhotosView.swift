@@ -23,15 +23,14 @@ final class TopicPhotosView: BaseView {
         group.interItemSpacing = .fixed(10)
         
         let section = NSCollectionLayoutSection(group: group)
-        section.orthogonalScrollingBehavior = .continuous
-        section.interGroupSpacing = 10
-        section.contentInsets = .init(top: 10, leading: 0, bottom: 20, trailing: 0)
-        
         let headerSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .estimated(44))
         let sectionHeader = NSCollectionLayoutBoundarySupplementaryItem(
             layoutSize: headerSize,
             elementKind: UICollectionView.elementKindSectionHeader, alignment: .top)
         section.boundarySupplementaryItems = [sectionHeader]
+        section.orthogonalScrollingBehavior = .continuous
+        section.interGroupSpacing = 10
+        section.contentInsets = .init(top: 10, leading: 0, bottom: 20, trailing: 0)
         
         let layout = UICollectionViewCompositionalLayout(section: section)
         return layout

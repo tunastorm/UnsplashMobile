@@ -7,11 +7,6 @@
 
 import UIKit
 
-protocol TopicPhotosViewDelegate {
-    func getSectionHeaderTitle()
-}
-
-
 class TopicPhotosViewController: BaseViewController<TopicPhotosView, TopicPhotosViewModel> {
     
     typealias CellType = Photo
@@ -79,11 +74,5 @@ class TopicPhotosViewController: BaseViewController<TopicPhotosView, TopicPhotos
             snapShot.appendItems(sectionDict[topic] ?? [], toSection: topic)
         }
         dataSource?.apply(snapShot)
-    }
-}
-
-extension TopicPhotosViewController: TopicPhotosViewDelegate {
-    func getSectionHeaderTitle() {
-        
     }
 }
