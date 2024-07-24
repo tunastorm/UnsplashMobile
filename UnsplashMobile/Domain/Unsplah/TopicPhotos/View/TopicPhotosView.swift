@@ -50,7 +50,7 @@ final class TopicPhotosView: BaseView {
             make.top.horizontalEdges.equalTo(safeAreaLayoutGuide).inset(10)
         }
         collectionView.snp.makeConstraints { make in
-            make.top.equalTo(titleLabel.snp.bottom).offset(20)
+            make.top.equalTo(titleLabel.snp.bottom).offset(10)
             make.horizontalEdges.equalTo(safeAreaLayoutGuide).inset(10)
             make.bottom.equalTo(safeAreaLayoutGuide)
         }
