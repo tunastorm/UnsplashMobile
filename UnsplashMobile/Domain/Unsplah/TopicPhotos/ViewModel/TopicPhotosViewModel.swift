@@ -22,7 +22,7 @@ final class TopicPhotosViewModel: BaseViewModel {
     
     override func transform() {
         inputRequestTopicPhotos.bind { [weak self] _ in
-            self?.callRequestTopicPhotos()
+            self?.callRequestTopicPhotos(sort: .latest)
             self?.getProfileImage()
         }
     }
@@ -32,14 +32,15 @@ final class TopicPhotosViewModel: BaseViewModel {
         outputProfileImageName.value = imageName
     }
     
-    private func callRequestTopicPhotos() {
+    private func callRequestTopicPhotos(sort: APIRouter.Sorting) {
         let group = DispatchGroup()
     
         TopicID.randomIDs.forEach { id in
             group.enter()
             DispatchQueue.global().async(group: group) {
-                let router = APIRouter.topicPhotos(id, .relevant, 1)
-                APIClient.request(TopicPhotos.self, router: router) { [weak self] result in
+                let query = TopicPhotosQuery(id: id.query, sort: sort.rawValue, page: 1)
+                let router = APIRouter.topicPhotos(query)
+                APIManager.request(TopicPhotos.self, router: router) { [weak self] result in
                     self?.resultDict[id] = .success(result)
                     group.leave()
                 } failure: { [weak self] error in
@@ -49,6 +50,7 @@ final class TopicPhotosViewModel: BaseViewModel {
             }
         }
         group.notify(queue: .main) { [weak self] in
+            print(#function, "[ resultDict ]\n", self?.resultDict)
             self?.outputRequestTopicPhotos.value = self?.resultDict
         }
     }

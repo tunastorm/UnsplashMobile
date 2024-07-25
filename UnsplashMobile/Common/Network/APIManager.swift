@@ -1,52 +1,71 @@
 //
-//  APIManager.swift
+//  APIClient.swift
 //  UnsplashMobile
 //
 //  Created by 유철원 on 7/22/24.
 //
 
 import Foundation
+import Alamofire
 
 
 final class APIManager {
     
-    static let shared = APIManager()
+    private init() { }
     
-    private var searchPhotosInfo = SearchPhotosResponse<Photo>(total: 0, totalPages: 1)
+    typealias onSuccess<T> = ((T) -> Void)
+    typealias onFailure = ((_ error: APIError) -> Void)
     
-    func requestSearchPhotos(_ query: String, _ sort: APIRouter.Sorting, page: Int) {
-        let router = APIRouter.searchPhotos(query, sort, page)
-        APIClient.request(SearchPhotosResponse<Photo>.self, router: router) { result in
-            dump(result)
-        } failure: { error in
-            dump(error)
+    static func request<T>(_ object: T.Type,
+                           router: APIRouter,
+                           success: @escaping onSuccess<T>,
+                           failure: @escaping onFailure) where T:
+    Decodable {
+        AF.request(router)
+            .responseDecodable(of: object) { response in
+                if let statusCode = response.response?.statusCode, let error = convertResponseStatus(statusCode){
+                    return
+                }
+                switch response.result {
+                case .success:
+                    guard let decodedData = response.value else {return}
+                    success(decodedData)
+                case .failure(let AFError):
+                    let error = convertAFErrorToAPIError(AFError)
+                    failure(error)
+                }
+            }
+    }
+    
+    private static func convertResponseStatus(_ statusCode: Int) -> APIError? {
+        return switch statusCode {
+        case 200 ..< 300: nil
+        case 300 ..< 400: APIError.redirectError
+        case 400 ..< 500: APIError.clientError
+        case 500 ..< 600: APIError.serverError
+        default: APIError.networkError
         }
     }
     
-    func requestTopicPhotos(_ topicID: TopicID, _ sort: APIRouter.Sorting, page: Int) {
-        let router = APIRouter.topicPhotos(topicID, sort, page)
-        APIClient.request([Photo].self, router: router) { result in
-            dump(result)
-        } failure: { error in
-            dump(error)
-        }
-    }
-    
-    func requestRandomPhoto() {
-        let router = APIRouter.randomPhoto
-        APIClient.request([Photo].self, router: router) { result in
-            dump(result)
-        } failure: { error in
-            dump(error)
-        }
-    }
-    
-    func requestStatistics(_ photoID: String) {
-        let router = APIRouter.photoStatistics(photoID)
-        APIClient.request(PhotoStatisticsResponse.self, router: router) { result in
-            dump(result)
-        } failure: { error in
-            dump(error)
+    private static func convertAFErrorToAPIError(_ error: AFError) -> APIError {
+        return switch error {
+        case .createUploadableFailed(let error): .failedRequest
+        case .createURLRequestFailed(let error): .clientError
+        case .downloadedFileMoveFailed(let error, let source, let destination): .invalidData
+        case .explicitlyCancelled: .canceled
+        case .invalidURL(let url): .clientError
+        case .multipartEncodingFailed(let reason): .failedRequest
+        case .parameterEncodingFailed(let reason): .failedRequest
+        case .parameterEncoderFailed(let reason):  .failedRequest
+        case .requestAdaptationFailed(let error):  .failedRequest
+        case .requestRetryFailed(let retryError, let originalError): .failedRequest
+        case .responseValidationFailed(let reason): .invalidResponse
+        case .responseSerializationFailed(let reason): .invalidData
+        case .serverTrustEvaluationFailed(let reason): .networkError
+        case .sessionDeinitialized: .invalidSession
+        case .sessionInvalidated(let error): .invalidSession
+        case .sessionTaskFailed(let error): .networkError
+        case .urlRequestValidationFailed(let reason): .clientError
         }
     }
 }

@@ -8,13 +8,21 @@
 import Foundation
 import Alamofire
 
-enum APIRouter: URLRequestConvertible {
-    // 열거형 asoociate value
-    case topicPhotos(_ id: TopicID, _ sort: Sorting, _ page: Int)
-    case searchPhotos(_ query: String, _ sort: Sorting, _ page: Int)
+enum APIRouter {
+    case topicPhotos(TopicPhotosQuery)
+    case searchPhotos(SearchPhotosQuery)
     case randomPhoto
-    case photoStatistics(_ id: String)
+    case photoStatistics(PhotoStatisticsQuery)
+}
 
+
+extension APIRouter: TargetType {
+   
+    // 열거형 asoociate value
+    var baseURL: String {
+        return APIKey.Unsplash.baseURL
+    }
+    
     var method: HTTPMethod {
         switch self {
         case .topicPhotos, .searchPhotos, .randomPhoto, .photoStatistics:
@@ -22,20 +30,20 @@ enum APIRouter: URLRequestConvertible {
         }
     }
     
-    static let headers: HTTPHeaders = [
-        "Authorization" : "Client-ID " + APIKey.Unsplash.accessKey
-    ]
-    
-    private var path: String {
+    var headers: HTTPHeaders {
+        [ "Authorization" : "Client-ID " + APIKey.Unsplash.accessKey ]
+    }
+
+    var path: String {
         return switch self {
-        case .topicPhotos(let id, let sort, let page):
-            "/topics/\(id.query)/photos"
+        case .topicPhotos(let query):
+            "/topics/\(query.id)/photos"
         case .searchPhotos:
             "/search/photos"
         case .randomPhoto:
             "/photos/random"
-        case .photoStatistics(let id):
-            "/photos/\(id)/statistics"
+        case .photoStatistics(let query):
+            "/photos/\(query.id)/statistics"
         }
     }
     
@@ -46,7 +54,6 @@ enum APIRouter: URLRequestConvertible {
                 "query" : "",
                 "page" : 1,
                 "per_page": 20,
-                "order_by": Sorting.latest,
             ]
         case .randomPhoto:
             [  
@@ -60,21 +67,21 @@ enum APIRouter: URLRequestConvertible {
             ]
         }
     }
-   
     
-    private var parameters: Parameters? {
+    var parameters: Parameters? {
         var parameters: Parameters = self.baseParameters
         switch self {
-        case .searchPhotos(let query, let sort, let page):
-            parameters["page"] = page
-            parameters["order_by"] = sort.rawValue
-        case .topicPhotos(let id, let sort, let page):
+        case .searchPhotos(let query):
+            parameters["query"] = query.query
+            parameters["page"] = query.page
+            parameters["order_by"] = query.sort
+        case .topicPhotos(let query):
             parameters["per_page"] = 10
-            parameters["page"] = page
-            parameters["order_by"] = sort.rawValue
+            parameters["page"] = query.page
+            parameters["order_by"] = query.sort
         case .randomPhoto: break
-        case .photoStatistics(let id):
-            parameters["id"] = id
+        case .photoStatistics(let query):
+            parameters["id"] = query.id
         }
         return parameters
     }
@@ -89,11 +96,7 @@ enum APIRouter: URLRequestConvertible {
     enum Sorting: String, CaseIterable {
         case latest
         case relevant
-        
-        var name: String{
-            return self.rawValue
-        }
-        
+
         var krName: String {
             return switch self {
             case .latest:
@@ -102,19 +105,5 @@ enum APIRouter: URLRequestConvertible {
                 "날짜순"
             }
         }
-    }
-    
-    func asURLRequest() throws -> URLRequest {
-        let url = APIKey.Unsplash.baseURL.appendingPathComponent(path)
-        var urlRequest = URLRequest(url: url)
-        
-        urlRequest.method = method
-        urlRequest.headers = APIRouter.headers
-        
-        if let parameters = parameters {
-            return try encoding.encode(urlRequest, with: parameters)
-        }
-        
-        return urlRequest
     }
 }
