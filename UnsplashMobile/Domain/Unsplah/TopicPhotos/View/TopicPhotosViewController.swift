@@ -10,9 +10,10 @@ import UIKit
 class TopicPhotosViewController: BaseViewController<TopicPhotosView, TopicPhotosViewModel> {
     
     typealias CellType = Photo
-    typealias SectionDict = [TopicID : [Photo]]
+    typealias SectionType = TopicID
+    typealias SectionDict = [SectionType: [CellType]]
     
-    var dataSource: UICollectionViewDiffableDataSource<TopicID, CellType>?
+    var dataSource: UICollectionViewDiffableDataSource<SectionType, CellType>?
     
     override func configNavigationbar(navigationColor: UIColor, shadowImage: Bool) {
         super.configNavigationbar(navigationColor: navigationColor, shadowImage: shadowImage)
@@ -48,23 +49,23 @@ class TopicPhotosViewController: BaseViewController<TopicPhotosView, TopicPhotos
         updateSnapShot(sectionDict)
     }
     
-    private func topicPhotosCellRegistration() -> UICollectionView.CellRegistration<TopicPhotosCollectionViewCell, CellType> {
+    private func cellRegistration() -> UICollectionView.CellRegistration<TopicPhotosCollectionViewCell, CellType> {
         UICollectionView.CellRegistration<TopicPhotosCollectionViewCell,Photo> { cell, indexPath, itemIdentifier in
             cell.configCell(data: itemIdentifier)
         }
     }
     
-    private func collectionViewHeaderRegestration(_ sectionTitles: [TopicID]) -> UICollectionView.SupplementaryRegistration<TopicPhotosSupplementrayHeaderView> {
+    private func collectionViewHeaderRegestration(_ sectionTitles: [SectionType]) -> UICollectionView.SupplementaryRegistration<TopicPhotosSupplementrayHeaderView> {
         UICollectionView.SupplementaryRegistration<TopicPhotosSupplementrayHeaderView>(elementKind: UICollectionView.elementKindSectionHeader) {
             (supplementaryView, string, indexPath) in
             supplementaryView.titleLabel.text = sectionTitles[indexPath.section].krTitle
         }
     }
     
-    private func configureDataSource(_ sectionTitles: [TopicID]) {
+    private func configureDataSource(_ sectionTitles: [SectionType]) {
         guard let collectionView = rootView?.collectionView else { return }
         let headerRegistration = collectionViewHeaderRegestration(sectionTitles)
-        let cellRegistration = topicPhotosCellRegistration()
+        let cellRegistration = cellRegistration()
         dataSource = UICollectionViewDiffableDataSource(collectionView: collectionView, cellProvider: { collectionView, indexPath, itemIdentifier in
             
             let cell = collectionView.dequeueConfiguredReusableCell(using: cellRegistration, for: indexPath, item: itemIdentifier)
@@ -79,7 +80,7 @@ class TopicPhotosViewController: BaseViewController<TopicPhotosView, TopicPhotos
     private func updateSnapShot(_ sectionDict: SectionDict) {
         print(#function, "resultDict.keys: ", sectionDict.keys)
         let sectionList = Array(sectionDict.keys)
-        var snapShot = NSDiffableDataSourceSnapshot<TopicID, CellType>()
+        var snapShot = NSDiffableDataSourceSnapshot<SectionType, CellType>()
         snapShot.appendSections(sectionList)
         snapShot.sectionIdentifiers.forEach { topic in
             snapShot.appendItems(sectionDict[topic] ?? [], toSection: topic)

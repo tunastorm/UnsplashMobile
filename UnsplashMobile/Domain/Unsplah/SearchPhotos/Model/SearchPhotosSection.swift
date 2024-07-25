@@ -8,6 +8,6 @@
 import Foundation
 
 
-enum SearchPhotosSection {
-    
+enum SearchPhotosSection: CaseIterable {
+    case main
 }

@@ -9,6 +9,7 @@ import Foundation
 
 struct SearchPhotosResponse<T: Decodable>: Decodable {
     var total: Int
+    var page: Int?
     var totalPages: Int
     var results: [T] = []
     
