@@ -22,16 +22,20 @@ final class SearchPhotosView: BaseView {
     }
     
     let colorFilterLayout = {
-        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1/2), heightDimension: .fractionalHeight(1.0))
+        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1/5), heightDimension: .fractionalHeight(1/5))
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
         let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .fractionalWidth(0.6))
         let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
-        group.interItemSpacing = .fixed(1)
+        group.interItemSpacing = .fixed(6)
         
         let section = NSCollectionLayoutSection(group: group)
-        section.interGroupSpacing = 10
+        section.interGroupSpacing = 6
+        section.orthogonalScrollingBehavior = .continuous
         
         let layout = UICollectionViewCompositionalLayout(section: section)
+        var configuration = layout.configuration
+        configuration.scrollDirection = .horizontal
+        layout.configuration = configuration
         return layout
     }
     
@@ -88,5 +92,6 @@ final class SearchPhotosView: BaseView {
     override func configView() {
         filterView.backgroundColor = .blue
         filterCollectionView.backgroundColor = .green
+//        filterCollectionView.isScrollEnabled = false
     }
 }

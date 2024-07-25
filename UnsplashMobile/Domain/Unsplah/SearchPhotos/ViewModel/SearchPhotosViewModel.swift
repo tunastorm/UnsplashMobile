@@ -46,6 +46,7 @@ final class SearchPhotosViewModel: BaseViewModel {
     private func searchCompletion(_ response: SearchPhotosResponse<Photo>){
         setNewResponse(response)
         outputSearchPhotos.value = .success(response.results)
+//        getLikeList()
     }
 
     private func clearSearchRecord() {
@@ -83,10 +84,10 @@ final class SearchPhotosViewModel: BaseViewModel {
         }
     }
     
-    private func getLikeList() {
-        guard let user = repository.fetchAll(obejct: User.self, sortKey: User.Column.signUpDate).last else {
-            return
-        }
-        outputGetLikedList.value = Array(user.likedList)
-    }
+//    private func getLikeList() {
+//        guard let user = repository.fetchAll(obejct: User.self, sortKey: User.Column.signUpDate).last else {
+//            return
+//        }
+//        outputGetLikedList.value = Array(user.likedList)
+//    }
 }

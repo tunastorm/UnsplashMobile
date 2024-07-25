@@ -27,17 +27,24 @@ final class ColorFilterCollectionViewCell: BaseCollectionViewCell {
     
     override func configLayout() {
         colorLabel.snp.makeConstraints { make in
-            make.size =
+            make.size.equalTo(20)
             make.leading.verticalEdges.equalToSuperview().inset(2)
+        }
+        textLabel.snp.makeConstraints{ make in
+            make.width.equalTo(20)
+            make.trailing.verticalEdges.equalToSuperview().inset(2)
+            make.leading.equalTo(colorLabel.snp.trailing).offset(2)
         }
     }
     
     override func configView() {
-        
+        backgroundColor = Resource.Asset.CIColor.lightGray
+        layer.masksToBounds = true
     }
     
     override func layoutIfNeeded() {
         super.layoutIfNeeded()
+        layer.cornerRadius = frame.height * 0.5
         colorLabel.layer.cornerRadius = colorLabel.frame.height * 0.5
     }
     

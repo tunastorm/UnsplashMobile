@@ -16,6 +16,9 @@ enum ColorFilter: CaseIterable {
     case purple
     case green
     case blue
+    case yellow
+    case black
+    case white
     
     var krName: String {
         return switch self {
@@ -23,6 +26,9 @@ enum ColorFilter: CaseIterable {
         case .purple: "퍼플"
         case .green: "그린"
         case .blue: "블루"
+        case .yellow: "옐로우"
+        case .black: "블랙"
+        case .white: "화이트"
         }
     }
     
@@ -32,6 +38,9 @@ enum ColorFilter: CaseIterable {
         case .purple: .systemPurple
         case .green: .systemGreen
         case .blue: Resource.Asset.CIColor.blue
+        case .yellow: .systemYellow
+        case .black: Resource.Asset.CIColor.black
+        case .white: Resource.Asset.CIColor.white
         }
     }
 }

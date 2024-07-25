@@ -63,7 +63,6 @@ final class SearchPhotosCollectionViewCell: BaseCollectionViewCell {
         super.layoutIfNeeded()
         starButton.imageView?.frame.size = .init(width: 10, height: 10)
         starButton.layer.cornerRadius = starButton.frame.height * 0.5
-        photoView.layer.cornerRadius = photoView.frame.height * 0.06
     }
     
     func configCell(data: Photo) {

@@ -9,10 +9,14 @@ import UIKit
 
 final class SearchPhotosViewController: BaseViewController<SearchPhotosView, SearchPhotosViewModel> {
     
-    typealias CellType = Photo
-    typealias SectionType = SearchPhotosSection
+    var searchPhotosDataSource: UICollectionViewDiffableDataSource<SearchPhotosSection, Photo>?
+    var filterDataSource: UICollectionViewDiffableDataSource<FilterSection, ColorFilter>?
     
-    var dataSource: UICollectionViewDiffableDataSource<SectionType, CellType>?
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        configureFilterDataSource()
+        updateFilterSnapShot()
+    }
     
     override func configInteraction() {
         let searchController = UISearchController(searchResultsController: nil)
@@ -46,16 +50,16 @@ final class SearchPhotosViewController: BaseViewController<SearchPhotosView, Sea
         updateSearchPhotosSnapShot(photoList)
     }
     
-    private func filterCellRegistration() -> UICollectionView.CellRegistration<SearchPhotosCollectionViewCell, ColorFilter> {
-        UICollectionView.CellRegistration<SearchPhotosCollectionViewCell, CellType> { cell, indexPath, itemIdentifier in
+    private func filterCellRegistration() -> UICollectionView.CellRegistration<ColorFilterCollectionViewCell, ColorFilter> {
+        UICollectionView.CellRegistration<ColorFilterCollectionViewCell, ColorFilter> { cell, indexPath, itemIdentifier in
             cell.configCell(data: itemIdentifier)
         }
     }
     
     private func configureFilterDataSource() {
-        guard let collectionView = rootView?.collectionView else { return }
-        let cellRegistration = SearchPhotosCellRegistration()
-        dataSource = UICollectionViewDiffableDataSource(collectionView: collectionView, cellProvider: { collectionView, indexPath, itemIdentifier in
+        guard let collectionView = rootView?.filterCollectionView else { return }
+        let cellRegistration = filterCellRegistration()
+        filterDataSource = UICollectionViewDiffableDataSource(collectionView: collectionView, cellProvider: { collectionView, indexPath, itemIdentifier in
             
             let cell = collectionView.dequeueConfiguredReusableCell(using: cellRegistration, for: indexPath, item: itemIdentifier)
           
@@ -64,15 +68,15 @@ final class SearchPhotosViewController: BaseViewController<SearchPhotosView, Sea
     }
     
     private func updateFilterSnapShot() {
-        var snapShot = NSDiffableDataSourceSnapshot<SectionType, CellType>()
+        var snapShot = NSDiffableDataSourceSnapshot<FilterSection, ColorFilter>()
         snapShot.appendSections(FilterSection.allCases)
         snapShot.appendItems(ColorFilter.allCases, toSection: .main)
-        dataSource?.apply(snapShot)
+        filterDataSource?.apply(snapShot)
     }
     
     
-    private func SearchPhotosCellRegistration() -> UICollectionView.CellRegistration<SearchPhotosCollectionViewCell, CellType> {
-        UICollectionView.CellRegistration<SearchPhotosCollectionViewCell, CellType> { cell, indexPath, itemIdentifier in
+    private func SearchPhotosCellRegistration() -> UICollectionView.CellRegistration<SearchPhotosCollectionViewCell, Photo> {
+        UICollectionView.CellRegistration<SearchPhotosCollectionViewCell, Photo> { cell, indexPath, itemIdentifier in
             cell.configCell(data: itemIdentifier)
         }
     }
@@ -80,7 +84,7 @@ final class SearchPhotosViewController: BaseViewController<SearchPhotosView, Sea
     private func configureSearchPhotosDataSource() {
         guard let collectionView = rootView?.collectionView else { return }
         let cellRegistration = SearchPhotosCellRegistration()
-        dataSource = UICollectionViewDiffableDataSource(collectionView: collectionView, cellProvider: { collectionView, indexPath, itemIdentifier in
+        searchPhotosDataSource = UICollectionViewDiffableDataSource(collectionView: collectionView, cellProvider: { collectionView, indexPath, itemIdentifier in
             
             let cell = collectionView.dequeueConfiguredReusableCell(using: cellRegistration, for: indexPath, item: itemIdentifier)
           
@@ -89,12 +93,12 @@ final class SearchPhotosViewController: BaseViewController<SearchPhotosView, Sea
     }
     
     private func updateSearchPhotosSnapShot(_ photoList: [Photo]) {
-        var snapShot = NSDiffableDataSourceSnapshot<SectionType, CellType>()
+        var snapShot = NSDiffableDataSourceSnapshot<SearchPhotosSection, Photo>()
         snapShot.appendSections(SearchPhotosSection.allCases)
         snapShot.sectionIdentifiers.forEach { topic in
             snapShot.appendItems(photoList, toSection: .main)
         }
-        dataSource?.apply(snapShot)
+        searchPhotosDataSource?.apply(snapShot)
     }
 }
 
