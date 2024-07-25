@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import RealmSwift
 
 final class TopicPhotosViewModel: BaseViewModel {
     
@@ -15,13 +16,20 @@ final class TopicPhotosViewModel: BaseViewModel {
     var inputRequestTopicPhotos: Observable<Void?> = Observable(nil)
     
     var outputRequestTopicPhotos: Observable<[TopicID : TopicPhotosResult]?> = Observable(nil)
+    var outputProfileImageName: Observable<String?> = Observable(nil)
     
     private var resultDict: [TopicID : TopicPhotosResult] = [:]
     
     override func transform() {
         inputRequestTopicPhotos.bind { [weak self] _ in
             self?.callRequestTopicPhotos()
+            self?.getProfileImage()
         }
+    }
+    
+    private func getProfileImage() {
+        let imageName = repository.fetchAll(obejct: User.self, sortKey: User.Column.signUpDate).last?.profileImage
+        outputProfileImageName.value = imageName
     }
     
     private func callRequestTopicPhotos() {

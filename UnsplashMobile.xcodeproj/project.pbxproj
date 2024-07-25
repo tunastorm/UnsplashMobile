@@ -80,6 +80,7 @@
 		BCF654412C511A80008EB2CA /* TopicPhotosCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCF654402C511A80008EB2CA /* TopicPhotosCollectionViewCell.swift */; };
 		BCF654432C513A9A008EB2CA /* TopicPhotosSupplementrayHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCF654422C513A9A008EB2CA /* TopicPhotosSupplementrayHeaderView.swift */; };
 		BCF654452C513BD8008EB2CA /* BaseCollectionResuableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCF654442C513BD8008EB2CA /* BaseCollectionResuableView.swift */; };
+		BCF654942C521F6E008EB2CA /* TopicPhotosCustomView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCF654932C521F6E008EB2CA /* TopicPhotosCustomView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -164,6 +165,7 @@
 		BCF654402C511A80008EB2CA /* TopicPhotosCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopicPhotosCollectionViewCell.swift; sourceTree = "<group>"; };
 		BCF654422C513A9A008EB2CA /* TopicPhotosSupplementrayHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopicPhotosSupplementrayHeaderView.swift; sourceTree = "<group>"; };
 		BCF654442C513BD8008EB2CA /* BaseCollectionResuableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseCollectionResuableView.swift; sourceTree = "<group>"; };
+		BCF654932C521F6E008EB2CA /* TopicPhotosCustomView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopicPhotosCustomView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -506,6 +508,7 @@
 				BCF5F6FA2C4E7ED9002D9EA0 /* TopicPhotosViewController.swift */,
 				BCF654422C513A9A008EB2CA /* TopicPhotosSupplementrayHeaderView.swift */,
 				BCF654402C511A80008EB2CA /* TopicPhotosCollectionViewCell.swift */,
+				BCF654932C521F6E008EB2CA /* TopicPhotosCustomView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -705,6 +708,7 @@
 				BCF654432C513A9A008EB2CA /* TopicPhotosSupplementrayHeaderView.swift in Sources */,
 				BCF5F6A62C4E4D9D002D9EA0 /* BaseViewModel.swift in Sources */,
 				BCF5F6DE2C4E654F002D9EA0 /* BaseTableViewCell.swift in Sources */,
+				BCF654942C521F6E008EB2CA /* TopicPhotosCustomView.swift in Sources */,
 				BCF5F7052C4E82BF002D9EA0 /* RandomPhotoViewModel.swift in Sources */,
 				BCF5F6972C4E336C002D9EA0 /* HexaColor.swift in Sources */,
 				BCF5F76A2C50F7E2002D9EA0 /* TopicPhotosModel.swift in Sources */,

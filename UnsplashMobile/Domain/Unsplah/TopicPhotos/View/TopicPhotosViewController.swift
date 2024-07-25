@@ -14,6 +14,15 @@ class TopicPhotosViewController: BaseViewController<TopicPhotosView, TopicPhotos
     
     var dataSource: UICollectionViewDiffableDataSource<TopicID, CellType>?
     
+    override func configNavigationbar(navigationColor: UIColor, shadowImage: Bool) {
+        super.configNavigationbar(navigationColor: navigationColor, shadowImage: shadowImage)
+        guard let imageName = viewModel?.outputProfileImageName.value else { return }
+        let view = TopicPhotosCustomView()
+        view.configButtonImage(imageName)
+        let barButtonItem = UIBarButtonItem(customView: view)
+        navigationItem.rightBarButtonItem = barButtonItem
+    }
+    
     override func bindData() {
         viewModel?.outputRequestTopicPhotos.bind { [weak self] result in
             guard let result else { return }
@@ -21,6 +30,7 @@ class TopicPhotosViewController: BaseViewController<TopicPhotosView, TopicPhotos
         }
         viewModel?.inputRequestTopicPhotos.value = ()
     }
+    
     
     private func fetchTopicPhotos(_ result: [TopicID : Result<[Photo],APIError>]) {
         var sectionDict: [TopicID : [Photo]] = [:]
