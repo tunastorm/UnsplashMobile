@@ -17,6 +17,42 @@ public protocol Persistable {
     func managedObject() -> ManagedObject
 }
 
+extension Photo: Persistable {
+  
+    init(managedObject: LikedPhoto) {
+        self.id = managedObject.id
+        self.createdAt = managedObject.createdAt
+        self.width = managedObject.width
+        self.height = managedObject.height
+        self.color = managedObject.color
+        if let realmUrls = managedObject.urls {
+            self.urls = URLs(managedObject: realmUrls)
+        } else {
+            self.urls = nil
+        }
+        self.likes = managedObject.likes
+        if let realmUser = managedObject.user {
+            self.user = Artist(managedObject: realmUser)
+        } else {
+            self.user = nil
+        }
+    }
+    
+    func managedObject() -> LikedPhoto {
+        let likedPhoto = LikedPhoto()
+        likedPhoto.id = self.id
+        likedPhoto.createdAt = self.createdAt
+        likedPhoto.width = self.width
+        likedPhoto.height = self.height
+        likedPhoto.color = self.color
+        likedPhoto.urls = self.urls?.managedObject()
+        likedPhoto.likes = self.likes
+        likedPhoto.user = self.user?.managedObject()
+        return likedPhoto
+    }
+    
+}
+
 extension URLs: Persistable {
     
     init(managedObject: RealmURLs) {
@@ -27,7 +63,7 @@ extension URLs: Persistable {
     func managedObject() -> RealmURLs {
         let URLs = RealmURLs()
         URLs.raw = self.raw
-        URLs.small = self.small ?? ""
+        URLs.small = self.small
         return URLs
     }
 }
@@ -40,7 +76,7 @@ extension Artist: Persistable {
             if let profileImage = managedObject.profileImage {
                 self.profileImage = try ProfileImage(managedObject: profileImage)
             } else {
-                self.profileImage = ProfileImage(medium: "")
+                self.profileImage = nil
             }
         } catch { }
     }
@@ -48,7 +84,7 @@ extension Artist: Persistable {
     func managedObject() -> RealmArtist {
         let artist = RealmArtist()
         artist.name = self.name
-        artist.profileImage = self.profileImage.managedObject()
+        artist.profileImage = self.profileImage?.managedObject()
         return artist
     }
     

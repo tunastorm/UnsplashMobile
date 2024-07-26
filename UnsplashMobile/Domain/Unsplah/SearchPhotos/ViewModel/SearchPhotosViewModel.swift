@@ -10,16 +10,18 @@ import RealmSwift
 
 final class SearchPhotosViewModel: BaseViewModel {
     
-    typealias SearchPhotosResult = Result<([Photo]), APIError>
-    
+    typealias SearchPhotosResult = Result<[Photo], APIError>
+
     var inputRequestSearchPhotos: Observable<String?> = Observable(nil)
     var inputGetLikedList: Observable<Void?> = Observable(nil)
     var inputSelectedColorFilter: Observable<IndexPath?> = Observable(nil)
     var inputSortFilter: Observable<String?> = Observable(nil)
+    var inputLikeButtonClicked: Observable<(Int?,String?)> = Observable((nil,nil))
     
     var outputSearchPhotos: Observable<SearchPhotosResult?> = Observable(nil)
-    var outputGetLikedList: Observable<[LikedPhoto]> = Observable([])
+    var outputLikedList: Observable<[LikedPhoto]> = Observable([])
     var outputSelectedColorFilter: Observable<IndexPath?> = Observable(nil)
+    var outputLikeButtonClickResult: Observable<RepositoryResult?> = Observable(nil)
    
     private var responseInfo = SearchPhotosResponse<Photo>(total: 0, page: 1, totalPages: 1)
     
@@ -36,6 +38,9 @@ final class SearchPhotosViewModel: BaseViewModel {
         }
         inputSortFilter.bind { [weak self] _ in
             self?.callRequestSearchPhotos()
+        }
+        inputLikeButtonClicked.bind { [weak self] _ in
+            self?.likeButtonToggle()
         }
     }
     
@@ -108,7 +113,50 @@ final class SearchPhotosViewModel: BaseViewModel {
         guard let user = repository.fetchAll(obejct: User.self, sortKey: User.Column.signUpDate).last else {
             return
         }
-        outputGetLikedList.value = Array(user.likedList)
+        self.user = user
+        outputLikedList.value = Array(user.likedList)
+    }
+    
+    private func likeButtonToggle() {
+        let likedInfo = inputLikeButtonClicked.value
+        print(#function, "likedInfo: ", likedInfo)
+        if let index = likedInfo.0 {
+            addLikedItem(index)
+            return
+        }
+        if let id = likedInfo.1 {
+            deleteLikedItem(id)
+           return
+        }
+    }
+    
+    private func addLikedItem(_ index: Int) {
+        print(#function, "index: ", index)
+        guard let searchResult = outputSearchPhotos.value else {
+            return
+        }
+        switch searchResult {
+        case .success(let photoList):
+            var colorFilter = outputSelectedColorFilter.value
+            let photo = photoList[index]
+            let likedPhoto = photo.managedObject()
+            print(#function, "likedPhoto: ", likedPhoto)
+            repository.queryProperty { [weak self] in
+                self?.user?.likedList.append(likedPhoto)
+            } completionHandler: { [weak self] result in
+                switch result {
+                case .success(let status):
+                    self?.getLikeList()
+                    outputLikeButtonClickResult.value = status
+                case .failure(let error):
+                    outputLikeButtonClickResult.value = error
+                }
+            }
+        default: self.outputLikeButtonClickResult.value = RepositoryError.createFailed
+        }
     }
 
+    private func deleteLikedItem(_ id: String) {
+        print(#function, "id: ", id)
+    }
 }

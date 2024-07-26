@@ -17,8 +17,9 @@ extension SearchPhotosViewController {
     
     private func SearchPhotosCellRegistration() -> UICollectionView.CellRegistration<SearchPhotosCollectionViewCell, Photo> {
         UICollectionView.CellRegistration<SearchPhotosCollectionViewCell, Photo> { [weak self] cell, indexPath, itemIdentifier in
-            let isLiked = self?.viewModel?.outputGetLikedList.value.filter{ $0.id == itemIdentifier.id }.count ?? 0 > 0
-            cell.configCell(data: itemIdentifier)
+            let isLiked = self?.viewModel?.outputLikedList.value.filter{ $0.id == itemIdentifier.id }.count ?? 0 > 0
+            cell.delegate = self
+            cell.configCell(data: itemIdentifier, index: indexPath.item)
             cell.likeButtonToggle(isLiked)
         }
     }
@@ -45,7 +46,7 @@ extension SearchPhotosViewController {
         })
     }
     
-   func updateFilterSnapShot() {
+    func updateFilterSnapShot() {
         var snapShot = NSDiffableDataSourceSnapshot<FilterSection, ColorFilter>()
         snapShot.appendSections(FilterSection.allCases)
         snapShot.appendItems(ColorFilter.allCases, toSection: .main)

@@ -18,19 +18,25 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         IQKeyboardManager.shared.enableAutoToolbar = false
         IQKeyboardManager.shared.resignOnTouchOutside = true
         
-        let config = Realm.Configuration(schemaVersion: 3) { migration, oldSchemaVersion in
+        let config = Realm.Configuration(schemaVersion: 9) { migration, oldSchemaVersion in
             
-            if oldSchemaVersion < 2 {
-                
-            }
+            if oldSchemaVersion < 2 { }
             
-            if oldSchemaVersion < 2 {
-                
-            }
+            if oldSchemaVersion < 2 { }
             
-            if oldSchemaVersion < 3 {
-                
-            }
+            if oldSchemaVersion < 3 { }
+            
+            if oldSchemaVersion < 4 { }
+            
+            if oldSchemaVersion < 5 { }
+            
+            if oldSchemaVersion < 6 { }
+            
+            if oldSchemaVersion < 7 { }
+            
+            if oldSchemaVersion < 8 { }
+            
+            if oldSchemaVersion < 9 { }
             
         }
         

@@ -11,6 +11,8 @@ import Then
 
 final class SearchPhotosCollectionViewCell: BaseCollectionViewCell {
     
+    var delegate: SearchPhotosCollectionViewCellDelegate?
+    
     private let photoView = UIImageView().then {
         $0.contentMode = .scaleToFill
         $0.layer.masksToBounds = true
@@ -29,13 +31,13 @@ final class SearchPhotosCollectionViewCell: BaseCollectionViewCell {
         $0.isUserInteractionEnabled = false
     }
     
-    let likeButtonView = UIView().then {
+    private let likeButtonView = UIView().then {
         $0.backgroundColor = Resource.Asset.CIColor.white
         $0.layer.masksToBounds = true
         $0.layer.opacity = 0.2
     }
     
-    let likeButton = UIButton().then {
+    private let likeButton = UIButton().then {
         $0.addTarget(self, action: #selector(likeButtonClicked), for: .touchUpInside)
         $0.setImage(Resource.Asset.NamedImage.likeInActive, for: .normal)
         $0.titleLabel?.font = .systemFont(ofSize: 0)
@@ -76,9 +78,11 @@ final class SearchPhotosCollectionViewCell: BaseCollectionViewCell {
         likeButtonView.layer.cornerRadius = likeButtonView.frame.height / 2
     }
     
-    func configCell(data: Photo) {
-        guard let urlString = data.urls.small, let url = URL(string: urlString) else { return }
-        let likes = String(data.likes)
+    func configCell(data: Photo, index: Int) {
+        guard let urlString = data.urls?.small, let url = URL(string: urlString) else { return }
+        likeButton.tag = index
+        likeButton.setTitle(data.id, for: .normal)
+        let likes = data.likes.formatted()
         let likeButtonWidth = 34 + likes.count * 10
         photoView.kf.setImage(with: url)
         starButton.setTitle(likes, for: .normal)
@@ -88,19 +92,22 @@ final class SearchPhotosCollectionViewCell: BaseCollectionViewCell {
         layoutIfNeeded()
     }
     
+    func likeButtonToggle(_ isLiked: Bool = false) {
+        print(#function, "isLiked: ", isLiked)
+        likeButton.isSelected = isLiked
+        likeButton.setImage(Resource.Asset.NamedImage.like, for: .selected)
+    }
+    
     @objc private func likeButtonClicked(_ sender: UIButton) {
         sender.isSelected.toggle()
+        let index = sender.isSelected ? sender.tag : nil
+        let id = sender.isSelected ? nil : sender.title(for: .normal)
+        delegate?.likeButtonToggleEvent(index, id)
         if likeButton.isSelected {
             likeButton.setImage(Resource.Asset.NamedImage.like, for: .selected)
         } else {
             likeButton.setImage(Resource.Asset.NamedImage.likeInActive, for: .normal)
         }
-    }
-    
-   func likeButtonToggle(_ isLiked: Bool = false) {
-        print(#function, "isLiked: ", isLiked)
-        likeButton.isSelected = isLiked
-        likeButton.setImage(Resource.Asset.NamedImage.like, for: .selected)
     }
     
 }

@@ -54,7 +54,7 @@ final class TopicPhotosCollectionViewCell: BaseCollectionViewCell {
     }
     
     func configCell(data: Photo) {
-        guard let urlString = data.urls.small, let url = URL(string: urlString) else { return }
+        guard let urlString = data.urls?.small, let url = URL(string: urlString) else { return }
         let likes = String(data.likes)
         let likeButtonWidth = 34 + likes.count * 10
         photoView.kf.setImage(with: url)

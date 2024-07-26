@@ -9,7 +9,6 @@ import UIKit
 
 extension SearchPhotosViewController: UISearchBarDelegate {
     
-    
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
        print(#function, "검색실행")
         guard let keyword = searchBar.text else {

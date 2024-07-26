@@ -27,9 +27,9 @@ struct Photo: Decodable, Hashable {
     let width: Int
     let height: Int
     let color: String
-    let urls: URLs
+    let urls: URLs?
     let likes: Int
-    let user: Artist
+    let user: Artist?
     
     enum CodingKeys: String, CodingKey {
         case id
@@ -46,7 +46,7 @@ struct Photo: Decodable, Hashable {
 struct Artist: Decodable, Hashable {
     
     let name: String
-    let profileImage: ProfileImage
+    let profileImage: ProfileImage?
     
     enum CodingKeys: String, CodingKey {
         case name
@@ -56,7 +56,6 @@ struct Artist: Decodable, Hashable {
 
 struct ProfileImage: Decodable, Hashable {
     let medium: String
-    
     init(medium: String) {
         self.medium = medium
     }

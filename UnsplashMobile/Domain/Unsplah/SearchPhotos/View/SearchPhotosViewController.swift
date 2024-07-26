@@ -12,6 +12,10 @@ protocol SearchPhotosViewDelegate {
     func searchingWithSortFilter(_ sort: String)
 }
 
+protocol SearchPhotosCollectionViewCellDelegate {
+    func likeButtonToggleEvent(_ index: Int?, _ id: String?)
+}
+
 
 final class SearchPhotosViewController: BaseViewController<SearchPhotosView, SearchPhotosViewModel> {
     
@@ -44,6 +48,9 @@ final class SearchPhotosViewController: BaseViewController<SearchPhotosView, Sea
         viewModel?.outputSearchPhotos.bind { [weak self] photoList in
             self?.fetchShearchPhotos()
         }
+        viewModel?.outputLikeButtonClickResult.bind({ result in
+            print(result?.message)
+        })
     }
     
     private func fetchShearchPhotos() {
@@ -65,7 +72,17 @@ final class SearchPhotosViewController: BaseViewController<SearchPhotosView, Sea
 }
 
 extension SearchPhotosViewController: SearchPhotosViewDelegate {
+    
     func searchingWithSortFilter(_ sort: String) {
         viewModel?.inputSortFilter.value = sort
     }
+    
+}
+
+extension SearchPhotosViewController: SearchPhotosCollectionViewCellDelegate {
+    
+    func likeButtonToggleEvent(_ index: Int?, _ id: String?) {
+        viewModel?.inputLikeButtonClicked.value = (index, id)
+    }
+    
 }
