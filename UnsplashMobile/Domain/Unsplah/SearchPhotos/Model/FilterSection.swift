@@ -37,7 +37,7 @@ enum ColorFilter: CaseIterable {
         case .red: Resource.Asset.CIColor.red
         case .purple: .systemPurple
         case .green: .systemGreen
-        case .blue: Resource.Asset.CIColor.blue
+        case .blue: UIColor.init(hexCode: "#3C59FF")
         case .yellow: .systemYellow
         case .black: Resource.Asset.CIColor.black
         case .white: Resource.Asset.CIColor.white

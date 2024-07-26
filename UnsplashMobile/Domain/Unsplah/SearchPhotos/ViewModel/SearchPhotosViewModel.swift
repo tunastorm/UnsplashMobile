@@ -19,6 +19,8 @@ final class SearchPhotosViewModel: BaseViewModel {
     var outputSearchPhotos: Observable<SearchPhotosResult?> = Observable(nil)
     var outputGetLikedList: Observable<[LikedPhoto]> = Observable([])
     
+    var selectedColorFilter: IndexPath?
+    
     private var responseInfo = SearchPhotosResponse<Photo>(total: 0, page: 1, totalPages: 1)
     
     override func transform() {
