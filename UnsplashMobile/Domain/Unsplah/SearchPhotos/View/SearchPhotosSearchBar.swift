@@ -15,10 +15,7 @@ extension SearchPhotosViewController: UISearchBarDelegate {
         guard let keyword = searchBar.text else {
             return
         }
-        guard let sortIndex = rootView?.getSortOption() else  {
-            return
-        }
-        viewModel?.inputRequestSearchPhotos.value = (keyword, APIRouter.Sorting.allCases[sortIndex])
+        viewModel?.inputRequestSearchPhotos.value = keyword
         searchBar.endEditing(true)
     }
     

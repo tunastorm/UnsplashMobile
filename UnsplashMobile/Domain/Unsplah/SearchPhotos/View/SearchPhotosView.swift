@@ -11,6 +11,8 @@ import Then
 
 final class SearchPhotosView: BaseView {
     
+    var delegate: SearchPhotosViewDelegate?
+    
     var searchBar = UISearchBar().then {
         $0.backgroundImage = UIImage()
     }
@@ -24,11 +26,10 @@ final class SearchPhotosView: BaseView {
     private let sortFilterButton = UIButton().then {
         $0.addTarget(self, action: #selector(sortFilterButtonClicked), for: .touchUpInside)
         $0.setImage(Resource.Asset.NamedImage.sort, for: .normal)
-        $0.setTitle(APIRouter.Sorting.latest.krName, for: .normal)
+        $0.setTitle(APIRouter.Sorting.relevant.krName, for: .normal)
         $0.setTitleColor(Resource.Asset.CIColor.black, for: .normal)
         $0.titleLabel?.font = Resource.Asset.Font.boldSystem14
         $0.backgroundColor = Resource.Asset.CIColor.white
-      
         $0.layer.masksToBounds = true
     }
     
@@ -72,7 +73,6 @@ final class SearchPhotosView: BaseView {
         $0.textColor = Resource.Asset.CIColor.gray
         $0.textAlignment = .center
     }
-    
     
     override func configHierarchy() {
         addSubview(searchBar)
@@ -135,13 +135,23 @@ final class SearchPhotosView: BaseView {
         sortFilterButton.layer.cornerRadius = sortFilterButton.frame.height / 2
     }
     
+    override func configInteractionWithViewController<T: UIViewController>(viewController: T) {
+        let vc = viewController as? SearchPhotosViewController
+        delegate = vc
+        searchBar.delegate = vc
+        filterCollectionView.delegate = vc
+        collectionView.delegate = vc
+    }
+    
     @objc private func sortFilterButtonClicked(_ sender: UIButton) {
+        delegate?.searchingWithSortFilter(APIRouter.Sorting.allCases[sender.tag].krName)
         switch sender.tag {
         case 0: sender.tag = 1
         case 1: sender.tag = 0
         default: break
         }
         sortFilterButton.setTitle(APIRouter.Sorting.allCases[sender.tag].krName, for: .normal)
+       
     }
     
     func getSortOption() -> Int {

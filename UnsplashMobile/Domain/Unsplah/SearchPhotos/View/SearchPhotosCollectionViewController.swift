@@ -67,15 +67,19 @@ extension SearchPhotosViewController: UICollectionViewDelegate {
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         if collectionView == rootView?.filterCollectionView {
-            if let before = viewModel?.selectedColorFilter {
+            if let before = viewModel?.outputSelectedColorFilter.value {
                 let beforeCell = collectionView.cellForItem(at: before) as? ColorFilterCollectionViewCell
                 beforeCell?.isSelected = false
                 beforeCell?.colorFilterToggle()
+                guard before != indexPath else {
+                    viewModel?.inputSelectedColorFilter.value = nil
+                    return
+                }
             }
             let cell = collectionView.cellForItem(at: indexPath) as? ColorFilterCollectionViewCell
             cell?.colorFilterToggle()
             
-            viewModel?.selectedColorFilter = indexPath
+            viewModel?.inputSelectedColorFilter.value = indexPath
             return
         }
     }

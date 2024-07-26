@@ -59,20 +59,21 @@ extension APIRouter: TargetType {
     }
     
     enum Sorting: Int, CaseIterable {
-        case latest = 0
-        case relevant
+        case relevant = 0
+        case latest
+    
         
         var name: String {
             return switch self {
-            case .latest: "latest"
             case .relevant: "relevant"
+            case .latest: "latest"
             }
         }
         
         var krName: String {
             return switch self {
+            case .relevant: "관련순"
             case .latest: "최신순"
-            case .relevant: "정확도"
             }
         }
     }

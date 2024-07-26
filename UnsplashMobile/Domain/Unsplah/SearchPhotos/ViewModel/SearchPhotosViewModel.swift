@@ -10,35 +10,42 @@ import RealmSwift
 
 final class SearchPhotosViewModel: BaseViewModel {
     
-    typealias SearchInfo = (String,APIRouter.Sorting)
     typealias SearchPhotosResult = Result<([Photo]), APIError>
     
-    var inputRequestSearchPhotos: Observable<SearchInfo?> = Observable(nil)
+    var inputRequestSearchPhotos: Observable<String?> = Observable(nil)
     var inputGetLikedList: Observable<Void?> = Observable(nil)
+    var inputSelectedColorFilter: Observable<IndexPath?> = Observable(nil)
+    var inputSortFilter: Observable<String?> = Observable(nil)
     
     var outputSearchPhotos: Observable<SearchPhotosResult?> = Observable(nil)
     var outputGetLikedList: Observable<[LikedPhoto]> = Observable([])
-    
-    var selectedColorFilter: IndexPath?
-    
+    var outputSelectedColorFilter: Observable<IndexPath?> = Observable(nil)
+   
     private var responseInfo = SearchPhotosResponse<Photo>(total: 0, page: 1, totalPages: 1)
     
     override func transform() {
-        inputRequestSearchPhotos.bind { [weak self] searchInfo in
-            guard let searchInfo else { return }
+        inputRequestSearchPhotos.bind { [weak self] _ in
             self?.callRequestSearchPhotos()
         }
         inputGetLikedList.bind { [weak self] _ in
             self?.getLikeList()
         }
+        inputSelectedColorFilter.bind { [weak self] indexPath in
+            self?.outputSelectedColorFilter.value = indexPath
+            self?.callRequestSearchPhotos()
+        }
+        inputSortFilter.bind { [weak self] _ in
+            self?.callRequestSearchPhotos()
+        }
     }
     
     private func callRequestSearchPhotos() {
-        guard let searchInfo = inputRequestSearchPhotos.value else { return }
+        print(#function, "콜 검색API: ", inputRequestSearchPhotos.value)
+        guard let keyword = inputRequestSearchPhotos.value else { return }
         guard let page = pageNation() else { return }
-        let keyword = searchInfo.0
-        let sort = searchInfo.1
-        let query = SearchPhotosQuery(query: keyword, sort: sort.name, page: page)
+        let color = getColorFilter(inputSelectedColorFilter.value)
+        let sort = inputSortFilter.value
+        let query = SearchPhotosQuery(query: keyword, sort: sort, color: color, page: page)
         print(#function, "SearchPhotosQuery 생성완료: ", query)
         let router = APIRouter.searchPhotos(query)
         APIManager.request(SearchPhotosResponse<Photo>.self, router: router) { [weak self]response in
@@ -48,10 +55,18 @@ final class SearchPhotosViewModel: BaseViewModel {
         }
     }
     
+    private func getColorFilter(_ indexPath: IndexPath?) -> String? {
+        var color: String?
+        if let indexPath {
+            color = ColorFilter.allCases[indexPath.item].rawValue
+        }
+        return color
+    }
+    
     private func searchCompletion(_ response: SearchPhotosResponse<Photo>){
         setNewResponse(response)
         outputSearchPhotos.value = .success(response.results)
-//        getLikeList()
+        getLikeList()
     }
 
     private func clearSearchRecord() {
@@ -95,4 +110,5 @@ final class SearchPhotosViewModel: BaseViewModel {
         }
         outputGetLikedList.value = Array(user.likedList)
     }
+
 }

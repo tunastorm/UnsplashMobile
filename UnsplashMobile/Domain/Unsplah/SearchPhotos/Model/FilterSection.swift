@@ -11,7 +11,7 @@ enum FilterSection: CaseIterable {
     case main
 }
 
-enum ColorFilter: CaseIterable {
+enum ColorFilter: String, CaseIterable {
     case red
     case purple
     case green
@@ -33,15 +33,7 @@ enum ColorFilter: CaseIterable {
     }
     
     var color: UIColor {
-        return switch self {
-        case .red: Resource.Asset.CIColor.red
-        case .purple: .systemPurple
-        case .green: .systemGreen
-        case .blue: UIColor.init(hexCode: "#3C59FF")
-        case .yellow: .systemYellow
-        case .black: Resource.Asset.CIColor.black
-        case .white: Resource.Asset.CIColor.white
-        }
+        return UIColor.init(hexCode: self.HexaColor)
     }
     
     var HexaColor: String {

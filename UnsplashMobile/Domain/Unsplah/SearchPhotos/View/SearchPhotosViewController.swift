@@ -7,6 +7,12 @@
 
 import UIKit
 
+
+protocol SearchPhotosViewDelegate {
+    func searchingWithSortFilter(_ sort: String)
+}
+
+
 final class SearchPhotosViewController: BaseViewController<SearchPhotosView, SearchPhotosViewModel> {
     
     var searchPhotosDataSource: UICollectionViewDiffableDataSource<SearchPhotosSection, Photo>?
@@ -15,6 +21,7 @@ final class SearchPhotosViewController: BaseViewController<SearchPhotosView, Sea
     override func viewDidLoad() {
         super.viewDidLoad()
         configureFilterDataSource()
+        configureSearchPhotosDataSource()
         updateFilterSnapShot()
     }
     
@@ -30,9 +37,7 @@ final class SearchPhotosViewController: BaseViewController<SearchPhotosView, Sea
     
     override func configInteraction() {
         print(#function, "configInteraction 실행")
-        rootView?.searchBar.delegate = self
-        rootView?.filterCollectionView.delegate = self
-        rootView?.collectionView.delegate = self
+        rootView?.configInteractionWithViewController(viewController: self)
     }
     
     override func bindData() {
@@ -53,9 +58,14 @@ final class SearchPhotosViewController: BaseViewController<SearchPhotosView, Sea
             self.rootView?.makeToast(error.message, duration: 3.0, position: .bottom, title: error.title)
             return
         }
-        print(#function)
+        print(#function, "검색결과 수: ", photoList.count)
         dump(photoList)
-        configureSearchPhotosDataSource()
         updateSearchPhotosSnapShot(photoList)
+    }
+}
+
+extension SearchPhotosViewController: SearchPhotosViewDelegate {
+    func searchingWithSortFilter(_ sort: String) {
+        viewModel?.inputSortFilter.value = sort
     }
 }

@@ -14,8 +14,6 @@ class BaseView: UIView {
         configHierarchy()
         configLayout()
         configView()
-        configInteraction()
-        configExternalResource()
     }
     
     required init?(coder: NSCoder) {
@@ -34,11 +32,7 @@ class BaseView: UIView {
         self.backgroundColor = Resource.Asset.CIColor.white
     }
     
-    func configInteraction() {
-        
-    }
-    
-    func configExternalResource() {
+    func configInteractionWithViewController<T: UIViewController>(viewController: T) {
         
     }
 }
