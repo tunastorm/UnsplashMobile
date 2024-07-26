@@ -11,16 +11,25 @@ import Then
 
 final class SearchPhotosView: BaseView {
     
-     var searchBar: UISearchBar?
+    var searchBar = UISearchBar().then {
+        $0.backgroundImage = UIImage()
+    }
+    
+    var lineView = UIView().then {
+        $0.backgroundColor = Resource.Asset.CIColor.lightGray
+    }
     
     private let filterView = UIView()
     
     private let sortFilterButton = UIButton().then {
         $0.addTarget(self, action: #selector(sortFilterButtonClicked), for: .touchUpInside)
+        $0.setImage(Resource.Asset.NamedImage.sort, for: .normal)
+        $0.setTitle(APIRouter.Sorting.latest.krName, for: .normal)
+        $0.setTitleColor(Resource.Asset.CIColor.black, for: .normal)
+        $0.titleLabel?.font = Resource.Asset.Font.boldSystem14
         $0.backgroundColor = Resource.Asset.CIColor.white
-        $0.titleLabel?.font = Resource.Asset.Font.boldSystem18
+      
         $0.layer.masksToBounds = true
-        $0.tintColor = .black
     }
     
     private let colorFilterLayout = {
@@ -66,7 +75,8 @@ final class SearchPhotosView: BaseView {
     
     
     override func configHierarchy() {
-        if let searchBar { addSubview(searchBar) }
+        addSubview(searchBar)
+        addSubview(lineView)
         addSubview(filterView)
         filterView.addSubview(filterCollectionView)
         filterView.addSubview(sortFilterButton)
@@ -75,12 +85,20 @@ final class SearchPhotosView: BaseView {
     }
     
     override func configLayout() {
-        searchBar?.snp.makeConstraints { make in
+        
+        searchBar.snp.makeConstraints { make in
             make.height.equalTo(40)
+            make.top.equalTo(safeAreaLayoutGuide)
+            make.horizontalEdges.equalTo(safeAreaLayoutGuide)
+        }
+        lineView.snp.makeConstraints { make in
+            make.height.equalTo(1)
+            make.top.equalTo(searchBar.snp.bottom).offset(10)
+            make.horizontalEdges.equalToSuperview()
         }
         filterView.snp.makeConstraints { make in
             make.height.equalTo(40)
-            make.top.equalTo(safeAreaLayoutGuide).inset(6)
+            make.top.equalTo(lineView.snp.bottom).offset(6)
             make.horizontalEdges.equalToSuperview()
         }
         filterCollectionView.snp.makeConstraints { make in
@@ -118,19 +136,12 @@ final class SearchPhotosView: BaseView {
     }
     
     @objc private func sortFilterButtonClicked(_ sender: UIButton) {
-        sortFilterButtonToggle(sender.tag)
-    }
-    
-    private func sortFilterButtonToggle(_ tag: Int) {
-        var sort: APIRouter.Sorting?
-        switch tag {
-        case 0: sort = APIRouter.Sorting.allCases[1]
-        case 1: sort = APIRouter.Sorting.allCases[0]
+        switch sender.tag {
+        case 0: sender.tag = 1
+        case 1: sender.tag = 0
         default: break
         }
-        if let sort {
-            sortFilterButton.setTitle(sort.krName, for: .normal)
-        }
+        sortFilterButton.setTitle(APIRouter.Sorting.allCases[sender.tag].krName, for: .normal)
     }
     
     func getSortOption() -> Int {

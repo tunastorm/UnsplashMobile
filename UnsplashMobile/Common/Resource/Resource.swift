@@ -97,8 +97,8 @@ enum Resource {
             static let tabLike = UIImage(named: "tab_like")
             static let tabLikeInActive = UIImage(named: "tab_like_inactive")
             static let like = UIImage(named: "like")?.withRenderingMode(.alwaysOriginal)
-            static let likeInActive = UIImage(named: "like_inactive")?.withRenderingMode(.alwaysOriginal)
-            static let sort = UIImage(named: "sort")?.withRenderingMode(.alwaysOriginal)
+            static let likeInActive = UIImage(named: "like_inactive")!.withRenderingMode(.alwaysOriginal)
+            static let sort = UIImage(named: "sort")!.withRenderingMode(.alwaysOriginal)
             
             static func profileImage(number: Int) -> UIImage? {
                 guard number >= 0 && number <= 11 else {

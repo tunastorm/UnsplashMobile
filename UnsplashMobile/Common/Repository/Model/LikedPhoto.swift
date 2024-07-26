@@ -8,46 +8,62 @@
 import Foundation
 import RealmSwift
 
-class LikedPhoto: Object {
-    @Persisted(primaryKey: true) var objectId: ObjectId
+final class LikedPhoto: Object {
     @Persisted var id: String
     @Persisted var createdAt: String
     @Persisted var width: Int
     @Persisted var height: Int
     @Persisted var color: String
-//    @Persisted var urls: URLsObject
+    @Persisted var urls: RealmURLs?
     @Persisted var likes: Int
-//    @Persisted var user: ArtistObject
+    @Persisted var user: RealmArtist?
     
-    convenience init(id: String, createdAt: String, width: Int, height: Int, color: String, /*urls: URLsObject,*/ likes: Int/*, user: ArtistObject*/) {
+    convenience init(id: String, createdAt: String, width: Int, height: Int, color: String, urls: RealmURLs? = nil, likes: Int, user: RealmArtist? = nil) {
         self.init()
         self.id = id
         self.createdAt = createdAt
         self.width = width
         self.height = height
         self.color = color
-//        self.urls = urls
+        self.urls = urls
         self.likes = likes
-//        self.user = user
+        self.user = user
     }
+}
+
+final class RealmURLs: Object {
+    @Persisted var id: String
+    @Persisted var raw: String
+    @Persisted var small: String
     
-//    class URLsObject: Object {
-//        @Persisted(primaryKey: true) var objectId: ObjectId
-//        @Persisted var id: UUID
-//        @Persisted var raw: String
-//        @Persisted var small: String?
-//    }
-//
-//    class ArtistObject: Object {
-//        @Persisted(primaryKey: true) var objectId: ObjectId
-//        @Persisted var id: UUID
-//        @Persisted var name: String
-////        @Persisted var profileImage: ProfileImageObject
-//    }
-//
-//    class ProfileImageObject: Object {
-//        @Persisted(primaryKey: true) var objectId: ObjectId
-//        @Persisted var id: UUID
-//        @Persisted var medium: String
-//    }
+    convenience init(id: String, raw: String, small: String) {
+        self.init()
+        self.id = id
+        self.raw = raw
+        self.small = small
+    }
+}
+
+final class RealmArtist: Object {
+    @Persisted var id: String
+    @Persisted var name: String
+    @Persisted var profileImage: RealmProfileImage?
+    
+    convenience init(id: String, name: String, profileImage: RealmProfileImage? = nil) {
+        self.init()
+        self.id = id
+        self.name = name
+        self.profileImage = profileImage
+    }
+}
+
+final class RealmProfileImage: Object {
+    @Persisted var id: String
+    @Persisted var medium: String
+    
+    convenience init(id: String, medium: String) {
+        self.init()
+        self.id = id
+        self.medium = medium
+    }
 }

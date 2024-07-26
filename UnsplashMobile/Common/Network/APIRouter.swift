@@ -71,8 +71,8 @@ extension APIRouter: TargetType {
         
         var krName: String {
             return switch self {
-            case .latest: "정확도"
-            case .relevant: "날짜순"
+            case .latest: "최신순"
+            case .relevant: "정확도"
             }
         }
     }

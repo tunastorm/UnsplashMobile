@@ -89,6 +89,7 @@
 		BCF654A92C526730008EB2CA /* FilterSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCF654A82C526730008EB2CA /* FilterSection.swift */; };
 		BCF654AB2C526A94008EB2CA /* SearchPhotosCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCF654AA2C526A94008EB2CA /* SearchPhotosCollectionViewCell.swift */; };
 		BCF654AD2C527A31008EB2CA /* ColorFilterCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCF654AC2C527A31008EB2CA /* ColorFilterCollectionViewCell.swift */; };
+		BCF654AF2C5399E0008EB2CA /* Struct+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCF654AE2C5399E0008EB2CA /* Struct+Extension.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -182,6 +183,7 @@
 		BCF654A82C526730008EB2CA /* FilterSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterSection.swift; sourceTree = "<group>"; };
 		BCF654AA2C526A94008EB2CA /* SearchPhotosCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchPhotosCollectionViewCell.swift; sourceTree = "<group>"; };
 		BCF654AC2C527A31008EB2CA /* ColorFilterCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorFilterCollectionViewCell.swift; sourceTree = "<group>"; };
+		BCF654AE2C5399E0008EB2CA /* Struct+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Struct+Extension.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -334,6 +336,7 @@
 				BCF5F6D72C4E5D2C002D9EA0 /* UIImage+Extension.swift */,
 				BCF5F6D92C4E5E93002D9EA0 /* UIViewController + Extension.swift */,
 				BCF5F6EC2C4E7C1A002D9EA0 /* CALayer+Extension.swift */,
+				BCF654AE2C5399E0008EB2CA /* Struct+Extension.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -740,6 +743,7 @@
 				BCF5F6B62C4E5055002D9EA0 /* User.swift in Sources */,
 				BCF5F6C12C4E5940002D9EA0 /* Observable.swift in Sources */,
 				BCF5F6542C4E2058002D9EA0 /* SceneDelegate.swift in Sources */,
+				BCF654AF2C5399E0008EB2CA /* Struct+Extension.swift in Sources */,
 				BCF654452C513BD8008EB2CA /* BaseCollectionResuableView.swift in Sources */,
 				BCF5F70B2C4E831F002D9EA0 /* SearchPhotosViewModel.swift in Sources */,
 				BCF654A22C5239D1008EB2CA /* RandomPhotoQuery.swift in Sources */,

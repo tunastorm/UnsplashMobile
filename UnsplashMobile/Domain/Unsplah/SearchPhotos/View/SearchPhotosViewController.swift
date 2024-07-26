@@ -15,7 +15,6 @@ final class SearchPhotosViewController: BaseViewController<SearchPhotosView, Sea
     override func viewDidLoad() {
         super.viewDidLoad()
         configureFilterDataSource()
-        configureSearchPhotosDataSource()
         updateFilterSnapShot()
     }
     
@@ -25,18 +24,18 @@ final class SearchPhotosViewController: BaseViewController<SearchPhotosView, Sea
     }
     
     override func configNavigationbar(navigationColor: UIColor, shadowImage: Bool) {
-        super.configNavigationbar(navigationColor: navigationColor, shadowImage: shadowImage)
+        super.configNavigationbar(navigationColor: navigationColor, shadowImage: false)
         navigationItem.title = Resource.UIConstants.Text.searchPhotosTitle
     }
     
     override func configInteraction() {
         print(#function, "configInteraction 실행")
-        let searchController = UISearchController(searchResultsController: nil)
-        navigationItem.searchController = searchController
-        navigationItem.searchController?.hidesNavigationBarDuringPresentation = false
-        rootView?.searchBar = searchController.searchBar
-        rootView?.searchBar?.setShowsCancelButton(false, animated: false)
-        rootView?.searchBar?.delegate = self
+//        let searchController = UISearchController(searchResultsController: nil)
+//        navigationItem.searchController = searchController
+//        navigationItem.searchController?.hidesNavigationBarDuringPresentation = false
+//        rootView?.searchBar = searchController.searchBar
+//        rootView?.searchBar?.setShowsCancelButton(false, animated: false)
+        rootView?.searchBar.delegate = self
     }
     
     override func bindData() {
@@ -59,6 +58,7 @@ final class SearchPhotosViewController: BaseViewController<SearchPhotosView, Sea
         }
         print(#function)
         dump(photoList)
+        configureSearchPhotosDataSource()
         updateSearchPhotosSnapShot(photoList)
     }
     
@@ -69,8 +69,10 @@ final class SearchPhotosViewController: BaseViewController<SearchPhotosView, Sea
     }
     
     private func SearchPhotosCellRegistration() -> UICollectionView.CellRegistration<SearchPhotosCollectionViewCell, Photo> {
-        UICollectionView.CellRegistration<SearchPhotosCollectionViewCell, Photo> { cell, indexPath, itemIdentifier in
+        UICollectionView.CellRegistration<SearchPhotosCollectionViewCell, Photo> { [weak self] cell, indexPath, itemIdentifier in
+            let isLiked = self?.viewModel?.outputGetLikedList.value.filter{ $0.id == itemIdentifier.id }.count ?? 0 > 0
             cell.configCell(data: itemIdentifier)
+            cell.likeButtonToggle(isLiked)
         }
     }
     
@@ -115,16 +117,28 @@ final class SearchPhotosViewController: BaseViewController<SearchPhotosView, Sea
 
 extension SearchPhotosViewController: UISearchBarDelegate {
     
-    func searchBarShouldEndEditing(_ searchBar: UISearchBar) -> Bool {
+    
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+       print(#function, "검색실행")
         guard let keyword = searchBar.text else {
-            return true
+            return
         }
         guard let sortIndex = rootView?.getSortOption() else  {
-            return true
+            return
         }
         viewModel?.inputRequestSearchPhotos.value = (keyword, APIRouter.Sorting.allCases[sortIndex])
+        searchBar.endEditing(true)
+    }
+    
+    func searchBarShouldBeginEditing(_ searchBar: UISearchBar) -> Bool {
         return true
     }
+    
+    func searchBarShouldEndEditing(_ searchBar: UISearchBar) -> Bool {
+        
+       return true
+    }
+    
 }
 
 

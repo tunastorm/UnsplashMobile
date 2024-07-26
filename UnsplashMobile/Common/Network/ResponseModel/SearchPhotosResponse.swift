@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import RealmSwift
 
 struct SearchPhotosResponse<T: Decodable>: Decodable {
     var total: Int
@@ -43,7 +44,7 @@ struct Photo: Decodable, Hashable {
 }
 
 struct Artist: Decodable, Hashable {
-    let id = UUID()
+    
     let name: String
     let profileImage: ProfileImage
     
@@ -54,12 +55,14 @@ struct Artist: Decodable, Hashable {
 }
 
 struct ProfileImage: Decodable, Hashable {
-    let id = UUID()
     let medium: String
+    
+    init(medium: String) {
+        self.medium = medium
+    }
 }
 
 struct URLs: Decodable, Hashable {
-    let id = UUID()
     let raw: String
 //    let full: String
 //    let regular: String

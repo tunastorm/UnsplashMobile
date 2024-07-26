@@ -11,7 +11,7 @@ import RealmSwift
 final class SearchPhotosViewModel: BaseViewModel {
     
     typealias SearchInfo = (String,APIRouter.Sorting)
-    typealias SearchPhotosResult = Result<[Photo], APIError>
+    typealias SearchPhotosResult = Result<([Photo]), APIError>
     
     var inputRequestSearchPhotos: Observable<SearchInfo?> = Observable(nil)
     var inputGetLikedList: Observable<Void?> = Observable(nil)
@@ -25,6 +25,9 @@ final class SearchPhotosViewModel: BaseViewModel {
         inputRequestSearchPhotos.bind { [weak self] searchInfo in
             guard let searchInfo else { return }
             self?.callRequestSearchPhotos()
+        }
+        inputGetLikedList.bind { [weak self] _ in
+            self?.getLikeList()
         }
     }
     
@@ -84,10 +87,10 @@ final class SearchPhotosViewModel: BaseViewModel {
         }
     }
     
-//    private func getLikeList() {
-//        guard let user = repository.fetchAll(obejct: User.self, sortKey: User.Column.signUpDate).last else {
-//            return
-//        }
-//        outputGetLikedList.value = Array(user.likedList)
-//    }
+    private func getLikeList() {
+        guard let user = repository.fetchAll(obejct: User.self, sortKey: User.Column.signUpDate).last else {
+            return
+        }
+        outputGetLikedList.value = Array(user.likedList)
+    }
 }

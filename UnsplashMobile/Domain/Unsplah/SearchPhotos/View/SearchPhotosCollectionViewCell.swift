@@ -11,13 +11,13 @@ import Then
 
 final class SearchPhotosCollectionViewCell: BaseCollectionViewCell {
     
-    let photoView = UIImageView().then {
+    private let photoView = UIImageView().then {
         $0.contentMode = .scaleToFill
         $0.layer.masksToBounds = true
         $0.backgroundColor = Resource.Asset.CIColor.lightGray
     }
     
-    let starButton = UIButton().then {
+    private let starButton = UIButton().then {
         let config = UIImage.SymbolConfiguration(pointSize: 10, weight: .light)
         $0.titleLabel?.font = Resource.Asset.Font.system13
         $0.imageView?.backgroundColor = .clear
@@ -29,17 +29,23 @@ final class SearchPhotosCollectionViewCell: BaseCollectionViewCell {
         $0.isUserInteractionEnabled = false
     }
     
-    let likeButton = UIButton().then {
-        $0.setImage(Resource.Asset.NamedImage.likeInActive, for: .normal)
-        $0.setImage(Resource.Asset.NamedImage.like, for: .selected)
+    let likeButtonView = UIView().then {
         $0.backgroundColor = Resource.Asset.CIColor.white
-        $0.alpha = Resource.UIConstants.Alpha.half
         $0.layer.masksToBounds = true
+        $0.layer.opacity = 0.2
+    }
+    
+    let likeButton = UIButton().then {
+        $0.addTarget(self, action: #selector(likeButtonClicked), for: .touchUpInside)
+        $0.setImage(Resource.Asset.NamedImage.likeInActive, for: .normal)
+        $0.titleLabel?.font = .systemFont(ofSize: 0)
+        $0.imageView?.contentMode = .scaleAspectFit
     }
     
     override func configHierarchy() {
         contentView.addSubview(photoView)
         contentView.addSubview(starButton)
+        contentView.addSubview(likeButtonView)
         contentView.addSubview(likeButton)
     }
     
@@ -53,6 +59,10 @@ final class SearchPhotosCollectionViewCell: BaseCollectionViewCell {
             make.leading.equalTo(photoView.snp.leading).inset(10)
             make.bottom.equalTo(photoView.snp.bottom).inset(10)
         }
+        likeButtonView.snp.makeConstraints { make in
+            make.size.equalTo(36)
+            make.trailing.bottom.equalToSuperview().inset(10)
+        }
         likeButton.snp.makeConstraints { make in
             make.size.equalTo(36)
             make.trailing.bottom.equalToSuperview().inset(10)
@@ -62,7 +72,8 @@ final class SearchPhotosCollectionViewCell: BaseCollectionViewCell {
     override func layoutIfNeeded() {
         super.layoutIfNeeded()
         starButton.imageView?.frame.size = .init(width: 10, height: 10)
-        starButton.layer.cornerRadius = starButton.frame.height * 0.5
+        starButton.layer.cornerRadius = starButton.frame.height / 2
+        likeButtonView.layer.cornerRadius = likeButtonView.frame.height / 2
     }
     
     func configCell(data: Photo) {
@@ -77,7 +88,19 @@ final class SearchPhotosCollectionViewCell: BaseCollectionViewCell {
         layoutIfNeeded()
     }
     
-    func likeButtonToggle(isLiked: Bool = false) {
-        likeButton.isSelected = isLiked
+    @objc private func likeButtonClicked(_ sender: UIButton) {
+        sender.isSelected.toggle()
+        if likeButton.isSelected {
+            likeButton.setImage(Resource.Asset.NamedImage.like, for: .selected)
+        } else {
+            likeButton.setImage(Resource.Asset.NamedImage.likeInActive, for: .normal)
+        }
     }
+    
+   func likeButtonToggle(_ isLiked: Bool = false) {
+        print(#function, "isLiked: ", isLiked)
+        likeButton.isSelected = isLiked
+        likeButton.setImage(Resource.Asset.NamedImage.like, for: .selected)
+    }
+    
 }
