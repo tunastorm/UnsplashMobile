@@ -11,35 +11,36 @@ import Then
 
 final class SearchPhotosView: BaseView {
     
-    var searchBar: UISearchBar?
+     var searchBar: UISearchBar?
     
-    let filterView = UIView()
+    private let filterView = UIView()
     
-    let sortFilterButton = UIButton().then {
+    private let sortFilterButton = UIButton().then {
+        $0.addTarget(self, action: #selector(sortFilterButtonClicked), for: .touchUpInside)
         $0.backgroundColor = Resource.Asset.CIColor.white
-        $0.tintColor = .black
         $0.titleLabel?.font = Resource.Asset.Font.boldSystem18
+        $0.layer.masksToBounds = true
+        $0.tintColor = .black
     }
     
-    let colorFilterLayout = {
-        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1/5), heightDimension: .fractionalHeight(1/5))
+    private let colorFilterLayout = {
+        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1/5), heightDimension: .fractionalHeight(1.0))
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
-        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .fractionalWidth(0.6))
+        item.contentInsets = .init(top: 2.0, leading: 4.0, bottom: 2.0, trailing: 4.0)
+        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .absolute(40))
         let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
-        group.interItemSpacing = .fixed(6)
-        
+        group.contentInsets = .init(top: 0, leading: 0.0, bottom: 0, trailing: 0.0)
         let section = NSCollectionLayoutSection(group: group)
-        section.interGroupSpacing = 6
-        section.orthogonalScrollingBehavior = .continuous
-        
-        let layout = UICollectionViewCompositionalLayout(section: section)
-        var configuration = layout.configuration
+       
+        var configuration = UICollectionViewCompositionalLayoutConfiguration()
         configuration.scrollDirection = .horizontal
-        layout.configuration = configuration
+        
+        let layout = UICollectionViewCompositionalLayout(section: section, configuration: configuration)
+      
         return layout
     }
     
-    let searchPhotosLayout = {
+    private let searchPhotosLayout = {
         let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1/2), heightDimension: .fractionalHeight(1.0))
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
         let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .fractionalWidth(0.6))
@@ -56,29 +57,39 @@ final class SearchPhotosView: BaseView {
     lazy var filterCollectionView = UICollectionView(frame: .zero, collectionViewLayout: colorFilterLayout())
     lazy var collectionView = UICollectionView(frame: .zero, collectionViewLayout: searchPhotosLayout())
     
+    private let backgroundView = UIView()
+    private let messageLabel = UILabel().then {
+        $0.font = Resource.Asset.Font.boldSystem20
+        $0.textColor = Resource.Asset.CIColor.gray
+        $0.textAlignment = .center
+    }
+    
     
     override func configHierarchy() {
-        if let searchBar {
-            addSubview(searchBar)
-        }
+        if let searchBar { addSubview(searchBar) }
         addSubview(filterView)
         filterView.addSubview(filterCollectionView)
         filterView.addSubview(sortFilterButton)
         addSubview(collectionView)
+        backgroundView.addSubview(messageLabel)
     }
     
     override func configLayout() {
+        searchBar?.snp.makeConstraints { make in
+            make.height.equalTo(40)
+        }
         filterView.snp.makeConstraints { make in
             make.height.equalTo(40)
-            make.top.equalTo(safeAreaLayoutGuide)
+            make.top.equalTo(safeAreaLayoutGuide).inset(6)
             make.horizontalEdges.equalToSuperview()
         }
         filterCollectionView.snp.makeConstraints { make in
+            make.height.equalTo(40)
             make.verticalEdges.equalToSuperview()
             make.horizontalEdges.equalToSuperview()
         }
         sortFilterButton.snp.makeConstraints { make in
-            make.height.equalTo(36)
+            make.height.equalTo(32)
             make.width.equalTo(72)
             make.verticalEdges.equalToSuperview().inset(4)
             make.trailing.equalToSuperview()
@@ -87,11 +98,43 @@ final class SearchPhotosView: BaseView {
             make.top.equalTo(filterView.snp.bottom).offset(6)
             make.bottom.horizontalEdges.equalTo(safeAreaLayoutGuide)
         }
+        messageLabel.snp.makeConstraints { make in
+            make.height.equalTo(80)
+            make.horizontalEdges.equalToSuperview().inset(20)
+            make.center.equalToSuperview()
+        }
+        
     }
     
     override func configView() {
-        filterView.backgroundColor = .blue
-        filterCollectionView.backgroundColor = .green
-//        filterCollectionView.isScrollEnabled = false
+        filterCollectionView.showsHorizontalScrollIndicator = false
+        collectionView.backgroundView = backgroundView
     }
+    
+    override func layoutIfNeeded() {
+        super.layoutIfNeeded()
+        sortFilterButton.layer.maskedCorners = [.layerMinXMinYCorner, .layerMinXMaxYCorner]
+        sortFilterButton.layer.cornerRadius = sortFilterButton.frame.height / 2
+    }
+    
+    @objc private func sortFilterButtonClicked(_ sender: UIButton) {
+        sortFilterButtonToggle(sender.tag)
+    }
+    
+    private func sortFilterButtonToggle(_ tag: Int) {
+        var sort: APIRouter.Sorting?
+        switch tag {
+        case 0: sort = APIRouter.Sorting.allCases[1]
+        case 1: sort = APIRouter.Sorting.allCases[0]
+        default: break
+        }
+        if let sort {
+            sortFilterButton.setTitle(sort.krName, for: .normal)
+        }
+    }
+    
+    func getSortOption() -> Int {
+        return sortFilterButton.tag
+    }
+
 }

@@ -8,32 +8,45 @@
 import Foundation
 import Alamofire
 
+struct RequestEncodableConvertible<Parameters: Encodable>: URLRequestConvertible {
+    
+    typealias RequestModifier = (inout URLRequest) throws -> Void
+    
+    let url: URLConvertible
+    let method: HTTPMethod
+    let parameters: Parameters?
+    let encoder: ParameterEncoder
+    let headers: HTTPHeaders?
+    let requestModifier: RequestModifier?
+
+    func asURLRequest() throws -> URLRequest {
+        var request = try URLRequest(url: url, method: method, headers: headers)
+        try requestModifier?(&request)
+
+        return try parameters.map { try encoder.encode($0, into: request) } ?? request
+    }
+}
+
 protocol TargetType: URLRequestConvertible {
+    
     var baseURL: String { get }
     var method: HTTPMethod { get }
     var path: String { get }
     var headers: HTTPHeaders { get }
-    var parameters: Parameters? { get }
-    var encoding: ParameterEncoding { get }
-//    var queryItems: [URLQueryItem]? { get }
+    var parameters: Encodable? { get }
+    var encoder: ParameterEncoder { get }
 }
 
-extension TargetType {
+extension TargetType{
     
     func asURLRequest() throws -> URLRequest {
-        let url = try baseURL.asURL().appendingPathComponent(path)
-        print(#function, url)
-        var urlRequest = URLRequest(url: url)
-        
-        urlRequest.method = method
-        urlRequest.headers = headers
-        
-        if let parameters = parameters {
-            return try encoding.encode(urlRequest, with: parameters)
-        }
-        return urlRequest
+        let url = try (baseURL + path).asURL()
+        var request = try URLRequest(url: url, method: method, headers: headers)
+
+        return try parameters.map { try encoder.encode($0, into: request) } ?? request
     }
 }
+
 
 
 

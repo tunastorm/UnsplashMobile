@@ -15,13 +15,25 @@ final class SearchPhotosViewController: BaseViewController<SearchPhotosView, Sea
     override func viewDidLoad() {
         super.viewDidLoad()
         configureFilterDataSource()
+        configureSearchPhotosDataSource()
         updateFilterSnapShot()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        rootView?.layoutIfNeeded()
+    }
+    
+    override func configNavigationbar(navigationColor: UIColor, shadowImage: Bool) {
+        super.configNavigationbar(navigationColor: navigationColor, shadowImage: shadowImage)
+        navigationItem.title = Resource.UIConstants.Text.searchPhotosTitle
+    }
+    
     override func configInteraction() {
+        print(#function, "configInteraction 실행")
         let searchController = UISearchController(searchResultsController: nil)
-        self.navigationItem.searchController = searchController
-        searchController.hidesNavigationBarDuringPresentation = false
+        navigationItem.searchController = searchController
+        navigationItem.searchController?.hidesNavigationBarDuringPresentation = false
         rootView?.searchBar = searchController.searchBar
         rootView?.searchBar?.setShowsCancelButton(false, animated: false)
         rootView?.searchBar?.delegate = self
@@ -31,7 +43,6 @@ final class SearchPhotosViewController: BaseViewController<SearchPhotosView, Sea
         viewModel?.outputSearchPhotos.bind { [weak self] photoList in
             self?.fetchShearchPhotos()
         }
-        viewModel?.inputRequestSearchPhotos.value = ("flower", .relevant)
     }
     
     private func fetchShearchPhotos() {
@@ -46,12 +57,19 @@ final class SearchPhotosViewController: BaseViewController<SearchPhotosView, Sea
             self.rootView?.makeToast(error.message, duration: 3.0, position: .bottom, title: error.title)
             return
         }
-        configureSearchPhotosDataSource()
+        print(#function)
+        dump(photoList)
         updateSearchPhotosSnapShot(photoList)
     }
     
     private func filterCellRegistration() -> UICollectionView.CellRegistration<ColorFilterCollectionViewCell, ColorFilter> {
         UICollectionView.CellRegistration<ColorFilterCollectionViewCell, ColorFilter> { cell, indexPath, itemIdentifier in
+            cell.configCell(data: itemIdentifier)
+        }
+    }
+    
+    private func SearchPhotosCellRegistration() -> UICollectionView.CellRegistration<SearchPhotosCollectionViewCell, Photo> {
+        UICollectionView.CellRegistration<SearchPhotosCollectionViewCell, Photo> { cell, indexPath, itemIdentifier in
             cell.configCell(data: itemIdentifier)
         }
     }
@@ -67,20 +85,6 @@ final class SearchPhotosViewController: BaseViewController<SearchPhotosView, Sea
         })
     }
     
-    private func updateFilterSnapShot() {
-        var snapShot = NSDiffableDataSourceSnapshot<FilterSection, ColorFilter>()
-        snapShot.appendSections(FilterSection.allCases)
-        snapShot.appendItems(ColorFilter.allCases, toSection: .main)
-        filterDataSource?.apply(snapShot)
-    }
-    
-    
-    private func SearchPhotosCellRegistration() -> UICollectionView.CellRegistration<SearchPhotosCollectionViewCell, Photo> {
-        UICollectionView.CellRegistration<SearchPhotosCollectionViewCell, Photo> { cell, indexPath, itemIdentifier in
-            cell.configCell(data: itemIdentifier)
-        }
-    }
-    
     private func configureSearchPhotosDataSource() {
         guard let collectionView = rootView?.collectionView else { return }
         let cellRegistration = SearchPhotosCellRegistration()
@@ -90,6 +94,13 @@ final class SearchPhotosViewController: BaseViewController<SearchPhotosView, Sea
           
             return cell
         })
+    }
+    
+    private func updateFilterSnapShot() {
+        var snapShot = NSDiffableDataSourceSnapshot<FilterSection, ColorFilter>()
+        snapShot.appendSections(FilterSection.allCases)
+        snapShot.appendItems(ColorFilter.allCases, toSection: .main)
+        filterDataSource?.apply(snapShot)
     }
     
     private func updateSearchPhotosSnapShot(_ photoList: [Photo]) {
@@ -104,6 +115,16 @@ final class SearchPhotosViewController: BaseViewController<SearchPhotosView, Sea
 
 extension SearchPhotosViewController: UISearchBarDelegate {
     
+    func searchBarShouldEndEditing(_ searchBar: UISearchBar) -> Bool {
+        guard let keyword = searchBar.text else {
+            return true
+        }
+        guard let sortIndex = rootView?.getSortOption() else  {
+            return true
+        }
+        viewModel?.inputRequestSearchPhotos.value = (keyword, APIRouter.Sorting.allCases[sortIndex])
+        return true
+    }
 }
 
 

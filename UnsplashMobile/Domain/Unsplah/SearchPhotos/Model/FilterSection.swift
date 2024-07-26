@@ -43,4 +43,23 @@ enum ColorFilter: CaseIterable {
         case .white: Resource.Asset.CIColor.white
         }
     }
+    
+    var HexaColor: String {
+        return switch self {
+        case .black:
+            "#000000"
+        case .white:
+            "#FFFFFF"
+        case .yellow:
+            "#FFEF62"
+        case .red:
+            "#F04452"
+        case .purple:
+            "#9636E1"
+        case .green:
+            "#02B946"
+        case .blue:
+            "#3C59FF"
+        }
+    }
 }

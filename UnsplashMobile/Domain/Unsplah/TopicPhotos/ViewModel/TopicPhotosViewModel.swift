@@ -38,7 +38,7 @@ final class TopicPhotosViewModel: BaseViewModel {
         TopicID.randomIDs.forEach { id in
             group.enter()
             DispatchQueue.global().async(group: group) {
-                let query = TopicPhotosQuery(id: id.query, sort: sort.rawValue, page: 1)
+                let query = TopicPhotosQuery(id: id.query, sort: sort.name, page: 1)
                 let router = APIRouter.topicPhotos(query)
                 APIManager.request(TopicPhotos.self, router: router) { [weak self] result in
                     self?.resultDict[id] = .success(result)

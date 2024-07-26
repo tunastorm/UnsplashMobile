@@ -15,9 +15,8 @@ enum APIRouter {
     case photoStatistics(PhotoStatisticsQuery)
 }
 
-
 extension APIRouter: TargetType {
-   
+ 
     // 열거형 asoociate value
     var baseURL: String {
         return APIKey.Unsplash.baseURL
@@ -36,73 +35,44 @@ extension APIRouter: TargetType {
 
     var path: String {
         return switch self {
-        case .topicPhotos(let query):
-            "/topics/\(query.id)/photos"
-        case .searchPhotos:
-            "/search/photos"
-        case .randomPhoto:
-            "/photos/random"
-        case .photoStatistics(let query):
-            "/photos/\(query.id)/statistics"
+        case .topicPhotos(let query): "/topics/\(query.id)/photos"
+        case .searchPhotos: "/search/photos"
+        case .randomPhoto: "/photos/random"
+        case .photoStatistics(let query): "/photos/\(query.id)/statistics"
         }
     }
     
-    var baseParameters: Parameters {
-        switch self {
-        case .topicPhotos, .searchPhotos:
-            [ 
-                "query" : "",
-                "page" : 1,
-                "per_page": 20,
-            ]
-        case .randomPhoto:
-            [  
-                "count": 10
-            ]
-        case .photoStatistics:
-            [
-                "id" : "",
-                "resolution" : "days",
-                "quantity": 30
-            ]
+    var parameters: Encodable? {
+        return switch self {
+        case .searchPhotos(let query): query
+        case .topicPhotos(let query): query
+        case .randomPhoto: nil
+        case .photoStatistics(let query): query
         }
     }
     
-    var parameters: Parameters? {
-        var parameters: Parameters = self.baseParameters
-        switch self {
-        case .searchPhotos(let query):
-            parameters["query"] = query.query
-            parameters["page"] = query.page
-            parameters["order_by"] = query.sort
-        case .topicPhotos(let query):
-            parameters["per_page"] = 10
-            parameters["page"] = query.page
-            parameters["order_by"] = query.sort
-        case .randomPhoto: break
-        case .photoStatistics(let query):
-            parameters["id"] = query.id
-        }
-        return parameters
-    }
-    
-    var encoding: ParameterEncoding {
+    var encoder: ParameterEncoder {
         switch self {
         case .topicPhotos, .searchPhotos, .randomPhoto, .photoStatistics:
-            return URLEncoding.default
+            return URLEncodedFormParameterEncoder.default
         }
     }
     
-    enum Sorting: String, CaseIterable {
-        case latest
+    enum Sorting: Int, CaseIterable {
+        case latest = 0
         case relevant
-
+        
+        var name: String {
+            return switch self {
+            case .latest: "latest"
+            case .relevant: "relevant"
+            }
+        }
+        
         var krName: String {
             return switch self {
-            case .latest:
-                "정확도"
-            case .relevant:
-                "날짜순"
+            case .latest: "정확도"
+            case .relevant: "날짜순"
             }
         }
     }

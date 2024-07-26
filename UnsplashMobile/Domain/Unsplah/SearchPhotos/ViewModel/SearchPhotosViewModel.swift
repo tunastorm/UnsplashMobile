@@ -33,9 +33,9 @@ final class SearchPhotosViewModel: BaseViewModel {
         guard let page = pageNation() else { return }
         let keyword = searchInfo.0
         let sort = searchInfo.1
-        let query = SearchPhotosQuery(query: keyword, sort: sort.rawValue, page: page)
+        let query = SearchPhotosQuery(query: keyword, sort: sort.name, page: page)
+        print(#function, "SearchPhotosQuery 생성완료: ", query)
         let router = APIRouter.searchPhotos(query)
-        
         APIManager.request(SearchPhotosResponse<Photo>.self, router: router) { [weak self]response in
             self?.searchCompletion(response)
         } failure: { [weak self] error in

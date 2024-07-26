@@ -46,6 +46,8 @@ enum Resource {
             static let mbtiLabel = "MBTI"
 
             static let TopicPhotosTitle = "OUR TOPIC"
+            
+            static let searchPhotosTitle = "SEARCH PHOTO"
             static let noListMessgae = "최근 검색어가 없어요"
             static let searchBarPlaceHolder = "브랜드, 상품 등을 입력하세요"
             static let currentSearched = "최근 검색"
@@ -96,6 +98,7 @@ enum Resource {
             static let tabLikeInActive = UIImage(named: "tab_like_inactive")
             static let like = UIImage(named: "like")?.withRenderingMode(.alwaysOriginal)
             static let likeInActive = UIImage(named: "like_inactive")?.withRenderingMode(.alwaysOriginal)
+            static let sort = UIImage(named: "sort")?.withRenderingMode(.alwaysOriginal)
             
             static func profileImage(number: Int) -> UIImage? {
                 guard number >= 0 && number <= 11 else {
