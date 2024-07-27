@@ -142,6 +142,7 @@ final class SearchPhotosView: BaseView {
         searchBar.delegate = vc
         filterCollectionView.delegate = vc
         collectionView.delegate = vc
+        collectionView.prefetchDataSource = vc
     }
     
     @objc private func sortFilterButtonClicked(_ sender: UIButton) {
@@ -153,6 +154,7 @@ final class SearchPhotosView: BaseView {
         default: break
         }
         sortFilterButton.setTitle(sortList[sender.tag].krName, for: .normal)
+        collectionView.scrollsToTop = true
     }
     
     func getSortOption() -> Int {

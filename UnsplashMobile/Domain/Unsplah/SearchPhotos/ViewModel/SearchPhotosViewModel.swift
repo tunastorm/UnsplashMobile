@@ -18,17 +18,18 @@ final class SearchPhotosViewModel: BaseViewModel {
     var inputSortFilter: Observable<String?> = Observable(nil)
     var inputLikeButtonClicked: Observable<(Int?,String?)> = Observable((nil,nil))
     var inputGetPhotoDetailData: Observable<Int?> = Observable(nil)
+    var inputScrollTrigger: Observable<Void?> = Observable(nil)
     
     var outputSearchPhotos: Observable<SearchPhotosResult?> = Observable(nil)
     var outputLikedList: Observable<[LikedPhoto]> = Observable([])
     var outputSelectedColorFilter: Observable<IndexPath?> = Observable(nil)
     var outputLikeButtonClickResult: Observable<(RepositoryResult)?> = Observable(nil)
     var outputPhotoDetailData: Observable<(Photo, PhotoStatisticsResponse?, Bool)?> = Observable(nil)
+    var outputScrollToTop: Observable<Void?> = Observable(nil)
    
-    private var responseInfo = SearchPhotosResponse<Photo>(total: 0, page: 1, totalPages: 1)
+    private var responseInfo = SearchPhotosResponse<Photo>(total: 0, page: 0, totalPages: 1)
     var showDetailPhotoIndex: Int?
-    
-    
+
     override func transform() {
         inputRequestSearchPhotos.bind { [weak self] _ in
             self?.callRequestSearchPhotos()
@@ -38,9 +39,11 @@ final class SearchPhotosViewModel: BaseViewModel {
         }
         inputSelectedColorFilter.bind { [weak self] indexPath in
             self?.outputSelectedColorFilter.value = indexPath
+            self?.clearSearchRecord()
             self?.callRequestSearchPhotos()
         }
         inputSortFilter.bind { [weak self] _ in
+            self?.clearSearchRecord()
             self?.callRequestSearchPhotos()
         }
         inputLikeButtonClicked.bind { [weak self] _ in
@@ -48,6 +51,9 @@ final class SearchPhotosViewModel: BaseViewModel {
         }
         inputGetPhotoDetailData.bind { [weak self] _ in
             self?.setDetailViewData()
+        }
+        inputScrollTrigger.bind { [weak self] _ in
+            self?.callRequestSearchPhotos()
         }
     }
     
@@ -85,23 +91,26 @@ final class SearchPhotosViewModel: BaseViewModel {
     private func searchCompletion(_ response: SearchPhotosResponse<Photo>){
         getLikeList()
         setNewResponse(response)
-        outputSearchPhotos.value = .success(response.results)
     }
 
     private func clearSearchRecord() {
         outputSearchPhotos.value = nil
         responseInfo.total = 0
-        responseInfo.page = 1
+        responseInfo.totalPages = 1
+        responseInfo.page = 0
+        outputScrollToTop.value = ()
     }
    
     private func pageNation() -> Int? {
-        guard let page = responseInfo.page, page > 1 else {
-            return responseInfo.page
+        guard let page = responseInfo.page else {
+            return nil
         }
         let newPage = page + 1
         guard newPage <= responseInfo.totalPages else {
             return nil
         }
+        responseInfo.page = newPage
+        print(#function, responseInfo.page)
         return newPage
     }
     

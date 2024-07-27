@@ -17,7 +17,6 @@ extension SearchPhotosViewController {
     
     private func SearchPhotosCellRegistration() -> UICollectionView.CellRegistration<SearchPhotosCollectionViewCell, Photo> {
         UICollectionView.CellRegistration<SearchPhotosCollectionViewCell, Photo> { [weak self] cell, indexPath, itemIdentifier in
-            print(#function, "outputLikedList: ", self?.viewModel?.outputLikedList.value)
             let isLiked = self?.viewModel?.outputLikedList.value.filter{ $0.id == itemIdentifier.id }.count ?? 0 > 0
             cell.delegate = self
             cell.configCell(data: itemIdentifier, index: indexPath.item)
@@ -65,8 +64,8 @@ extension SearchPhotosViewController {
     
 }
 
-extension SearchPhotosViewController: UICollectionViewDelegate {
-    
+extension SearchPhotosViewController: UICollectionViewDelegate, UICollectionViewDataSourcePrefetching {
+   
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
         if collectionView == rootView?.filterCollectionView {
@@ -89,4 +88,20 @@ extension SearchPhotosViewController: UICollectionViewDelegate {
             viewModel?.inputGetPhotoDetailData.value = indexPath.item
         }
     }
+    
+    func collectionView(_ collectionView: UICollectionView, prefetchItemsAt indexPaths: [IndexPath]) {
+        if collectionView == rootView?.collectionView {
+            indexPaths.forEach { [weak self] indexPath in
+                switch self?.viewModel?.outputSearchPhotos.value {
+                case .success(let photoList):
+                    if photoList.count - 1 == indexPath.row {
+                        self?.viewModel?.inputScrollTrigger.value = ()
+                    }
+                default: self?.rootView?.makeToast("마지막 페이지입니다.", duration: 3.0, position: .bottom)
+                }
+            }
+            return
+        }
+    }
+
 }

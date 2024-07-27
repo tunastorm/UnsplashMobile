@@ -55,8 +55,6 @@ final class ColorFilterCollectionViewCell: BaseCollectionViewCell {
     }
 
     func colorFilterToggle() {
-        print(#function, "셀 클릭됨")
-        print(#function, "isSelected: ", isSelected)
         backgroundColor =  isSelected ? Resource.Asset.CIColor.blue : Resource.Asset.CIColor.lightGray
         textLabel.textColor = isSelected ? Resource.Asset.CIColor.white : Resource.Asset.CIColor.black
     }

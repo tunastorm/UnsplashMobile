@@ -40,12 +40,14 @@ final class SearchPhotosViewController: BaseViewController<SearchPhotosView, Sea
     }
     
     override func configInteraction() {
-        print(#function, "configInteraction 실행")
         rootView?.configInteractionWithViewController(viewController: self)
     }
     
     override func bindData() {
-        viewModel?.outputSearchPhotos.bind { [weak self] _ in
+        viewModel?.outputSearchPhotos.bind { [weak self] result in
+            guard let result else {
+                return
+            }
             self?.fetchShearchPhotos()
         }
         viewModel?.outputLikeButtonClickResult.bind({ [weak self] _ in
@@ -54,6 +56,11 @@ final class SearchPhotosViewController: BaseViewController<SearchPhotosView, Sea
         viewModel?.outputPhotoDetailData.bind { [weak self] _ in
             let vc = SearchPhotoDetailViewController(view: SearchPhotoDetailView(), viewModel: self?.viewModel)
             self?.pushAfterView(view: vc, backButton: true, animated: true)
+        }
+        viewModel?.outputScrollToTop.bind { [weak self] _ in
+            if let rootView = self?.rootView  {
+                rootView.collectionView.scrollToItem(at: IndexPath(row: 0, section: 0), at: .top, animated: false)
+            }
         }
     }
     

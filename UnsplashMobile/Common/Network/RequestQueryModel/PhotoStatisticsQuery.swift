@@ -13,3 +13,5 @@ struct PhotoStatisticsQuery: Encodable {
     let resolution = "days"
     let quantity = 30
 }
+
+
