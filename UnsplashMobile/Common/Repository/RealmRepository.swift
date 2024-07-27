@@ -35,16 +35,11 @@ final class Repository {
         return realm.object(ofType: object, forPrimaryKey: primaryKey)
     }
     
-    func fetchAll<T: Object>(obejct: T.Type, sortKey column: ColumnManager, acending: Bool = true) -> [T] {
+    func fetchAll<T: Object>(obejct: T.Type, sortKey column: ColumnManager, acending: Bool = true, query: ((Query<T>) -> Query<Bool>)? = nil) -> [T] {
         let value = realm.objects(obejct).sorted(byKeyPath: column.name, ascending: acending)
         return Array(value)
     }
-    
-    func fetchAllFiltered<T: Object>(obejct: T.Type, sortKey column: ColumnManager, acending: Bool = true, query: @escaping (Query<T>) -> Query<Bool>) -> [T] {
-        let value = realm.objects(obejct).where(query).sorted(byKeyPath: column.name, ascending: acending)
-        return Array(value)
-    }
-    
+
     func searchCompoundedFilter<T:Object>(objet: T.Type, sortKey column: ColumnManager, acending: Bool = true, compoundPredicate: NSCompoundPredicate, filter: (Query<T>) -> Query<Bool>) -> [T] {
         let value = realm.objects(objet).where(filter).filter(compoundPredicate).sorted(byKeyPath: column.name, ascending: acending)
         print(#function, value)
@@ -56,6 +51,26 @@ final class Repository {
         do {
             try realm.write {
                 realm.create(object, value: value, update: .modified)
+            }
+            complitionHandler(.success(RepositoryStatus.updateSuccess))
+        } catch {
+            complitionHandler(.failure(RepositoryError.updatedFailed))
+        }
+    }
+    
+    func addLikedPhoto(list: List<LikedPhoto> , item: LikedPhoto, complitionHandler: RepositoryResult) {
+        do {
+            try realm.write {
+                list.append(item)
+            }
+            if let urls = item.urls {
+                Utils.photoManager.downloadImageToDocument(url: urls.raw, filename: item.realmId.stringValue + "_raw")
+                if let small = urls.small {
+                    Utils.photoManager.downloadImageToDocument(url: small, filename: item.realmId.stringValue + "_small")
+                }
+            }
+            if let artist = item.user, let profileImage = artist.profileImage {
+                Utils.photoManager.downloadImageToDocument(url: profileImage.medium, filename: artist.realmId.stringValue)
             }
             complitionHandler(.success(RepositoryStatus.updateSuccess))
         } catch {
@@ -75,13 +90,19 @@ final class Repository {
         }
     }
     
-    func deleteItem(_ data: Object, fileName: String? = nil, complitionHandler: RepositoryResult) {
-        if let fileName {
-            Utils.photoManager.removeImageFromDocument(filename: fileName)
+    func deleteLikedPhoto(_ item: LikedPhoto, complitionHandler: RepositoryResult) {
+        guard let urls = item.urls, let artist = item.user, let profileImage = item.user?.profileImage else {
+            return
         }
+        Utils.photoManager.removeImageFromDocument(filename: item.realmId.stringValue + "_raw")
+        Utils.photoManager.removeImageFromDocument(filename: item.realmId.stringValue + "_small")
+        Utils.photoManager.removeImageFromDocument(filename: artist.realmId.stringValue)
         do {
             try realm.write {
-                realm.delete(data)
+                realm.delete(profileImage)
+                realm.delete(artist)
+                realm.delete(urls)
+                realm.delete(item)
             }
             complitionHandler(.success(RepositoryStatus.deleteSuccess))
         } catch {

@@ -137,19 +137,20 @@ final class SearchPhotosViewModel: BaseViewModel {
         }
         switch searchResult {
         case .success(let photoList):
+            guard let likedList = self.user?.likedList else {
+                return
+            }
             var colorFilter = outputSelectedColorFilter.value
             let photo = photoList[index]
             let likedPhoto = photo.managedObject()
             print(#function, "likedPhoto: ", likedPhoto)
-            repository.queryProperty { [weak self] in
-                self?.user?.likedList.append(likedPhoto)
-            } completionHandler: { [weak self] result in
+            repository.addLikedPhoto(list: likedList, item: likedPhoto) { [weak self] result in
                 switch result {
                 case .success(let status):
                     self?.getLikeList()
-                    outputLikeButtonClickResult.value = status
+                    self?.outputLikeButtonClickResult.value = status
                 case .failure(let error):
-                    outputLikeButtonClickResult.value = error
+                    self?.outputLikeButtonClickResult.value = error
                 }
             }
         default: self.outputLikeButtonClickResult.value = RepositoryError.createFailed
@@ -158,5 +159,20 @@ final class SearchPhotosViewModel: BaseViewModel {
 
     private func deleteLikedItem(_ id: String) {
         print(#function, "id: ", id)
+        let likedPhoto = outputLikedList.value.filter { $0.id == id }.last
+    
+        guard let likedPhoto else {
+            return
+        }
+        repository.deleteLikedPhoto(likedPhoto) { [weak self] result in
+            switch result {
+            case .success(let status):
+                self?.getLikeList()
+                self?.outputLikeButtonClickResult.value = status
+            case .failure(let error): 
+                self?.outputLikeButtonClickResult.value = error
+            }
+        }
+        
     }
 }

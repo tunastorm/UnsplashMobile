@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Kingfisher
 
 final class PhotoManager: FileManager {
     
@@ -32,6 +33,20 @@ final class PhotoManager: FileManager {
             try data.write(to: fileURL)
         } catch {
             print("file save error", error)
+        }
+    }
+    
+    func downloadImageToDocument(url: String, filename: String) {
+        guard let url = URL(string: url) else {
+            return
+        }
+        KingfisherManager.shared.retrieveImage(with: url) { [weak self] result in
+            switch result {
+            case .success(let image):
+                self?.saveImageToDocument(image: image.image, filename: filename)
+            case .failure(let error):
+                dump(error)
+            }
         }
     }
     
