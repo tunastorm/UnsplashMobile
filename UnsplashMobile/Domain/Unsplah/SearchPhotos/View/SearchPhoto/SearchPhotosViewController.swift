@@ -48,10 +48,10 @@ final class SearchPhotosViewController: BaseViewController<SearchPhotosView, Sea
         viewModel?.outputSearchPhotos.bind { [weak self] _ in
             self?.fetchShearchPhotos()
         }
-        viewModel?.outputLikeButtonClickResult.bind { result in
-            print(result?.message)
-        }
-        viewModel?.outputPhotoStatistic.bind { [weak self] _ in
+        viewModel?.outputLikeButtonClickResult.bind({ [weak self] _ in
+            self?.updatelikedPhoto()
+        })
+        viewModel?.outputPhotoDetailData.bind { [weak self] _ in
             let vc = SearchPhotoDetailViewController(view: SearchPhotoDetailView(), viewModel: self?.viewModel)
             self?.pushAfterView(view: vc, backButton: true, animated: true)
         }
@@ -71,6 +71,15 @@ final class SearchPhotosViewController: BaseViewController<SearchPhotosView, Sea
         }
         print(#function, "검색결과 수: ", photoList.count)
         updateSearchPhotosSnapShot(photoList)
+    }
+    
+    private func updatelikedPhoto() {
+        guard let index = viewModel?.showDetailPhotoIndex, 
+              let dataSource = searchPhotosDataSource,
+              let item = dataSource.itemIdentifier(for: IndexPath(row: index, section: 0)) else { return }
+        var snapshot = dataSource.snapshot()
+        snapshot.reloadItems([item])
+        searchPhotosDataSource?.apply(snapshot, animatingDifferences: true)
     }
     
 }

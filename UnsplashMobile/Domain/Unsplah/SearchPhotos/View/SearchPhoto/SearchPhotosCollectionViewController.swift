@@ -86,7 +86,7 @@ extension SearchPhotosViewController: UICollectionViewDelegate {
         }
         
         if collectionView == rootView?.collectionView {
-            viewModel?.inputSelectedPhoto.value = indexPath.item
+            viewModel?.inputGetPhotoDetailData.value = indexPath.item
         }
     }
 }

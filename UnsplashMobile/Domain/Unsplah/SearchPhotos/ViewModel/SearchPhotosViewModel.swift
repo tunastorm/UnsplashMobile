@@ -17,17 +17,17 @@ final class SearchPhotosViewModel: BaseViewModel {
     var inputSelectedColorFilter: Observable<IndexPath?> = Observable(nil)
     var inputSortFilter: Observable<String?> = Observable(nil)
     var inputLikeButtonClicked: Observable<(Int?,String?)> = Observable((nil,nil))
-    var inputSelectedPhoto: Observable<Int?> = Observable(nil)
-    var inputRequestPhotoStatistics: Observable<String?> = Observable(nil)
+    var inputGetPhotoDetailData: Observable<Int?> = Observable(nil)
     
     var outputSearchPhotos: Observable<SearchPhotosResult?> = Observable(nil)
     var outputLikedList: Observable<[LikedPhoto]> = Observable([])
     var outputSelectedColorFilter: Observable<IndexPath?> = Observable(nil)
-    var outputLikeButtonClickResult: Observable<RepositoryResult?> = Observable(nil)
-    var outputSelectedPhoto: Observable<Photo?> = Observable(nil)
-    var outputPhotoStatistic: Observable<PhotoStatisticsResponse?> = Observable(nil)
+    var outputLikeButtonClickResult: Observable<(RepositoryResult)?> = Observable(nil)
+    var outputPhotoDetailData: Observable<(Photo, PhotoStatisticsResponse?, Bool)?> = Observable(nil)
    
     private var responseInfo = SearchPhotosResponse<Photo>(total: 0, page: 1, totalPages: 1)
+    var showDetailPhotoIndex: Int?
+    
     
     override func transform() {
         inputRequestSearchPhotos.bind { [weak self] _ in
@@ -46,11 +46,8 @@ final class SearchPhotosViewModel: BaseViewModel {
         inputLikeButtonClicked.bind { [weak self] _ in
             self?.likeButtonToggle()
         }
-        inputSelectedPhoto.bind { [weak self] _ in
-            self?.getSelectedPhoto()
-        }
-        inputRequestPhotoStatistics.bind { [weak self] _ in
-            self?.callRequestPhotoStatistic()
+        inputGetPhotoDetailData.bind { [weak self] _ in
+            self?.setDetailViewData()
         }
     }
     
@@ -135,12 +132,15 @@ final class SearchPhotosViewModel: BaseViewModel {
     }
     
     private func likeButtonToggle() {
-        let likedInfo = inputLikeButtonClicked.value
+        var likedInfo = inputLikeButtonClicked.value
+        if likedInfo == (nil, nil) { // DetailView에서 좋아요 누른 경우
+            likedInfo = (showDetailPhotoIndex, nil)
+        }
         if let index = likedInfo.0 {
             addLikedItem(index)
             return
         }
-        if let id = likedInfo.1 {
+        if let id = likedInfo.1  {
             deleteLikedItem(id)
            return
         }
@@ -187,30 +187,35 @@ final class SearchPhotosViewModel: BaseViewModel {
                 self?.outputLikeButtonClickResult.value = error
             }
         }
-        
     }
     
-    private func getSelectedPhoto() {
-        guard let index = inputSelectedPhoto.value else {
+    private func setDetailViewData() {
+        guard let index = inputGetPhotoDetailData.value, let photo = getSelectedPhoto(index) else {
             return
         }
-        switch outputSearchPhotos.value {
-        case .success(let photoList): 
-            outputSelectedPhoto.value = photoList[index]
-            inputRequestPhotoStatistics.value = photoList[index].id
-        default: break
+        let isLiked = outputLikedList.value.filter{ $0.id == photo.id }.count > 0
+        let statistics = callRequestPhotoStatistic(photo.id)
+        showDetailPhotoIndex = index
+        outputPhotoDetailData.value = (photo, statistics, isLiked)
+    }
+    
+    private func getSelectedPhoto(_ index: Int) -> Photo? {
+        return switch outputSearchPhotos.value {
+        case .success(let photoList): photoList[index]
+        default: nil
         }
     }
     
-    private func callRequestPhotoStatistic() {
-        guard let id = inputRequestPhotoStatistics.value else { return }
+    private func callRequestPhotoStatistic(_ id: String) -> PhotoStatisticsResponse? {
         let query = PhotoStatisticsQuery(id: id)
         let router = APIRouter.photoStatistics(query)
         
+        var response: PhotoStatisticsResponse?
         APIManager.request(PhotoStatisticsResponse.self, router: router) { [weak self] result in
-            self?.outputPhotoStatistic.value = result
+            response = result
         } failure: { error in
-            dump(error)
+            response = nil
         }
+        return response
     }
 }

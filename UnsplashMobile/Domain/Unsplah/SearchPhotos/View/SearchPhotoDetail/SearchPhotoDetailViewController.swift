@@ -9,9 +9,9 @@ import UIKit
 
 protocol SearchPhotoDetailViewDelegate {
    
-    func sendData() -> (Photo, PhotoStatisticsResponse)?
+    func sendData() -> (Photo, PhotoStatisticsResponse?, Bool)?
     
-    func likeButtonToggle()
+    func likeButtonToggle(id: String?)
 }
 
 
@@ -33,16 +33,16 @@ final class SearchPhotoDetailViewController: BaseViewController<SearchPhotoDetai
 
 extension SearchPhotoDetailViewController: SearchPhotoDetailViewDelegate {
     
-    func sendData() -> (Photo, PhotoStatisticsResponse)? {
-        print(#function, "outputSelectedPhoto: ", viewModel?.outputSelectedPhoto.value)
-        guard let photo = viewModel?.outputSelectedPhoto.value, let statistics = viewModel?.outputPhotoStatistic.value else {
-            return nil
-        }
-        return (photo, statistics)
+    func sendData() -> (Photo, PhotoStatisticsResponse?, Bool)? {
+        return viewModel?.outputPhotoDetailData.value
     }
     
-    func likeButtonToggle() {
-        
+    func likeButtonToggle(id: String?) {
+        if let id {
+            viewModel?.inputLikeButtonClicked.value = (nil, id)
+        } else {
+            viewModel?.inputLikeButtonClicked.value = (nil, nil)
+        }
     }
     
 }

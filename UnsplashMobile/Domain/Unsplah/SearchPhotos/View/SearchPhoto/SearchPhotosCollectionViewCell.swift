@@ -42,6 +42,7 @@ final class SearchPhotosCollectionViewCell: BaseCollectionViewCell {
         $0.setImage(Resource.Asset.NamedImage.likeInActive, for: .normal)
         $0.titleLabel?.font = .systemFont(ofSize: 0)
         $0.imageView?.contentMode = .scaleAspectFit
+        $0.tintColor = Resource.Asset.CIColor.white
     }
     
     override func configHierarchy() {

@@ -52,10 +52,11 @@ final class SearchPhotoDetailView: BaseView {
     }
     
     private let likeButton = UIButton().then {
+        $0.addTarget(self, action: #selector(likeButtonClicked), for: .touchUpInside)
         $0.setImage(Resource.Asset.NamedImage.likeInActive, for: .normal)
         $0.imageView?.contentMode = .scaleAspectFit
         $0.titleLabel?.font = .systemFont(ofSize: 0)
-        $0.tintColor = Resource.Asset.CIColor.lightGray
+        $0.tintColor = Resource.Asset.CIColor.gray
     }
     
     private let photoImageView = UIImageView().then {
@@ -282,6 +283,7 @@ final class SearchPhotoDetailView: BaseView {
         }
         let photo = data.0
         let statistics = data.1
+        let isLiked = data.2
         
         if let urls = photo.urls {
             let rawURL = URL(string: urls.raw)
@@ -295,10 +297,30 @@ final class SearchPhotoDetailView: BaseView {
         if let date = Utils.getDateFromFormattedString(dateString: photo.createdAt, formatter: "yyyy-MM-ddEEEEEHH-mm-ssZ") {
             createdDate.text = Utils.getFormattedDate(date: date, formatter: "yyyy년 M월 d일 게시됨")
         }
+        likeButton.setTitle(photo.id, for: .normal)
         print(#function,"\(photo.width) x \(photo.height)")
         sizeLabel.text = "\(photo.width) x \(photo.height)"
-        viewCountLabel.text = statistics.views.total.formatted()
-        downloadCountLabel.text = statistics.downloads.total.formatted()
+        
+        if isLiked {
+            likeButton.isSelected.toggle()
+            likeButton.setImage(Resource.Asset.NamedImage.like, for: .selected)
+        }
+        
+        if let statistics {
+            viewCountLabel.text = statistics.views.total.formatted()
+            downloadCountLabel.text = statistics.downloads.total.formatted()
+        }
+    }
+    
+    @objc private func likeButtonClicked(_ sender: UIButton) {
+        likeButton.isSelected.toggle()
+        let id = likeButton.isSelected ? nil : sender.title(for: .normal)
+        delegate?.likeButtonToggle(id: id)
+        if likeButton.isSelected {
+            likeButton.setImage(Resource.Asset.NamedImage.like, for: .selected)
+        } else {
+            likeButton.setImage(Resource.Asset.NamedImage.likeInActive, for: .normal)
+        }
     }
     
     @objc private func didChangeValue(segment: UISegmentedControl) {
