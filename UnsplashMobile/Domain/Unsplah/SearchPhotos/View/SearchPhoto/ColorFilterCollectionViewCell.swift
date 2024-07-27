@@ -27,7 +27,6 @@ final class ColorFilterCollectionViewCell: BaseCollectionViewCell {
     
     override func configLayout() {
         colorView.snp.makeConstraints { make in
-//            make.size.equalTo(32)
             make.width.equalTo(24)
             make.leading.equalToSuperview().inset(6)
             make.verticalEdges.equalToSuperview().inset(6)

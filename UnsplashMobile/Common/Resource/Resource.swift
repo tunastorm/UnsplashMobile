@@ -45,14 +45,19 @@ enum Resource {
             static let specialFilter = "@#$%"
             static let mbtiLabel = "MBTI"
 
-            static let TopicPhotosTitle = "OUR TOPIC"
+            static let topicPhotosTitle = "OUR TOPIC"
             
             static let searchPhotosTitle = "SEARCH PHOTO"
             static let noListMessgae = "최근 검색어가 없어요"
             static let searchBarPlaceHolder = "브랜드, 상품 등을 입력하세요"
-            static let currentSearched = "최근 검색"
-            static let allDelete = "전체 삭제"
-            static let searchTotal = "개의 검색결과"
+            
+            static let photoDetailInfoLabel = "정보"
+            static let photoDetailSizeInfoLabel = "크기"
+            static let photoDetailViewInfoLabel = "조회수"
+            static let photoDetailViewDownloadInfoLabel = "다운로드"
+            static let photoDetailChartLabel = "차트"
+            static let photoDetailViewChartLabel = "조회"
+            static let photoDetailDownloadChartLabel = "다운로드"
             
             static let settingViewTitle = "SETTING"
             static let saveNewProfile = "저장"
@@ -97,7 +102,7 @@ enum Resource {
             static let tabLike = UIImage(named: "tab_like")
             static let tabLikeInActive = UIImage(named: "tab_like_inactive")
             static let like = UIImage(named: "like")?.withRenderingMode(.alwaysOriginal)
-            static let likeInActive = UIImage(named: "like_inactive")!.withRenderingMode(.alwaysOriginal)
+            static let likeInActive = UIImage(named: "like_inactive")
             static let sort = UIImage(named: "sort")!.withRenderingMode(.alwaysOriginal)
             
             static func profileImage(number: Int) -> UIImage? {

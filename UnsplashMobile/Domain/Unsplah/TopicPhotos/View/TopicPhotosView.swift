@@ -10,7 +10,7 @@ import UIKit
 final class TopicPhotosView: BaseView {
     
     let titleLabel: UILabel = UILabel().then {
-        $0.text = Resource.UIConstants.Text.TopicPhotosTitle
+        $0.text = Resource.UIConstants.Text.topicPhotosTitle
         $0.font = Resource.Asset.Font.boldSystem30
         $0.textAlignment = .left
     }

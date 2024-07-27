@@ -17,11 +17,15 @@ final class SearchPhotosViewModel: BaseViewModel {
     var inputSelectedColorFilter: Observable<IndexPath?> = Observable(nil)
     var inputSortFilter: Observable<String?> = Observable(nil)
     var inputLikeButtonClicked: Observable<(Int?,String?)> = Observable((nil,nil))
+    var inputSelectedPhoto: Observable<Int?> = Observable(nil)
+    var inputRequestPhotoStatistics: Observable<String?> = Observable(nil)
     
     var outputSearchPhotos: Observable<SearchPhotosResult?> = Observable(nil)
     var outputLikedList: Observable<[LikedPhoto]> = Observable([])
     var outputSelectedColorFilter: Observable<IndexPath?> = Observable(nil)
     var outputLikeButtonClickResult: Observable<RepositoryResult?> = Observable(nil)
+    var outputSelectedPhoto: Observable<Photo?> = Observable(nil)
+    var outputPhotoStatistic: Observable<PhotoStatisticsResponse?> = Observable(nil)
    
     private var responseInfo = SearchPhotosResponse<Photo>(total: 0, page: 1, totalPages: 1)
     
@@ -42,6 +46,12 @@ final class SearchPhotosViewModel: BaseViewModel {
         inputLikeButtonClicked.bind { [weak self] _ in
             self?.likeButtonToggle()
         }
+        inputSelectedPhoto.bind { [weak self] _ in
+            self?.getSelectedPhoto()
+        }
+        inputRequestPhotoStatistics.bind { [weak self] _ in
+            self?.callRequestPhotoStatistic()
+        }
     }
     
     private func callRequestSearchPhotos() {
@@ -53,8 +63,7 @@ final class SearchPhotosViewModel: BaseViewModel {
         let router = APIRouter.searchPhotos(query)
         
         print(#function, "keyword: ", keyword, "sort: ", sort)
-        APIManager.request(SearchPhotosResponse<Photo>.self, router: router)
-        { [weak self] response in
+        APIManager.request(SearchPhotosResponse<Photo>.self, router: router) { [weak self] response in
             self?.searchCompletion(response)
         } failure: { [weak self] error in
             self?.outputSearchPhotos.value = .failure(error)
@@ -123,8 +132,6 @@ final class SearchPhotosViewModel: BaseViewModel {
         }
         self.user = user
         outputLikedList.value = Array(user.likedList)
-//        print(#function, "user.likedList: ", user.likedList)
-//        print(#function, "outputLikedList: ", outputLikedList.value)
     }
     
     private func likeButtonToggle() {
@@ -181,5 +188,29 @@ final class SearchPhotosViewModel: BaseViewModel {
             }
         }
         
+    }
+    
+    private func getSelectedPhoto() {
+        guard let index = inputSelectedPhoto.value else {
+            return
+        }
+        switch outputSearchPhotos.value {
+        case .success(let photoList): 
+            outputSelectedPhoto.value = photoList[index]
+            inputRequestPhotoStatistics.value = photoList[index].id
+        default: break
+        }
+    }
+    
+    private func callRequestPhotoStatistic() {
+        guard let id = inputRequestPhotoStatistics.value else { return }
+        let query = PhotoStatisticsQuery(id: id)
+        let router = APIRouter.photoStatistics(query)
+        
+        APIManager.request(PhotoStatisticsResponse.self, router: router) { [weak self] result in
+            self?.outputPhotoStatistic.value = result
+        } failure: { error in
+            dump(error)
+        }
     }
 }

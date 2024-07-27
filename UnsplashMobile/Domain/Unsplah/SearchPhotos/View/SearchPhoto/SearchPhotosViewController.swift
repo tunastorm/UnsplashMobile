@@ -45,12 +45,16 @@ final class SearchPhotosViewController: BaseViewController<SearchPhotosView, Sea
     }
     
     override func bindData() {
-        viewModel?.outputSearchPhotos.bind({ [weak self] _ in
+        viewModel?.outputSearchPhotos.bind { [weak self] _ in
             self?.fetchShearchPhotos()
-        })
-        viewModel?.outputLikeButtonClickResult.bind({ result in
+        }
+        viewModel?.outputLikeButtonClickResult.bind { result in
             print(result?.message)
-        })
+        }
+        viewModel?.outputPhotoStatistic.bind { [weak self] _ in
+            let vc = SearchPhotoDetailViewController(view: SearchPhotoDetailView(), viewModel: self?.viewModel)
+            self?.pushAfterView(view: vc, backButton: true, animated: true)
+        }
     }
     
     private func fetchShearchPhotos() {
@@ -68,6 +72,7 @@ final class SearchPhotosViewController: BaseViewController<SearchPhotosView, Sea
         print(#function, "검색결과 수: ", photoList.count)
         updateSearchPhotosSnapShot(photoList)
     }
+    
 }
 
 extension SearchPhotosViewController: SearchPhotosViewDelegate {

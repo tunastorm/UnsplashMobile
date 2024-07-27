@@ -11,9 +11,15 @@ import Foundation
 struct PhotoStatisticsResponse: Decodable {
     let id: String
     let downloads: DownloadStatistics
+    let views: ViewsStatistics
 }
 
 struct DownloadStatistics: Decodable {
+    let total: Int
+    let historical: HistoricalStatistics
+}
+
+struct ViewsStatistics: Decodable {
     let total: Int
     let historical: HistoricalStatistics
 }
@@ -26,3 +32,5 @@ struct StatisticsValue: Decodable, Hashable {
     let date: String
     let value: Int
 }
+
+

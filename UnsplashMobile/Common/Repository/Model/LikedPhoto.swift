@@ -67,3 +67,5 @@ final class RealmProfileImage: Object {
         self.medium = medium
     }
 }
+
+//final class RealmPhotoStatistics: Ob
