@@ -17,6 +17,7 @@ extension SearchPhotosViewController {
     
     private func SearchPhotosCellRegistration() -> UICollectionView.CellRegistration<SearchPhotosCollectionViewCell, Photo> {
         UICollectionView.CellRegistration<SearchPhotosCollectionViewCell, Photo> { [weak self] cell, indexPath, itemIdentifier in
+            print(#function, "outputLikedList: ", self?.viewModel?.outputLikedList.value)
             let isLiked = self?.viewModel?.outputLikedList.value.filter{ $0.id == itemIdentifier.id }.count ?? 0 > 0
             cell.delegate = self
             cell.configCell(data: itemIdentifier, index: indexPath.item)
@@ -79,7 +80,6 @@ extension SearchPhotosViewController: UICollectionViewDelegate {
             }
             let cell = collectionView.cellForItem(at: indexPath) as? ColorFilterCollectionViewCell
             cell?.colorFilterToggle()
-            
             viewModel?.inputSelectedColorFilter.value = indexPath
             return
         }
