@@ -50,7 +50,7 @@ final class TopicPhotosViewModel: BaseViewModel {
             }
         }
         group.notify(queue: .main) { [weak self] in
-            print(#function, "[ resultDict ]\n", self?.resultDict)
+//            print(#function, "[ resultDict ]\n", self?.resultDict)
             self?.outputRequestTopicPhotos.value = self?.resultDict
         }
     }

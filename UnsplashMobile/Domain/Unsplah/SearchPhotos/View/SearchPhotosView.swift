@@ -34,7 +34,7 @@ final class SearchPhotosView: BaseView {
     }
     
     private let colorFilterLayout = {
-        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1/5), heightDimension: .fractionalHeight(1.0))
+        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1/4), heightDimension: .fractionalHeight(1.0))
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
         item.contentInsets = .init(top: 2.0, leading: 4.0, bottom: 2.0, trailing: 4.0)
         let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .absolute(40))
@@ -104,13 +104,14 @@ final class SearchPhotosView: BaseView {
         filterCollectionView.snp.makeConstraints { make in
             make.height.equalTo(40)
             make.verticalEdges.equalToSuperview()
-            make.horizontalEdges.equalToSuperview()
+            make.leading.equalToSuperview()
         }
         sortFilterButton.snp.makeConstraints { make in
             make.height.equalTo(32)
             make.width.equalTo(72)
             make.verticalEdges.equalToSuperview().inset(4)
             make.trailing.equalToSuperview()
+            make.leading.equalTo(filterCollectionView.snp.trailing).offset(2)
         }
         collectionView.snp.makeConstraints { make in
             make.top.equalTo(filterView.snp.bottom).offset(6)

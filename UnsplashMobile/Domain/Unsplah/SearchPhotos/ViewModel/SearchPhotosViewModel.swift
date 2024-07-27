@@ -48,9 +48,11 @@ final class SearchPhotosViewModel: BaseViewModel {
         guard let keyword = inputRequestSearchPhotos.value else { return }
         guard let page = pageNation() else { return }
         let color = getColorFilter(inputSelectedColorFilter.value)
-        let sort = inputSortFilter.value
+        let sort = getSortFilter(inputSortFilter.value)
         let query = SearchPhotosQuery(query: keyword, sort: sort, color: color, page: page)
         let router = APIRouter.searchPhotos(query)
+        
+        print(#function, "keyword: ", keyword, "sort: ", sort)
         APIManager.request(SearchPhotosResponse<Photo>.self, router: router)
         { [weak self] response in
             self?.searchCompletion(response)
@@ -65,6 +67,13 @@ final class SearchPhotosViewModel: BaseViewModel {
             color = ColorFilter.allCases[indexPath.item].rawValue
         }
         return color
+    }
+    
+    private func getSortFilter(_ sort: String?) -> String? {
+        if let sort {
+            return sort
+        }
+        return nil
     }
     
     private func searchCompletion(_ response: SearchPhotosResponse<Photo>){
@@ -114,8 +123,8 @@ final class SearchPhotosViewModel: BaseViewModel {
         }
         self.user = user
         outputLikedList.value = Array(user.likedList)
-        print(#function, "user.likedList: ", user.likedList)
-        print(#function, "outputLikedList: ", outputLikedList.value)
+//        print(#function, "user.likedList: ", user.likedList)
+//        print(#function, "outputLikedList: ", outputLikedList.value)
     }
     
     private func likeButtonToggle() {
@@ -139,9 +148,10 @@ final class SearchPhotosViewModel: BaseViewModel {
             guard let likedList = self.user?.likedList else {
                 return
             }
-            var colorFilter = outputSelectedColorFilter.value
+            var colorFilter = outputSelectedColorFilter.value?.item
             let photo = photoList[index]
             let likedPhoto = photo.managedObject()
+            likedPhoto.colorFilter = colorFilter
             repository.addLikedPhoto(list: likedList, item: likedPhoto) { [weak self] result in
                 switch result {
                 case .success(let status):

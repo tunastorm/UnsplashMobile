@@ -43,7 +43,7 @@ class TopicPhotosViewController: BaseViewController<TopicPhotosView, TopicPhotos
             default: break
             }
         }
-        print(#function, sectionDict)
+//        print(#function, sectionDict)
         guard sectionDict.keys.count > 0 else { return }
         configureDataSource(Array(sectionDict.keys))
         updateSnapShot(sectionDict)
