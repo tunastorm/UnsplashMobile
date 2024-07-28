@@ -62,6 +62,15 @@ extension SearchPhotosViewController {
         searchPhotosDataSource?.apply(snapShot)
     }
     
+    func pushToPhotoDetailViewController(_ indexPath: IndexPath, _ item: Photo) {
+        let colorFilter = viewModel?.outputSelectedColorFilter.value
+        let vc = PhotoDetailViewController(view: PhotoDetailView(), viewModel: PhotoDetailViewModel())
+        vc.viewModel?.inputSetPhotoDetailData.value = (indexPath, item, colorFilter)
+        vc.viewModel?.beforeViewController = .searchPhotos
+        pushAfterView(view: vc, backButton: true, animated: true)
+       
+    }
+    
 }
 
 extension SearchPhotosViewController: UICollectionViewDelegate, UICollectionViewDataSourcePrefetching {
@@ -70,6 +79,7 @@ extension SearchPhotosViewController: UICollectionViewDelegate, UICollectionView
         
         if collectionView == rootView?.filterCollectionView {
             if let before = viewModel?.outputSelectedColorFilter.value {
+                print(#function, "이전 컬러필터 UI 변경")
                 let beforeCell = collectionView.cellForItem(at: before) as? ColorFilterCollectionViewCell
                 beforeCell?.isSelected = false
                 beforeCell?.colorFilterToggle()
@@ -78,6 +88,7 @@ extension SearchPhotosViewController: UICollectionViewDelegate, UICollectionView
                     return
                 }
             }
+            print(#function, "클릭된 컬러필터 UI 변경")
             let cell = collectionView.cellForItem(at: indexPath) as? ColorFilterCollectionViewCell
             cell?.colorFilterToggle()
             viewModel?.inputSelectedColorFilter.value = indexPath
@@ -85,7 +96,8 @@ extension SearchPhotosViewController: UICollectionViewDelegate, UICollectionView
         }
         
         if collectionView == rootView?.collectionView {
-            viewModel?.inputGetPhotoDetailData.value = indexPath.item
+            guard let item = searchPhotosDataSource?.itemIdentifier(for: indexPath) else { return }
+            pushToPhotoDetailViewController(indexPath, item)
         }
     }
     

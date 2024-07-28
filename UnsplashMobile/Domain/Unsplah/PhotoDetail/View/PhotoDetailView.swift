@@ -27,9 +27,9 @@ enum segmentedView: Int, CaseIterable {
 }
 
 
-final class SearchPhotoDetailView: BaseView {
+final class PhotoDetailView: BaseView {
     
-    var delegate: SearchPhotoDetailViewDelegate?
+    var delegate: PhotoDetailViewDelegate?
     
     private let artistView = UIView()
     
@@ -261,7 +261,7 @@ final class SearchPhotoDetailView: BaseView {
     }
     
     override func configInteractionWithViewController<T>(viewController: T) where T : UIViewController {
-        let vc = viewController as? SearchPhotoDetailViewController
+        let vc = viewController as? PhotoDetailViewController
         delegate = vc
     }
     

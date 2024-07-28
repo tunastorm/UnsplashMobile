@@ -17,18 +17,17 @@ final class SearchPhotosViewModel: BaseViewModel {
     var inputSelectedColorFilter: Observable<IndexPath?> = Observable(nil)
     var inputSortFilter: Observable<String?> = Observable(nil)
     var inputLikeButtonClicked: Observable<(Int?,String?)> = Observable((nil,nil))
-    var inputGetPhotoDetailData: Observable<Int?> = Observable(nil)
     var inputScrollTrigger: Observable<Void?> = Observable(nil)
     
     var outputSearchPhotos: Observable<SearchPhotosResult?> = Observable(nil)
     var outputLikedList: Observable<[LikedPhoto]> = Observable([])
     var outputSelectedColorFilter: Observable<IndexPath?> = Observable(nil)
     var outputLikeButtonClickResult: Observable<(RepositoryResult)?> = Observable(nil)
-    var outputPhotoDetailData: Observable<(Photo, PhotoStatisticsResponse?, Bool)?> = Observable(nil)
     var outputScrollToTop: Observable<Void?> = Observable(nil)
+    var outputUpdatedLikeButton: Observable<IndexPath?> = Observable(nil)
    
     private var responseInfo = SearchPhotosResponse<Photo>(total: 0, page: 0, totalPages: 1)
-    var showDetailPhotoIndex: Int?
+    var showDetailPhotoIndex: IndexPath?
 
     override func transform() {
         inputRequestSearchPhotos.bind { [weak self] _ in
@@ -49,12 +48,10 @@ final class SearchPhotosViewModel: BaseViewModel {
         inputLikeButtonClicked.bind { [weak self] _ in
             self?.likeButtonToggle()
         }
-        inputGetPhotoDetailData.bind { [weak self] _ in
-            self?.setDetailViewData()
-        }
         inputScrollTrigger.bind { [weak self] _ in
             self?.callRequestSearchPhotos()
         }
+        NotificationCenter.default.addObserver(self, selector: #selector(updateLikeButtonStateFromPhotoDetail), name: NSNotification.Name(LikeButtonNotificationName.searchPhotos.name), object: nil)
     }
     
     private func callRequestSearchPhotos() {
@@ -132,7 +129,7 @@ final class SearchPhotosViewModel: BaseViewModel {
         }
     }
     
-    private func getLikeList() {
+    @objc private func getLikeList() {
         guard let user = repository.fetchAll(obejct: User.self, sortKey: User.Column.signUpDate).last else {
             return
         }
@@ -143,7 +140,7 @@ final class SearchPhotosViewModel: BaseViewModel {
     private func likeButtonToggle() {
         var likedInfo = inputLikeButtonClicked.value
         if likedInfo == (nil, nil) { // DetailView에서 좋아요 누른 경우
-            likedInfo = (showDetailPhotoIndex, nil)
+            likedInfo = (showDetailPhotoIndex?.item, nil)
         }
         if let index = likedInfo.0 {
             addLikedItem(index)
@@ -173,6 +170,7 @@ final class SearchPhotosViewModel: BaseViewModel {
                 case .success(let status):
                     self?.getLikeList()
                     self?.outputLikeButtonClickResult.value = status
+//                    self?.outputUpdatedLikeButton.value = IndexPath(row: index, section: 0)
                 case .failure(let error):
                     self?.outputLikeButtonClickResult.value = error
                 }
@@ -192,39 +190,20 @@ final class SearchPhotosViewModel: BaseViewModel {
             case .success(let status):
                 self?.getLikeList()
                 self?.outputLikeButtonClickResult.value = status
-            case .failure(let error): 
+//                self?.outputUpdatedLikeButton.value = showDetailPhotoIndex
+            case .failure(let error):
                 self?.outputLikeButtonClickResult.value = error
             }
         }
     }
     
-    private func setDetailViewData() {
-        guard let index = inputGetPhotoDetailData.value, let photo = getSelectedPhoto(index) else {
+    @objc private func updateLikeButtonStateFromPhotoDetail(_ notification: Notification) {
+        guard let object = notification.object as? [String:IndexPath] else {
             return
         }
-        let isLiked = outputLikedList.value.filter{ $0.id == photo.id }.count > 0
-        let statistics = callRequestPhotoStatistic(photo.id)
-        showDetailPhotoIndex = index
-        outputPhotoDetailData.value = (photo, statistics, isLiked)
-    }
-    
-    private func getSelectedPhoto(_ index: Int) -> Photo? {
-        return switch outputSearchPhotos.value {
-        case .success(let photoList): photoList[index]
-        default: nil
-        }
-    }
-    
-    private func callRequestPhotoStatistic(_ id: String) -> PhotoStatisticsResponse? {
-        let query = PhotoStatisticsQuery(id: id)
-        let router = APIRouter.photoStatistics(query)
-        
-        var response: PhotoStatisticsResponse?
-        APIManager.request(PhotoStatisticsResponse.self, router: router) { [weak self] result in
-            response = result
-        } failure: { error in
-            response = nil
-        }
-        return response
+        print(#function, "object: ", object)
+        let indexPath = object["indexPath"]
+        getLikeList()
+        outputUpdatedLikeButton.value = indexPath
     }
 }

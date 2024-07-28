@@ -50,17 +50,13 @@ final class SearchPhotosViewController: BaseViewController<SearchPhotosView, Sea
             }
             self?.fetchShearchPhotos()
         }
-        viewModel?.outputLikeButtonClickResult.bind({ [weak self] _ in
-            self?.updatelikedPhoto()
-        })
-        viewModel?.outputPhotoDetailData.bind { [weak self] _ in
-            let vc = SearchPhotoDetailViewController(view: SearchPhotoDetailView(), viewModel: self?.viewModel)
-            self?.pushAfterView(view: vc, backButton: true, animated: true)
-        }
         viewModel?.outputScrollToTop.bind { [weak self] _ in
             if let rootView = self?.rootView  {
                 rootView.collectionView.scrollToItem(at: IndexPath(row: 0, section: 0), at: .top, animated: false)
             }
+        }
+        viewModel?.outputUpdatedLikeButton.bind { [weak self] _ in
+            self?.updateLikedPhoto()
         }
     }
     
@@ -80,10 +76,10 @@ final class SearchPhotosViewController: BaseViewController<SearchPhotosView, Sea
         updateSearchPhotosSnapShot(photoList)
     }
     
-    private func updatelikedPhoto() {
-        guard let index = viewModel?.showDetailPhotoIndex, 
+    private func updateLikedPhoto() {
+        guard let indexPath = viewModel?.outputUpdatedLikeButton.value,
               let dataSource = searchPhotosDataSource,
-              let item = dataSource.itemIdentifier(for: IndexPath(row: index, section: 0)) else { return }
+              let item = dataSource.itemIdentifier(for: indexPath) else { return }
         var snapshot = dataSource.snapshot()
         snapshot.reloadItems([item])
         searchPhotosDataSource?.apply(snapshot, animatingDifferences: true)

@@ -7,18 +7,19 @@
 
 import UIKit
 
-protocol SearchPhotoDetailViewDelegate {
+protocol PhotoDetailViewDelegate {
    
     func sendData() -> (Photo, PhotoStatisticsResponse?, Bool)?
     
     func likeButtonToggle(id: String?)
+    
 }
 
 
-final class SearchPhotoDetailViewController: BaseViewController<SearchPhotoDetailView, SearchPhotosViewModel> {
+final class PhotoDetailViewController: BaseViewController<PhotoDetailView, PhotoDetailViewModel> {
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
         rootView?.configData()
     }
     
@@ -27,22 +28,19 @@ final class SearchPhotoDetailViewController: BaseViewController<SearchPhotoDetai
     }
     
     override func bindData() {
-         
+    
     }
 }
 
-extension SearchPhotoDetailViewController: SearchPhotoDetailViewDelegate {
+extension PhotoDetailViewController: PhotoDetailViewDelegate {
     
     func sendData() -> (Photo, PhotoStatisticsResponse?, Bool)? {
         return viewModel?.outputPhotoDetailData.value
     }
     
     func likeButtonToggle(id: String?) {
-        if let id {
-            viewModel?.inputLikeButtonClicked.value = (nil, id)
-        } else {
-            viewModel?.inputLikeButtonClicked.value = (nil, nil)
-        }
+        print(#function, "좋아요버튼 토글 이벤트")
+        viewModel?.inputLikeButtonClicked.value = id
     }
     
 }
