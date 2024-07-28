@@ -21,16 +21,26 @@ class UnsplashTabBarController: UITabBarController {
         tabBar.unselectedItemTintColor = Resource.Asset.CIColor.gray
         tabBar.layer.addBorder([.top], color: Resource.Asset.CIColor.lightGray, width: Resource.UIConstants.Border.width1)
         
-        topicNavi.tabBarItem = UITabBarItem(title: "", image: Resource.Asset.NamedImage.tabTrendInActive, tag: 0)
-        randomNavi.tabBarItem = UITabBarItem(title: "",
-                                                  image: Resource.Asset.NamedImage.tabRandomInActive, tag: 1)
-        searchNavi.tabBarItem = UITabBarItem(title: "",
-                                                  image: Resource.Asset.NamedImage.tabSearchInActive, tag: 2)
-        likeNavi.tabBarItem = UITabBarItem(title: "",
-                                                 image: Resource.Asset.NamedImage.tabLikeInActive, tag: 3)
+        let topicTabBar = UITabBarItem(title: "", image: Resource.Asset.NamedImage.tabTrendInActive, tag: 0)
+        topicTabBar.selectedImage = Resource.Asset.NamedImage.tabTrend
+        
+        let randomTabBar = UITabBarItem(title: "", image: Resource.Asset.NamedImage.tabRandomInActive, tag: 1)
+        randomTabBar.selectedImage = Resource.Asset.NamedImage.tabRandom
+        
+        let searchTabBar = UITabBarItem(title: "", image: Resource.Asset.NamedImage.tabSearchInActive, tag: 2)
+        searchTabBar.selectedImage = Resource.Asset.NamedImage.tabSearch
+        
+        let likeTabBar = UITabBarItem(title: "", image: Resource.Asset.NamedImage.tabLikeInActive, tag: 3)
+        likeTabBar.selectedImage = Resource.Asset.NamedImage.like
+        
+        topicNavi.tabBarItem = topicTabBar
+        randomNavi.tabBarItem = randomTabBar
+        searchNavi.tabBarItem = searchTabBar
+        likeNavi.tabBarItem = likeTabBar
 
         setViewControllers([topicNavi, randomNavi, searchNavi, likeNavi], animated: true)
     }
+
 }
 
 
