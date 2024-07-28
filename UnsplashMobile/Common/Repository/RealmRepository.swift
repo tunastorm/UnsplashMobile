@@ -110,13 +110,13 @@ final class Repository {
         }
     }
     
-    func queryLikedPhotoList(_ user: User, sort: Repository.Sorting = .latest, color: Int?, complitionHandler: (Result<Results<LikedPhoto>?, RepositoryError>) -> Void) {
+    func queryLikedPhotoList(_ user: User, sort: Repository.Sorting = .latest, colors: [Int]?, complitionHandler: (Result<Results<LikedPhoto>?, RepositoryError>) -> Void) {
         
         do {
             try realm.write {
                 var result: Results<LikedPhoto>?
-                if let color {
-                    result = user.likedList.where { $0.colorFilter == color }.sorted(byKeyPath: LikedPhoto.Column.createdAt.name, ascending: sort.value)
+                if let colors {
+                    result = user.likedList.where{ $0.colorFilter.in(colors) }.sorted(byKeyPath: LikedPhoto.Column.createdAt.name, ascending: sort.value)
                 } else {
                     result = user.likedList.sorted(byKeyPath: LikedPhoto.Column.createdAt.name, ascending: sort.value)
                 }

@@ -11,7 +11,7 @@ import Then
 
 final class LikedPhotosCollectionViewCell: BaseCollectionViewCell {
     
-    var delegate: LikedPhotosCollectionViewCellDelegate?
+    private var delegate: LikedPhotosCollectionViewCellDelegate?
     
     private let photoView = UIImageView().then {
         $0.contentMode = .scaleToFill
@@ -76,6 +76,11 @@ final class LikedPhotosCollectionViewCell: BaseCollectionViewCell {
         starButton.imageView?.frame.size = .init(width: 10, height: 10)
         starButton.layer.cornerRadius = starButton.frame.height / 2
         likeButtonView.layer.cornerRadius = likeButtonView.frame.height / 2
+    }
+    
+    override func configInteractionWithViewController<T: UIViewController>(viewController: T) {
+        let vc = viewController as? LikedPhotosViewController
+        delegate = vc
     }
     
     func configCell(data: LikedPhoto, index: Int) {

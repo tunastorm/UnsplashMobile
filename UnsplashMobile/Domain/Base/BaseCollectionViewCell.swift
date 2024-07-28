@@ -30,5 +30,9 @@ class BaseCollectionViewCell: UICollectionViewCell {
     func configView() {
         
     }
+    
+    func configInteractionWithViewController<T: UIViewController>(viewController: T) {
+        
+    }
 }
 

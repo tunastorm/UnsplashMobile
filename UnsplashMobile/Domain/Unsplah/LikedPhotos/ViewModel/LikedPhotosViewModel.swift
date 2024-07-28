@@ -14,12 +14,12 @@ final class LikedPhotosViewModel: BaseViewModel {
     
     var inputGetLikedList: Observable<Void?> = Observable(nil)
     var inputQueryLikedPhotos: Observable<Void?> = Observable(nil)
-    var inputSelectedColorFilter: Observable<IndexPath?> = Observable(nil)
+    var inputSelectedColorFilter: Observable<[IndexPath]> = Observable([])
     var inputSortFilter: Observable<Int?> = Observable(nil)
     var inputLikeButtonClicked: Observable<(Int?,String?)> = Observable((nil,nil))
     
     var outputLikedPhotos: Observable<LikedPhotosResult?> = Observable(nil)
-    var outputSelectedColorFilter: Observable<IndexPath?> = Observable(nil)
+    var outputSelectedColorFilter: Observable<[IndexPath]> = Observable([])
     var outputLikeButtonClickResult: Observable<RepositoryResult?> = Observable(nil)
 
     override func transform() {
@@ -29,8 +29,8 @@ final class LikedPhotosViewModel: BaseViewModel {
         inputQueryLikedPhotos.bind { [weak self] _ in
             self?.queryLikedPhotos()
         }
-        inputSelectedColorFilter.bind { [weak self] indexPath in
-            self?.outputSelectedColorFilter.value = indexPath
+        inputSelectedColorFilter.bind { [weak self] indexPaths in
+            self?.outputSelectedColorFilter.value = indexPaths
             self?.queryLikedPhotos()
         }
         inputSortFilter.bind { [weak self] _ in
@@ -52,10 +52,10 @@ final class LikedPhotosViewModel: BaseViewModel {
     
     private func queryLikedPhotos() {
         guard let user else { return }
-        let color = inputSelectedColorFilter.value?.getColorFilter()?.rawValue
+        let colors = getColorfilterList()
         let sort = inputSortFilter.value?.getSortFilter() ?? .latest
         
-        repository.queryLikedPhotoList(user, sort: sort, color: color) { [weak self] result in
+        repository.queryLikedPhotoList(user, sort: sort, colors: colors) { [weak self] result in
             switch result {
             case .success(let likedPhotoList):
                 guard let likedPhotoList else { return }
@@ -64,6 +64,16 @@ final class LikedPhotosViewModel: BaseViewModel {
                 self?.outputLikedPhotos.value = .failure(error)
             }
         }
+    }
+    
+    private func getColorfilterList() -> [Int]? {
+        var filterList: [Int] = []
+        inputSelectedColorFilter.value.forEach {
+            if let filter = $0.getColorFilter()?.rawValue {
+                filterList.append(filter)
+            }
+        }
+        return filterList.count > 0 ? filterList : nil
     }
     
     private func likeButtonToggle() {

@@ -17,8 +17,8 @@ extension LikedPhotosViewController {
     
     private func LikedPhotosCellRegistration() -> UICollectionView.CellRegistration<LikedPhotosCollectionViewCell, LikedPhoto> {
         UICollectionView.CellRegistration<LikedPhotosCollectionViewCell, LikedPhoto> { [weak self] cell, indexPath, itemIdentifier in
-            cell.delegate = self
-            print(#function, "data: ", itemIdentifier)
+            guard let self else { return }
+            cell.configInteractionWithViewController(viewController: self)
             cell.configCell(data: itemIdentifier, index: indexPath.item)
         }
     }
@@ -71,23 +71,24 @@ extension LikedPhotosViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
         if collectionView == rootView?.filterCollectionView {
-            if let before = viewModel?.outputSelectedColorFilter.value {
-                let beforeCell = collectionView.cellForItem(at: before) as? ColorFilterCollectionViewCell
-                beforeCell?.isSelected = false
-                beforeCell?.colorFilterToggle()
-                guard before != indexPath else {
-                    viewModel?.inputSelectedColorFilter.value = nil
-                    return
-                }
+            guard let viewModel else { return }
+            print(#function, "하이")
+            var cell = collectionView.cellForItem(at: indexPath) as? ColorFilterCollectionViewCell
+            
+            var filterList = viewModel.outputSelectedColorFilter.value
+            if filterList.contains(indexPath) {
+                filterList.removeAll { $0 == indexPath }
+                cell?.isSelected = false
+            } else {
+                filterList.append(indexPath)
             }
-            let cell = collectionView.cellForItem(at: indexPath) as? ColorFilterCollectionViewCell
+            viewModel.inputSelectedColorFilter.value = filterList
             cell?.colorFilterToggle()
-            viewModel?.inputSelectedColorFilter.value = indexPath
-            return
+            
         }
         
         if collectionView == rootView?.collectionView {
-            let selectedCell = collectionView.cellForItem(at: )
+            let item = collectionView.cellForItem(at: indexPath)
             
         }
     }
