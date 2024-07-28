@@ -48,13 +48,24 @@ extension TopicPhotosViewController {
         dataSource?.apply(snapShot)
     }
     
+    func pushToPhotoDetailViewController(_ indexPath: IndexPath, _ item: Photo) {
+        let vc = PhotoDetailViewController(view: PhotoDetailView(), viewModel: PhotoDetailViewModel())
+        vc.viewModel?.inputSetPhotoDetailData.value = (indexPath, item, nil)
+        vc.viewModel?.beforeViewController = .topicPhotos
+        pushAfterView(view: vc, backButton: true, animated: true)
+    }
+    
 }
 
 extension TopicPhotosViewController: UICollectionViewDelegate {
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
     
-        let item = dataSource?.itemIdentifier(for: indexPath)        
+        guard let item = dataSource?.itemIdentifier(for: indexPath) else {
+            return
+        }
+        pushToPhotoDetailViewController(indexPath, item)
+        
     }
     
 }

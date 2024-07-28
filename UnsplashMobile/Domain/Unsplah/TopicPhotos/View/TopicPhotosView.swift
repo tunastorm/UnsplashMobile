@@ -59,4 +59,9 @@ final class TopicPhotosView: BaseView {
         super.configView()
         collectionView.backgroundColor = .white
     }
+    
+    override func configInteractionWithViewController<T: UIViewController>(viewController: T) {
+        let vc = viewController as? TopicPhotosViewController
+        collectionView.delegate = vc
+    }
 }

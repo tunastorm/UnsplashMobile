@@ -68,7 +68,6 @@ extension SearchPhotosViewController {
         vc.viewModel?.inputSetPhotoDetailData.value = (indexPath, item, colorFilter)
         vc.viewModel?.beforeViewController = .searchPhotos
         pushAfterView(view: vc, backButton: true, animated: true)
-       
     }
     
 }

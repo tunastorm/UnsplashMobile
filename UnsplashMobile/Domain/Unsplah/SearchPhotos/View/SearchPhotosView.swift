@@ -11,13 +11,13 @@ import Then
 
 final class SearchPhotosView: BaseView {
     
-    var delegate: SearchPhotosViewDelegate?
+    private var delegate: SearchPhotosViewDelegate?
     
     var searchBar = UISearchBar().then {
         $0.backgroundImage = UIImage()
     }
     
-    var lineView = UIView().then {
+    private var lineView = UIView().then {
         $0.backgroundColor = Resource.Asset.CIColor.lightGray
     }
     

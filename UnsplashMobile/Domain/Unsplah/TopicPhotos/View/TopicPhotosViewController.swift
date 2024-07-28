@@ -7,6 +7,9 @@
 
 import UIKit
 
+
+
+
 class TopicPhotosViewController: BaseViewController<TopicPhotosView, TopicPhotosViewModel> {
     
     typealias CellType = Photo
@@ -14,6 +17,11 @@ class TopicPhotosViewController: BaseViewController<TopicPhotosView, TopicPhotos
     typealias SectionDict = [SectionType: [CellType]]
     
     var dataSource: UICollectionViewDiffableDataSource<SectionType, CellType>?
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        rootView?.configInteractionWithViewController(viewController: self)
+    }
     
     override func configNavigationbar(navigationColor: UIColor, shadowImage: Bool) {
         super.configNavigationbar(navigationColor: navigationColor, shadowImage: shadowImage)

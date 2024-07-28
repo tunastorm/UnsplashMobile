@@ -14,12 +14,9 @@ final class TopicPhotosViewModel: BaseViewModel {
     typealias TopicPhotosResult = Result<TopicPhotos, APIError>
     
     var inputRequestTopicPhotos: Observable<Void?> = Observable(nil)
-    var inputSetPhotoDetailData: Observable<(IndexPath,Photo)?> = Observable(nil)
-    
     
     var outputRequestTopicPhotos: Observable<[TopicID : TopicPhotosResult]?> = Observable(nil)
     var outputProfileImageName: Observable<String?> = Observable(nil)
-    var outputPhotoDetailData: Observable<(Photo, PhotoStatisticsResponse?, Bool)?> = Observable(nil)
     
     private var resultDict: [TopicID : TopicPhotosResult] = [:]
     
@@ -27,12 +24,8 @@ final class TopicPhotosViewModel: BaseViewModel {
         inputRequestTopicPhotos.bind { [weak self] _ in
             self?.callRequestTopicPhotos(sort: .latest)
             self?.getProfileImage()
-            self?.getLikeList()
         }
-        inputSetPhotoDetailData.bind { [weak self] _ in
-            self?.setDetailViewData()
-        }
-        NotificationCenter.default.addObserver(self, selector: #selector(getLikeList), name: NSNotification.Name(LikeButtonNotificationName.topicPhotos.name), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(updateLikeButtonStateFromPhotoDetail), name: NSNotification.Name(LikeButtonNotificationName.topicPhotos.name), object: nil)
     }
     
     private func getProfileImage() {
@@ -62,35 +55,12 @@ final class TopicPhotosViewModel: BaseViewModel {
         }
     }
     
-    private func setDetailViewData() {
-        guard let index = inputSetPhotoDetailData.value?.0, let photo = inputSetPhotoDetailData.value?.1 else {
-            return
-        }
-        guard let likedList = user?.likedList else { return }
-        
-        let isLiked = likedList.filter{ $0.id == photo.id }.count > 0
-        let statistics = callRequestPhotoStatistic(photo.id)
-        outputPhotoDetailData.value = (photo, statistics, isLiked)
-    }
-    
-    @objc private func getLikeList() {
-        guard let user = repository.fetchAll(obejct: User.self, sortKey: User.Column.signUpDate).last else {
-            return
-        }
-        self.user = user
-    }
-    
-    private func callRequestPhotoStatistic(_ id: String) -> PhotoStatisticsResponse? {
-        let query = PhotoStatisticsQuery(id: id)
-        let router = APIRouter.photoStatistics(query)
-        
-        var response: PhotoStatisticsResponse?
-        APIManager.request(PhotoStatisticsResponse.self, router: router) { [weak self] result in
-            response = result
-        } failure: { error in
-            response = nil
-        }
-        return response
+    @objc private func updateLikeButtonStateFromPhotoDetail(_ notification: Notification) {
+//        guard let object = notification.object as? [String:IndexPath] else {
+//            return
+//        }
+//        print(#function, "object: ", object)
+//        let indexPath = object["indexPath"]
     }
     
 }
