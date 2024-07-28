@@ -7,22 +7,6 @@
 
 import Foundation
 
-enum LikeButtonNotificationName {
-    case searchPhotos
-    case topicPhotos
-    case randomPhotos
-    case likedPhotos
-    
-    var name: String {
-        return switch self {
-        case .searchPhotos: "SearchPhotosLikeToggle"
-        case .topicPhotos: "TopicPhotosLikeToggle"
-        case .randomPhotos: "RandomPhotosLikeToggle"
-        case .likedPhotos: "LikedPhotosLikeToggle"
-        }
-    }
-}
-
 final class PhotoDetailViewModel: BaseViewModel {
     
     var inputSetPhotoDetailData: Observable<(IndexPath, Photo, IndexPath?)?> = Observable(nil)
@@ -31,7 +15,7 @@ final class PhotoDetailViewModel: BaseViewModel {
     var outputPhotoDetailData: Observable<(Photo, PhotoStatisticsResponse?, Bool)?> = Observable(nil)
     var outputLikeButtonClickResult: Observable<(RepositoryResult)?> = Observable(nil)
     
-    var beforeViewController: LikeButtonNotificationName?
+    var beforeViewController: NotificationName.DetailView?
     private var indexPath: IndexPath?
     private var colorFilter: IndexPath?
     
@@ -120,6 +104,10 @@ final class PhotoDetailViewModel: BaseViewModel {
             return
         }
         print(#function, "좋아요한 사진 삭제")
+        if let beforeViewController, beforeViewController == .likedPhotos {
+            let object = ["item" : likedPhoto]
+            NotificationCenter.default.post(name: NSNotification.Name(beforeViewController.name), object: object, userInfo: nil)
+        }
         repository.deleteLikedPhoto(likedPhoto) { [weak self] result in
             switch result {
             case .success(let status):
@@ -135,8 +123,11 @@ final class PhotoDetailViewModel: BaseViewModel {
     func notificationLikeButtonClicked() {
         guard let beforeViewController else { return }
         var notificationName = beforeViewController.name
-        var object = ["indexPath": indexPath]
-        NotificationCenter.default.post(name: NSNotification.Name(notificationName), object: object, userInfo: nil)
+        switch beforeViewController {
+        case .searchPhotos:
+            var object = ["indexPath": indexPath]
+            NotificationCenter.default.post(name: NSNotification.Name(notificationName), object: object, userInfo: nil)
+        default: break
+        }
     }
-    
 }

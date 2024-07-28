@@ -35,10 +35,8 @@ extension LikedPhotosViewController {
     }
     
    func configureLikedPhotosDataSource() {
-        print(#function, "collectionView: ", rootView?.collectionView)
         guard let collectionView = rootView?.collectionView else { return }
         let cellRegistration = LikedPhotosCellRegistration()
-        print(#function, "cellRegistration: ", cellRegistration)
         likedPhotosDataSource = UICollectionViewDiffableDataSource(collectionView: collectionView, cellProvider: { collectionView, indexPath, itemIdentifier in
             
             let cell = collectionView.dequeueConfiguredReusableCell(using: cellRegistration, for: indexPath, item: itemIdentifier)
@@ -57,7 +55,6 @@ extension LikedPhotosViewController {
     func updateLikedPhotosSnapShot(_ photoList: [LikedPhoto]) {
         var snapShot = NSDiffableDataSourceSnapshot<SearchPhotosSection, LikedPhoto>()
         snapShot.appendSections(SearchPhotosSection.allCases)
-        print(#function, "photoList: ", photoList)
         snapShot.sectionIdentifiers.forEach { topic in
             snapShot.appendItems(photoList, toSection: .main)
         }
@@ -72,7 +69,6 @@ extension LikedPhotosViewController: UICollectionViewDelegate {
         
         if collectionView == rootView?.filterCollectionView {
             guard let viewModel else { return }
-            print(#function, "하이")
             var cell = collectionView.cellForItem(at: indexPath) as? ColorFilterCollectionViewCell
             
             var filterList = viewModel.outputSelectedColorFilter.value
@@ -84,12 +80,11 @@ extension LikedPhotosViewController: UICollectionViewDelegate {
             }
             viewModel.inputSelectedColorFilter.value = filterList
             cell?.colorFilterToggle()
-            
         }
         
         if collectionView == rootView?.collectionView {
-            let item = collectionView.cellForItem(at: indexPath)
-            
+            guard let item = likedPhotosDataSource?.itemIdentifier(for: indexPath) else { return }
+            pushToPhotoDetailViewController(indexPath, item)
         }
     }
 }

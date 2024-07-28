@@ -16,12 +16,13 @@ final class LikedPhotosViewModel: BaseViewModel {
     var inputQueryLikedPhotos: Observable<Void?> = Observable(nil)
     var inputSelectedColorFilter: Observable<[IndexPath]> = Observable([])
     var inputSortFilter: Observable<Int?> = Observable(nil)
-    var inputLikeButtonClicked: Observable<(Int?,String?)> = Observable((nil,nil))
+    var inputLikeButtonClicked: Observable<(Bool, LikedPhoto)?> = Observable(nil)
     
     var outputLikedPhotos: Observable<LikedPhotosResult?> = Observable(nil)
     var outputSelectedColorFilter: Observable<[IndexPath]> = Observable([])
     var outputLikeButtonClickResult: Observable<RepositoryResult?> = Observable(nil)
-
+    var outputDeleteLikedPhotoFromSnapshot: Observable<[LikedPhoto]?> = Observable(nil)
+    
     override func transform() {
         inputGetLikedList.bind { [weak self] _ in
             self?.getLikeList()
@@ -39,6 +40,12 @@ final class LikedPhotosViewModel: BaseViewModel {
         inputLikeButtonClicked.bind { [weak self] _ in
             self?.likeButtonToggle()
         }
+        configObservers()
+    }
+    
+    private func configObservers() {
+        NotificationCenter.default.addObserver(self, selector: #selector(deleteLikedPhotoFromNotification), name: NSNotification.Name(NotificationName.DetailView.likedPhotos.name), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(deleteLikedPhotoFromNotification), name: NSNotification.Name(NotificationName.SearchPhotosView.likedPhotos.name), object: nil)
     }
     
     private func getLikeList() {
@@ -54,7 +61,6 @@ final class LikedPhotosViewModel: BaseViewModel {
         guard let user else { return }
         let colors = getColorfilterList()
         let sort = inputSortFilter.value?.getSortFilter() ?? .latest
-        
         repository.queryLikedPhotoList(user, sort: sort, colors: colors) { [weak self] result in
             switch result {
             case .success(let likedPhotoList):
@@ -77,57 +83,60 @@ final class LikedPhotosViewModel: BaseViewModel {
     }
     
     private func likeButtonToggle() {
-        let likedInfo = inputLikeButtonClicked.value
-        if let index = likedInfo.0 {
-            addLikedItem(index)
+        guard let likedInfo = inputLikeButtonClicked.value else {
             return
         }
-        if let id = likedInfo.1 {
-            deleteLikedItem(id)
-           return
+        let isAdd = likedInfo.0
+        let likedPhoto = likedInfo.1
+        if likedInfo.0 {
+            addLikedItem(likedPhoto)
+        } else {
+            deleteLikedItem(likedPhoto)
         }
     }
     
-    private func addLikedItem(_ index: Int) {
-//        guard let searchResult = outputLikedPhotos.value else {
-//            return
-//        }
-//        switch searchResult {
-//        case .success(let photoList):
-//            guard let likedList = self.user?.likedList else {
-//                return
-//            }
-//            var colorFilter = outputSelectedColorFilter.value?.item
-//            let photo = photoList[index]
-//            let likedPhoto = photo.managedObject()
-//            likedPhoto.colorFilter = colorFilter
-//            repository.addLikedPhoto(list: likedList, item: likedPhoto) { [weak self] result in
-//                switch result {
-//                case .success(let status):
-//                    self
-//                    self?.outputLikeButtonClickResult.value = status
-//                case .failure(let error):
-//                    self?.outputLikeButtonClickResult.value = error
-//                }
-//            }
-//        default: self.outputLikeButtonClickResult.value = RepositoryError.createFailed
-//        }
+    private func addLikedItem(_ likedPhoto: LikedPhoto) {
+        guard let searchResult = outputLikedPhotos.value else {
+            return
+        }
+        switch searchResult {
+        case .success(let photoList):
+            guard let likedList = self.user?.likedList else {
+                return
+            }
+            repository.addLikedPhoto(list: likedList, item: likedPhoto) { [weak self] result in
+                switch result {
+                case .success(let status):
+                    self?.getLikeList()
+                    self?.outputLikeButtonClickResult.value = status
+                    NotificationCenter.default.post(name: NSNotification.Name(NotificationName.LikedPhotosView.searchPhotos.name), object: nil)
+                case .failure(let error):
+                    self?.outputLikeButtonClickResult.value = error
+                }
+            }
+        default: self.outputLikeButtonClickResult.value = RepositoryError.createFailed
+        }
     }
 
-    private func deleteLikedItem(_ id: String) {
-//        guard let likedPhoto else {
-//            return
-//        }
-//        repository.deleteLikedPhoto(likedPhoto) { [weak self] result in
-//            switch result {
-//            case .success(let status):
-//         
-//                self?.outputLikeButtonClickResult.value = status
-//            case .failure(let error):
-//                self?.outputLikeButtonClickResult.value = error
-//            }
-//        }
-        
+    private func deleteLikedItem(_ likedPhoto: LikedPhoto) {
+        outputDeleteLikedPhotoFromSnapshot.value = [likedPhoto]
+        repository.deleteLikedPhoto(likedPhoto) { [weak self] result in
+            switch result {
+            case .success(let status):
+                self?.getLikeList()
+                self?.outputLikeButtonClickResult.value = status
+            case .failure(let error):
+                self?.outputLikeButtonClickResult.value = error
+            }
+        }
+    }
+    
+    @objc private func deleteLikedPhotoFromNotification(_ notification: Notification) {
+        guard let object = notification.object as? [String : LikedPhoto], let likedPhoto = object["item"] else {
+            return
+        }
+        let likedPhotos = [likedPhoto]
+        outputDeleteLikedPhotoFromSnapshot.value = likedPhotos
     }
     
 }

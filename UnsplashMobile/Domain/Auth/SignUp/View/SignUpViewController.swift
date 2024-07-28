@@ -15,6 +15,7 @@ protocol SelectPhotoDelegate {
 }
 
 protocol SignUpViewDelegate {
+    func getIsUpdatePresentation() -> Bool?
     func checkNickName(nickname: String)
     func setMBTI(_ fieldIndex: Int, _ alphabetIndex: Int) 
     func addUser(_ nickname: String, _ imageName: String)
@@ -100,12 +101,14 @@ final class SignUpViewController: BaseViewController<SignUpView, SignUpViewModel
         
         pushAfterView(view: vc, backButton: true, animated: true)
     }
-}
-
-extension SignUpViewController: SelectPhotoDelegate  {
+    
     func getIsUpdatePresentation() -> Bool? {
         return viewModel?.outputUpdatePresentation.value
     }
+    
+}
+
+extension SignUpViewController: SelectPhotoDelegate  {
     
     func setSelectedPhoto(_ indexPath: IndexPath) {
         viewModel?.selectedPhoto = indexPath

@@ -12,8 +12,8 @@ final class SearchPhotosViewModel: BaseViewModel {
     
     typealias SearchPhotosResult = Result<[Photo], APIError>
 
-    var inputRequestSearchPhotos: Observable<String?> = Observable(nil)
     var inputGetLikedList: Observable<Void?> = Observable(nil)
+    var inputRequestSearchPhotos: Observable<String?> = Observable(nil)
     var inputSelectedColorFilter: Observable<IndexPath?> = Observable(nil)
     var inputSortFilter: Observable<String?> = Observable(nil)
     var inputLikeButtonClicked: Observable<(Int?,String?)> = Observable((nil,nil))
@@ -51,7 +51,12 @@ final class SearchPhotosViewModel: BaseViewModel {
         inputScrollTrigger.bind { [weak self] _ in
             self?.callRequestSearchPhotos()
         }
-        NotificationCenter.default.addObserver(self, selector: #selector(updateLikeButtonStateFromPhotoDetail), name: NSNotification.Name(LikeButtonNotificationName.searchPhotos.name), object: nil)
+        configObservers()
+    }
+    
+    private func configObservers() {
+        NotificationCenter.default.addObserver(self, selector: #selector(updateLikeButtonStateFromNotification), name: NSNotification.Name(NotificationName.DetailView.searchPhotos.name), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(updateLikeButtonStateFromNotification), name: NSNotification.Name(NotificationName.LikedPhotosView.searchPhotos.name), object: nil)
     }
     
     private func callRequestSearchPhotos() {
@@ -129,7 +134,7 @@ final class SearchPhotosViewModel: BaseViewModel {
         }
     }
     
-    private func getLikeList() {
+    @objc private func getLikeList() {
         guard let user = repository.fetchAll(obejct: User.self, sortKey: User.Column.signUpDate).last else {
             return
         }
@@ -172,7 +177,6 @@ final class SearchPhotosViewModel: BaseViewModel {
                 case .success(let status):
                     self?.getLikeList()
                     self?.outputLikeButtonClickResult.value = status
-//                    self?.outputUpdatedLikeButton.value = IndexPath(row: index, section: 0)
                 case .failure(let error):
                     self?.outputLikeButtonClickResult.value = error
                 }
@@ -183,15 +187,18 @@ final class SearchPhotosViewModel: BaseViewModel {
 
     private func deleteLikedItem(_ id: String) {
         let likedPhoto = outputLikedList.value.filter { $0.id == id }.last
-    
         guard let likedPhoto else {
             return
         }
+        let object = ["item": likedPhoto]
+        print(#function, "object :" , object )
+        NotificationCenter.default.post(name:  NSNotification.Name(NotificationName.SearchPhotosView.likedPhotos.name) , object: object)
         repository.deleteLikedPhoto(likedPhoto) { [weak self] result in
             switch result {
             case .success(let status):
                 self?.getLikeList()
                 self?.outputLikeButtonClickResult.value = status
+                print(#function, status.message)
 //                self?.outputUpdatedLikeButton.value = showDetailPhotoIndex
             case .failure(let error):
                 self?.outputLikeButtonClickResult.value = error
@@ -199,12 +206,28 @@ final class SearchPhotosViewModel: BaseViewModel {
         }
     }
     
-    @objc private func updateLikeButtonStateFromPhotoDetail(_ notification: Notification) {
-        guard let object = notification.object as? [String:IndexPath] else {
-            return
+    @objc private func updateLikeButtonStateFromNotification(_ notification: Notification) {
+        var indexPath: IndexPath?
+        if let userInfo = notification.userInfo as? [String:String]  {
+            var index: Int?
+            switch outputSearchPhotos.value {
+            case .success(let photoList):
+                for (idx, photo) in photoList.enumerated() {
+                    if photo.id == userInfo["id"] {
+                        index = idx
+                        break
+                    }
+                }
+            default: break }
+            guard let index else { return }
+            print(#function, "index: ", index)
+            indexPath = IndexPath(item: index, section: 0)
         }
-        print(#function, "object: ", object)
-        let indexPath = object["indexPath"]
+        
+        if let object = notification.object as? [String:IndexPath] {
+            print(#function, "object: ", object)
+            indexPath = object["indexPath"]
+        }
         getLikeList()
         outputUpdatedLikeButton.value = indexPath
     }

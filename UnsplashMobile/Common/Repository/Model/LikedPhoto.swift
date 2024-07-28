@@ -19,6 +19,7 @@ final class LikedPhoto: Object {
     @Persisted var likes: Int
     @Persisted var user: RealmArtist?
     @Persisted var colorFilter: Int?
+    @Persisted var regDate: Date
     
     convenience init(id: String, createdAt: String, width: Int, height: Int, color: String, urls: RealmURLs? = nil, likes: Int, user: RealmArtist? = nil, colorFilter: Int? = nil) {
         self.init()
@@ -31,6 +32,8 @@ final class LikedPhoto: Object {
         self.likes = likes
         self.user = user
         self.colorFilter = colorFilter
+        self.regDate = Date()
+        
     }
     
     enum Column: String, ColumnManager {
@@ -44,6 +47,7 @@ final class LikedPhoto: Object {
         case likes
         case user
         case colorFilter
+        case regDate
         
         var name: String {
             return self.rawValue
@@ -69,6 +73,8 @@ final class LikedPhoto: Object {
                 "작성자"
             case .colorFilter:
                 "색상 필터"
+            case .regDate:
+                "등록일"
             }
         }
         

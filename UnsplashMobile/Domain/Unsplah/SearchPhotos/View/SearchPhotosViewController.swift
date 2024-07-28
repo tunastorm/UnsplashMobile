@@ -31,6 +31,7 @@ final class SearchPhotosViewController: BaseViewController<SearchPhotosView, Sea
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        viewModel?.inputGetLikedList.value = ()
         rootView?.layoutIfNeeded()
     }
     
@@ -45,9 +46,7 @@ final class SearchPhotosViewController: BaseViewController<SearchPhotosView, Sea
     
     override func bindData() {
         viewModel?.outputSearchPhotos.bind { [weak self] result in
-            guard let result else {
-                return
-            }
+            guard let result else { return }
             self?.fetchShearchPhotos()
         }
         viewModel?.outputScrollToTop.bind { [weak self] _ in
@@ -57,6 +56,10 @@ final class SearchPhotosViewController: BaseViewController<SearchPhotosView, Sea
         }
         viewModel?.outputUpdatedLikeButton.bind { [weak self] _ in
             self?.updateLikedPhoto()
+        }
+        viewModel?.outputLikeButtonClickResult.bind { [weak self] result in
+            guard let result else { return }
+            self?.rootView?.makeToast(result.message, duration: 3.0, position: .bottom)
         }
     }
     
@@ -76,9 +79,17 @@ final class SearchPhotosViewController: BaseViewController<SearchPhotosView, Sea
         updateSearchPhotosSnapShot(photoList)
     }
     
+    func pushToPhotoDetailViewController(_ indexPath: IndexPath, _ item: Photo) {
+        let colorFilter = viewModel?.outputSelectedColorFilter.value
+        let vc = PhotoDetailViewController(view: PhotoDetailView(), viewModel: PhotoDetailViewModel())
+        vc.viewModel?.inputSetPhotoDetailData.value = (indexPath, item, colorFilter)
+        vc.viewModel?.beforeViewController = .searchPhotos
+        pushAfterView(view: vc, backButton: true, animated: true)
+    }
+    
     private func updateLikedPhoto() {
-        guard let indexPath = viewModel?.outputUpdatedLikeButton.value,
-              let dataSource = searchPhotosDataSource,
+        guard let dataSource = searchPhotosDataSource,
+              let indexPath = viewModel?.outputUpdatedLikeButton.value,
               let item = dataSource.itemIdentifier(for: indexPath) else { return }
         var snapshot = dataSource.snapshot()
         snapshot.reloadItems([item])

@@ -326,7 +326,6 @@ final class PhotoDetailView: BaseView {
     @objc private func didChangeValue(segment: UISegmentedControl) {
         
         self.showingView = segment.selectedSegmentIndex
-//        // 국내, 해외 뷰 최초 클릭 시 초기화
 //        if showingView == 1 && .isEmpty ||
 //           showingView == 2 && flattenAbroad.isEmpty {
 //            setRegionList()

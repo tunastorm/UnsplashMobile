@@ -12,7 +12,7 @@ protocol LikedPhotosViewDelegate {
 }
 
 protocol LikedPhotosCollectionViewCellDelegate {
-    func likeButtonToggleEvent(_ index: Int?, _ id: String?)
+    func likeButtonToggleEvent(isAdd: Bool, _ index: Int)
 }
 
 
@@ -20,7 +20,6 @@ final class LikedPhotosViewController: BaseViewController<LikedPhotosView, Liked
 
     var likedPhotosDataSource: UICollectionViewDiffableDataSource<SearchPhotosSection, LikedPhoto>?
     var filterDataSource: UICollectionViewDiffableDataSource<FilterSection, ColorFilter>?
-    
  
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -43,7 +42,11 @@ final class LikedPhotosViewController: BaseViewController<LikedPhotosView, Liked
             self?.fetchLikedPhotos()
         })
         viewModel?.outputLikeButtonClickResult.bind { [weak self] result in
-            print(result?.message)
+            guard let result else { return }
+            self?.rootView?.makeToast(result.message, duration: 3.0, position: .bottom)
+        }
+        viewModel?.outputDeleteLikedPhotoFromSnapshot.bind { [weak self] _ in
+            self?.deleteLikedPhoto()
         }
         configureFilterDataSource()
         configureLikedPhotosDataSource()
@@ -66,6 +69,30 @@ final class LikedPhotosViewController: BaseViewController<LikedPhotosView, Liked
         updateLikedPhotosSnapShot(photoList)
     }
     
+    func pushToPhotoDetailViewController(_ indexPath: IndexPath, _ item: LikedPhoto) {
+        var colorFilter: IndexPath?
+        if let index = item.colorFilter {
+            colorFilter = IndexPath(row: index, section: 0)
+        }
+        let photo = Photo.init(managedObject: item)
+        let vc = PhotoDetailViewController(view: PhotoDetailView(), viewModel: PhotoDetailViewModel())
+        vc.viewModel?.inputSetPhotoDetailData.value = (indexPath, photo, colorFilter)
+        vc.viewModel?.beforeViewController = .likedPhotos
+        pushAfterView(view: vc, backButton: true, animated: true)
+    }
+    
+    private func deleteLikedPhoto() {
+        guard let likedPhotos = viewModel?.outputDeleteLikedPhotoFromSnapshot.value,
+              let dataSource = likedPhotosDataSource else { return }
+        if let id = likedPhotos.first?.id {
+            NotificationCenter.default.post(name: NSNotification.Name(NotificationName.LikedPhotosView.searchPhotos.name), object: nil, userInfo: ["id": id])
+        }
+        var snapshot = dataSource.snapshot()
+        snapshot.deleteItems(likedPhotos)
+        likedPhotosDataSource?.apply(snapshot, animatingDifferences: true)
+        viewModel?.outputDeleteLikedPhotoFromSnapshot.value = nil
+    }
+    
 }
 
 extension LikedPhotosViewController: LikedPhotosViewDelegate {
@@ -78,8 +105,9 @@ extension LikedPhotosViewController: LikedPhotosViewDelegate {
 
 extension LikedPhotosViewController: LikedPhotosCollectionViewCellDelegate {
     
-    func likeButtonToggleEvent(_ index: Int?, _ id: String?) {
-        viewModel?.inputLikeButtonClicked.value = (index, id)
+    func likeButtonToggleEvent(isAdd: Bool, _ index: Int) {
+        guard let likedPhoto = likedPhotosDataSource?.itemIdentifier(for: IndexPath(row: index, section: 0)) else { return }
+        viewModel?.inputLikeButtonClicked.value = (isAdd, likedPhoto)
     }
     
 }

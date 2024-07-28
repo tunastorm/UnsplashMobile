@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import SnapKit
 
 final class TopicPhotosView: BaseView {
     
@@ -46,7 +47,8 @@ final class TopicPhotosView: BaseView {
     override func configLayout() {
         titleLabel.snp.makeConstraints { make in
             make.height.equalTo(40)
-            make.top.horizontalEdges.equalTo(safeAreaLayoutGuide).inset(10)
+            make.top.equalTo(safeAreaLayoutGuide)
+            make.horizontalEdges.equalTo(safeAreaLayoutGuide).inset(10)
         }
         collectionView.snp.makeConstraints { make in
             make.top.equalTo(titleLabel.snp.bottom).offset(10)

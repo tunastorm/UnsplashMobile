@@ -96,22 +96,15 @@ final class LikedPhotosCollectionViewCell: BaseCollectionViewCell {
         }
         layoutIfNeeded()
     }
-    
-//    func likeButtonToggle(_ isLiked: Bool = false) {
-//        likeButton.isSelected = isLiked
-//        likeButton.setImage(Resource.Asset.NamedImage.like, for: .selected)
-//    }
-//    
+
     @objc private func likeButtonClicked(_ sender: UIButton) {
-        sender.isSelected.toggle()
-        let index = sender.isSelected ? sender.tag : nil
-        let id = sender.isSelected ? nil : sender.title(for: .normal)
-        delegate?.likeButtonToggleEvent(index, id)
-//        if likeButton.isSelected {
-//            likeButton.setImage(Resource.Asset.NamedImage.like, for: .selected)
-//        } else {
-//            likeButton.setImage(Resource.Asset.NamedImage.likeInActive, for: .normal)
-//        }
+        likeButton.isSelected.toggle()
+        delegate?.likeButtonToggleEvent(isAdd: isSelected, sender.tag)
+        if likeButton.isSelected {
+            likeButton.setImage(Resource.Asset.NamedImage.like, for: .selected)
+        } else {
+            likeButton.setImage(Resource.Asset.NamedImage.likeInActive, for: .normal)
+        }
     }
     
 }

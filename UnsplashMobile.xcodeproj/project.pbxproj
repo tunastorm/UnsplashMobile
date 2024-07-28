@@ -17,6 +17,7 @@
 		BC041C8C2C562E720062992F /* TopicPhotosCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC041C8B2C562E720062992F /* TopicPhotosCollectionViewController.swift */; };
 		BC041C902C56686B0062992F /* Int+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC041C8F2C56686B0062992F /* Int+Extension.swift */; };
 		BC041C922C566AA00062992F /* IndexPath+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC041C912C566AA00062992F /* IndexPath+Extension.swift */; };
+		BC041C952C5684050062992F /* NotificationName.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC041C942C5684050062992F /* NotificationName.swift */; };
 		BCF5F6522C4E2058002D9EA0 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCF5F6512C4E2058002D9EA0 /* AppDelegate.swift */; };
 		BCF5F6542C4E2058002D9EA0 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCF5F6532C4E2058002D9EA0 /* SceneDelegate.swift */; };
 		BCF5F6562C4E2058002D9EA0 /* SplashViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCF5F6552C4E2058002D9EA0 /* SplashViewController.swift */; };
@@ -126,6 +127,7 @@
 		BC041C8B2C562E720062992F /* TopicPhotosCollectionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TopicPhotosCollectionViewController.swift; sourceTree = "<group>"; };
 		BC041C8F2C56686B0062992F /* Int+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Int+Extension.swift"; sourceTree = "<group>"; };
 		BC041C912C566AA00062992F /* IndexPath+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "IndexPath+Extension.swift"; sourceTree = "<group>"; };
+		BC041C942C5684050062992F /* NotificationName.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationName.swift; sourceTree = "<group>"; };
 		BCF5F64E2C4E2058002D9EA0 /* UnsplashMobile.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = UnsplashMobile.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		BCF5F6512C4E2058002D9EA0 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		BCF5F6532C4E2058002D9EA0 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -255,6 +257,14 @@
 			path = Model;
 			sourceTree = "<group>";
 		};
+		BC041C932C5683F60062992F /* NotificationCenter */ = {
+			isa = PBXGroup;
+			children = (
+				BC041C942C5684050062992F /* NotificationName.swift */,
+			);
+			path = NotificationCenter;
+			sourceTree = "<group>";
+		};
 		BCF5F6452C4E2058002D9EA0 = {
 			isa = PBXGroup;
 			children = (
@@ -289,6 +299,7 @@
 		BCF5F6692C4E239C002D9EA0 /* Common */ = {
 			isa = PBXGroup;
 			children = (
+				BC041C932C5683F60062992F /* NotificationCenter */,
 				BCF5F6BB2C4E52D8002D9EA0 /* Util */,
 				BCF5F6AD2C4E4F89002D9EA0 /* Protocol */,
 				BCF5F6952C4E3360002D9EA0 /* Resource */,
@@ -361,8 +372,8 @@
 		BCF5F6712C4E24CE002D9EA0 /* Unsplah */ = {
 			isa = PBXGroup;
 			children = (
-				BC041C832C561E790062992F /* PhotoDetail */,
 				BCF5F6C42C4E5A21002D9EA0 /* TabBar */,
+				BC041C832C561E790062992F /* PhotoDetail */,
 				BCF5F6EE2C4E7E29002D9EA0 /* TopicPhotos */,
 				BCF5F6EF2C4E7E34002D9EA0 /* RandomPhoto */,
 				BCF5F6F02C4E7E41002D9EA0 /* SearchPhotos */,
@@ -581,8 +592,8 @@
 			children = (
 				BCF5F6FC2C4E8241002D9EA0 /* TopicPhotosView.swift */,
 				BCF5F6FA2C4E7ED9002D9EA0 /* TopicPhotosViewController.swift */,
-				BC041C8B2C562E720062992F /* TopicPhotosCollectionViewController.swift */,
 				BCF654422C513A9A008EB2CA /* TopicPhotosSupplementrayHeaderView.swift */,
+				BC041C8B2C562E720062992F /* TopicPhotosCollectionViewController.swift */,
 				BCF654402C511A80008EB2CA /* TopicPhotosCollectionViewCell.swift */,
 				BCF654932C521F6E008EB2CA /* TopicPhotosCustomView.swift */,
 			);
@@ -801,6 +812,7 @@
 				BCF5F70D2C4E8340002D9EA0 /* LikedPhotosViewController.swift in Sources */,
 				BCF5F6B32C4E4FFC002D9EA0 /* ReusableIdentifier.swift in Sources */,
 				BC041C692C53CC6D0062992F /* SearchPhotosSearchBar.swift in Sources */,
+				BC041C952C5684050062992F /* NotificationName.swift in Sources */,
 				BCF5F66C2C4E23E5002D9EA0 /* APIKey.swift in Sources */,
 				BCF654AB2C526A94008EB2CA /* SearchPhotosCollectionViewCell.swift in Sources */,
 				BCF5F69D2C4E464C002D9EA0 /* BaseViewController.swift in Sources */,

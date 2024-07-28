@@ -13,6 +13,7 @@ final class TopicPhotosViewModel: BaseViewModel {
     typealias TopicPhotos = [Photo]
     typealias TopicPhotosResult = Result<TopicPhotos, APIError>
     
+    var inputGetUser: Observable<Void?> = Observable(nil)
     var inputRequestTopicPhotos: Observable<Void?> = Observable(nil)
     
     var outputRequestTopicPhotos: Observable<[TopicID : TopicPhotosResult]?> = Observable(nil)
@@ -21,11 +22,13 @@ final class TopicPhotosViewModel: BaseViewModel {
     private var resultDict: [TopicID : TopicPhotosResult] = [:]
     
     override func transform() {
-        inputRequestTopicPhotos.bind { [weak self] _ in
-            self?.callRequestTopicPhotos(sort: .latest)
+        inputGetUser.bind { [weak self] _ in
             self?.getProfileImage()
         }
-        NotificationCenter.default.addObserver(self, selector: #selector(updateLikeButtonStateFromPhotoDetail), name: NSNotification.Name(LikeButtonNotificationName.topicPhotos.name), object: nil)
+        inputRequestTopicPhotos.bind { [weak self] _ in
+            self?.callRequestTopicPhotos(sort: .latest)
+        }
+        NotificationCenter.default.addObserver(self, selector: #selector(updateLikeButtonStateFromNotification), name: NSNotification.Name(NotificationName.DetailView.topicPhotos.name), object: nil)
     }
     
     private func getProfileImage() {
@@ -55,12 +58,12 @@ final class TopicPhotosViewModel: BaseViewModel {
         }
     }
     
-    @objc private func updateLikeButtonStateFromPhotoDetail(_ notification: Notification) {
-//        guard let object = notification.object as? [String:IndexPath] else {
-//            return
-//        }
-//        print(#function, "object: ", object)
-//        let indexPath = object["indexPath"]
+    @objc private func updateLikeButtonStateFromNotification(_ notification: Notification) {
+        guard let object = notification.object as? [String:IndexPath] else {
+            return
+        }
+        print(#function, "object: ", object)
+        let indexPath = object["indexPath"]
     }
     
 }

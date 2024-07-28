@@ -62,14 +62,6 @@ extension SearchPhotosViewController {
         searchPhotosDataSource?.apply(snapShot)
     }
     
-    func pushToPhotoDetailViewController(_ indexPath: IndexPath, _ item: Photo) {
-        let colorFilter = viewModel?.outputSelectedColorFilter.value
-        let vc = PhotoDetailViewController(view: PhotoDetailView(), viewModel: PhotoDetailViewModel())
-        vc.viewModel?.inputSetPhotoDetailData.value = (indexPath, item, colorFilter)
-        vc.viewModel?.beforeViewController = .searchPhotos
-        pushAfterView(view: vc, backButton: true, animated: true)
-    }
-    
 }
 
 extension SearchPhotosViewController: UICollectionViewDelegate, UICollectionViewDataSourcePrefetching {

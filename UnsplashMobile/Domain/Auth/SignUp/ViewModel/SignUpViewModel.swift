@@ -138,13 +138,17 @@ class SignUpViewModel: BaseViewModel {
     }
     
     private func updateUser() {
-        guard let nickname = inputUpdateUser.value?.0, let imageName = inputUpdateUser.value?.1 else {
+        guard let nickname = inputUpdateUser.value?.0, let imageName = inputUpdateUser.value?.1  else {
+            return
+        }
+        guard mbtiList.reduce(0,+) <= 4 else { // 리스트가 0 or 1 인 요소 4개를 가지고 있으므로 합이 4초과인 경우 예외처리
             return
         }
         let user: [String : Any] = [
             User.Column.id.name: user?.id,
             User.Column.nickname.name: nickname,
-            User.Column.profileImage.name: imageName
+            User.Column.profileImage.name: imageName,
+            User.Column.mbti.name: MBTI.combination(list: mbtiList)
         ]
         repository.updateItem(object: object, value: user) { [weak self] result in
             switch result {

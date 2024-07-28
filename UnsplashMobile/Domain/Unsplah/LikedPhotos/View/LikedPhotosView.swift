@@ -133,13 +133,14 @@ final class LikedPhotosView: BaseView {
     }
     
     @objc private func sortFilterButtonClicked(_ sender: UIButton) {
-        let sortList = Repository.Sorting.allCases
-        delegate?.queryWithSortFilter(sender.tag)
         switch sender.tag {
         case 0: sender.tag = 1
         case 1: sender.tag = 0
         default: break
         }
+        delegate?.queryWithSortFilter(sender.tag)
+        let sortList = Repository.Sorting.allCases
+        print(#function, "sort(\(sender.tag): ", sortList[sender.tag])
         sortFilterButton.setTitle(sortList[sender.tag].krName, for: .normal)
     }
     

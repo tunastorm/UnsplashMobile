@@ -116,7 +116,7 @@ final class Repository {
             try realm.write {
                 var result: Results<LikedPhoto>?
                 if let colors {
-                    result = user.likedList.where{ $0.colorFilter.in(colors) }.sorted(byKeyPath: LikedPhoto.Column.createdAt.name, ascending: sort.value)
+                    result = user.likedList.where{ $0.colorFilter.in(colors) }.sorted(byKeyPath: LikedPhoto.Column.regDate.name, ascending: sort.value)
                 } else {
                     result = user.likedList.sorted(byKeyPath: LikedPhoto.Column.createdAt.name, ascending: sort.value)
                 }
