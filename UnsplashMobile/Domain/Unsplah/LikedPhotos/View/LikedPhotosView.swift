@@ -11,13 +11,9 @@ import Then
 
 final class LikedPhotosView: BaseView {
     
-    var delegate: LikedPhotosViewDelegate?
+    private var delegate: LikedPhotosViewDelegate?
     
-    var searchBar = UISearchBar().then {
-        $0.backgroundImage = UIImage()
-    }
-    
-    var lineView = UIView().then {
+    private var lineView = UIView().then {
         $0.backgroundColor = Resource.Asset.CIColor.lightGray
     }
     
@@ -26,7 +22,7 @@ final class LikedPhotosView: BaseView {
     private let sortFilterButton = UIButton().then {
         $0.addTarget(self, action: #selector(sortFilterButtonClicked), for: .touchUpInside)
         $0.setImage(Resource.Asset.NamedImage.sort, for: .normal)
-        $0.setTitle(APIRouter.Sorting.relevant.krName, for: .normal)
+        $0.setTitle(Repository.Sorting.latest.krName, for: .normal)
         $0.setTitleColor(Resource.Asset.CIColor.black, for: .normal)
         $0.titleLabel?.font = Resource.Asset.Font.boldSystem14
         $0.backgroundColor = Resource.Asset.CIColor.white
@@ -75,7 +71,6 @@ final class LikedPhotosView: BaseView {
     }
     
     override func configHierarchy() {
-        addSubview(searchBar)
         addSubview(lineView)
         addSubview(filterView)
         filterView.addSubview(filterCollectionView)
@@ -85,15 +80,9 @@ final class LikedPhotosView: BaseView {
     }
     
     override func configLayout() {
-        
-        searchBar.snp.makeConstraints { make in
-            make.height.equalTo(40)
-            make.top.equalTo(safeAreaLayoutGuide)
-            make.horizontalEdges.equalTo(safeAreaLayoutGuide)
-        }
         lineView.snp.makeConstraints { make in
             make.height.equalTo(1)
-            make.top.equalTo(searchBar.snp.bottom).offset(10)
+            make.top.equalTo(safeAreaLayoutGuide).offset(10)
             make.horizontalEdges.equalToSuperview()
         }
         filterView.snp.makeConstraints { make in
@@ -139,24 +128,19 @@ final class LikedPhotosView: BaseView {
     override func configInteractionWithViewController<T: UIViewController>(viewController: T) {
         let vc = viewController as? LikedPhotosViewController
         delegate = vc
-        searchBar.delegate = vc
         filterCollectionView.delegate = vc
         collectionView.delegate = vc
     }
     
     @objc private func sortFilterButtonClicked(_ sender: UIButton) {
-        let sortList = APIRouter.Sorting.allCases
-        delegate?.searchingWithSortFilter(sortList[sender.tag].krName)
+        let sortList = Repository.Sorting.allCases
+        delegate?.queryWithSortFilter(sender.tag)
         switch sender.tag {
         case 0: sender.tag = 1
         case 1: sender.tag = 0
         default: break
         }
         sortFilterButton.setTitle(sortList[sender.tag].krName, for: .normal)
-    }
-    
-    func getSortOption() -> Int {
-        return sortFilterButton.tag
     }
     
 }

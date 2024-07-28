@@ -11,7 +11,7 @@ enum FilterSection: CaseIterable {
     case main
 }
 
-enum ColorFilter: String, CaseIterable {
+enum ColorFilter: Int, CaseIterable {
     case red
     case purple
     case green
@@ -19,6 +19,18 @@ enum ColorFilter: String, CaseIterable {
     case yellow
     case black
     case white
+    
+    var name: String {
+        return switch  self {
+        case .red: "red"
+        case .purple: "purple"
+        case .green: "green"
+        case .blue: "blue"
+        case .yellow: "yellow"
+        case .black: "black"
+        case .white: "white"
+        }
+    }
     
     var krName: String {
         return switch self {

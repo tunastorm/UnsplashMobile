@@ -14,6 +14,26 @@ final class Repository {
     typealias RepositoryResult = (Result<RepositoryStatus, RepositoryError>) -> Void
     typealias propertyhandler = () -> Void
     
+    enum Sorting: CaseIterable {
+        case latest
+        case oldest
+        
+        var value: Bool {
+            return switch self {
+            case .latest: false
+            case .oldest: true
+            }
+        }
+        
+        var krName: String {
+            return switch self {
+            case .latest: "최신순"
+            case .oldest: "과거순"
+            }
+        }
+    }
+    
+    
     private let realm = try! Realm()
     
     func detectRealmURL() {
@@ -35,12 +55,12 @@ final class Repository {
         return realm.object(ofType: object, forPrimaryKey: primaryKey)
     }
     
-    func fetchAll<T: Object>(obejct: T.Type, sortKey column: ColumnManager, acending: Bool = true, query: ((Query<T>) -> Query<Bool>)? = nil) -> [T] {
+    func fetchAll<T: Object>(obejct: T.Type, sortKey column: any ColumnManager, acending: Bool = true, query: ((Query<T>) -> Query<Bool>)? = nil) -> [T] {
         let value = realm.objects(obejct).sorted(byKeyPath: column.name, ascending: acending)
         return Array(value)
     }
 
-    func searchCompoundedFilter<T:Object>(objet: T.Type, sortKey column: ColumnManager, acending: Bool = true, compoundPredicate: NSCompoundPredicate, filter: (Query<T>) -> Query<Bool>) -> [T] {
+    func searchCompoundedFilter<T:Object>(objet: T.Type, sortKey column: any ColumnManager, acending: Bool = true, compoundPredicate: NSCompoundPredicate, filter: (Query<T>) -> Query<Bool>) -> [T] {
         let value = realm.objects(objet).where(filter).filter(compoundPredicate).sorted(byKeyPath: column.name, ascending: acending)
         print(#function, value)
         return Array(value)
@@ -55,6 +75,18 @@ final class Repository {
             complitionHandler(.success(RepositoryStatus.updateSuccess))
         } catch {
             complitionHandler(.failure(RepositoryError.updatedFailed))
+        }
+    }
+    
+    func deleteUser(_ user: User, complitionHandler: RepositoryResult) {
+        do {
+            try realm.write {
+                realm.delete(user.likedList)
+                realm.delete(user)
+            }
+            complitionHandler(.success(RepositoryStatus.deleteSuccess))
+        } catch {
+            complitionHandler(.failure(RepositoryError.deleteFailed))
         }
     }
     
@@ -78,15 +110,20 @@ final class Repository {
         }
     }
     
-    func deleteUser(_ user: User, complitionHandler: RepositoryResult) {
+    func queryLikedPhotoList(_ user: User, sort: Repository.Sorting = .latest, color: Int?, complitionHandler: (Result<Results<LikedPhoto>?, RepositoryError>) -> Void) {
+        
         do {
             try realm.write {
-                realm.delete(user.likedList)
-                realm.delete(user)
+                var result: Results<LikedPhoto>?
+                if let color {
+                    result = user.likedList.where { $0.colorFilter == color }.sorted(byKeyPath: LikedPhoto.Column.createdAt.name, ascending: sort.value)
+                } else {
+                    result = user.likedList.sorted(byKeyPath: LikedPhoto.Column.createdAt.name, ascending: sort.value)
+                }
+                complitionHandler(.success(result))
             }
-            complitionHandler(.success(RepositoryStatus.deleteSuccess))
         } catch {
-            complitionHandler(.failure(RepositoryError.deleteFailed))
+            complitionHandler(.failure(RepositoryError.noResult))
         }
     }
     
@@ -109,17 +146,7 @@ final class Repository {
             complitionHandler(.failure(RepositoryError.deleteFailed))
         }
     }
-    
-    func queryProperty(queryHandeler: propertyhandler, completionHandler: RepositoryResult) {
-        do {
-            try realm.write {
-                queryHandeler()
-            }
-            completionHandler(.success(RepositoryStatus.updateSuccess))
-        } catch {
-            completionHandler(.failure(RepositoryError.updatedFailed))
-        }
-    }
+
 }
 
 

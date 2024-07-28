@@ -13,7 +13,7 @@ final class SearchPhotosView: BaseView {
     
     private var delegate: SearchPhotosViewDelegate?
     
-    var searchBar = UISearchBar().then {
+    private var searchBar = UISearchBar().then {
         $0.backgroundImage = UIImage()
     }
     
@@ -155,10 +155,6 @@ final class SearchPhotosView: BaseView {
         }
         sortFilterButton.setTitle(sortList[sender.tag].krName, for: .normal)
         collectionView.scrollsToTop = true
-    }
-    
-    func getSortOption() -> Int {
-        return sortFilterButton.tag
     }
 
 }

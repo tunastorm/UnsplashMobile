@@ -7,7 +7,7 @@
 
 import Foundation
 
-protocol ColumnManager {
+protocol ColumnManager: CaseIterable {
     
     var name: String { get }
     

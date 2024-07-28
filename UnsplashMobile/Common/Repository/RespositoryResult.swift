@@ -33,21 +33,19 @@ enum RepositoryStatus: RepositoryResult {
 
 
 enum RepositoryError: RepositoryResult, Error {
+    case noResult
     case createFailed
     case updatedFailed
     case deleteFailed
     case unexpectedError
     
     var message: String {
-        switch self {
-        case .createFailed:
-            return "등록에 실패하였습니다."
-        case .updatedFailed:
-            return "수정에 실패하였습니다."
-        case .deleteFailed:
-            return "삭제에 실패하였습니다"
-        case .unexpectedError:
-            return "예상치 못한 에러가 발생하였습니다."
+        return switch self {
+        case .noResult: "조회 결과가 없습니다."
+        case .createFailed: "등록에 실패하였습니다."
+        case .updatedFailed: "수정에 실패하였습니다."
+        case .deleteFailed: "삭제에 실패하였습니다"
+        case .unexpectedError: "예상치 못한 에러가 발생하였습니다."
         }
     }
 }

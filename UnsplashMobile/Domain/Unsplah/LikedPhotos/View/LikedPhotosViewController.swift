@@ -8,7 +8,7 @@
 import UIKit
 
 protocol LikedPhotosViewDelegate {
-    func searchingWithSortFilter(_ sort: String)
+    func queryWithSortFilter(_ sort: Int?)
 }
 
 protocol LikedPhotosCollectionViewCellDelegate {
@@ -18,24 +18,19 @@ protocol LikedPhotosCollectionViewCellDelegate {
 
 final class LikedPhotosViewController: BaseViewController<LikedPhotosView, LikedPhotosViewModel> {
 
-    var likedPhotosDataSource: UICollectionViewDiffableDataSource<SearchPhotosSection, Photo>?
+    var likedPhotosDataSource: UICollectionViewDiffableDataSource<SearchPhotosSection, LikedPhoto>?
     var filterDataSource: UICollectionViewDiffableDataSource<FilterSection, ColorFilter>?
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        configureFilterDataSource()
-        configureLikedPhotosDataSource()
-        updateFilterSnapShot()
-    }
-    
+ 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        viewModel?.inputGetLikedList.value = ()
         rootView?.layoutIfNeeded()
     }
     
     override func configNavigationbar(navigationColor: UIColor, shadowImage: Bool) {
         super.configNavigationbar(navigationColor: navigationColor, shadowImage: false)
-        navigationItem.title = Resource.UIConstants.Text.searchPhotosTitle
+        navigationItem.title = Resource.UIConstants.Text.likedPhotosTitle
     }
     
     override func configInteraction() {
@@ -45,26 +40,29 @@ final class LikedPhotosViewController: BaseViewController<LikedPhotosView, Liked
     
     override func bindData() {
         viewModel?.outputLikedPhotos.bind({ [weak self] _ in
-            self?.fetchShearchPhotos()
+            self?.fetchLikedPhotos()
         })
-        viewModel?.outputLikeButtonClickResult.bind({ result in
+        viewModel?.outputLikeButtonClickResult.bind { [weak self] result in
             print(result?.message)
-        })
+        }
+        configureFilterDataSource()
+        configureLikedPhotosDataSource()
+        updateFilterSnapShot()
     }
     
-    private func fetchShearchPhotos() {
+    private func fetchLikedPhotos() {
         guard let result = viewModel?.outputLikedPhotos.value else {
             return
         }
-        var photoList: [Photo] = []
+        var photoList: [LikedPhoto] = []
         switch result {
-        case .success(let SearchPhotos):
-            photoList = SearchPhotos
+        case .success(let likedPhotos):
+            photoList = likedPhotos
         case .failure(let error):
-            self.rootView?.makeToast(error.message, duration: 3.0, position: .bottom, title: error.title)
+            self.rootView?.makeToast(error.message, duration: 3.0, position: .bottom)
             return
         }
-        print(#function, "검색결과 수: ", photoList.count)
+        print(#function, "조회 결과 수: ", photoList.count)
         updateLikedPhotosSnapShot(photoList)
     }
     
@@ -72,7 +70,7 @@ final class LikedPhotosViewController: BaseViewController<LikedPhotosView, Liked
 
 extension LikedPhotosViewController: LikedPhotosViewDelegate {
     
-    func searchingWithSortFilter(_ sort: String) {
+    func queryWithSortFilter(_ sort: Int?) {
         viewModel?.inputSortFilter.value = sort
     }
     

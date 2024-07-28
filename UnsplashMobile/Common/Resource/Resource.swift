@@ -59,6 +59,8 @@ enum Resource {
             static let photoDetailViewChartLabel = "조회"
             static let photoDetailDownloadChartLabel = "다운로드"
             
+            static let likedPhotosTitle = "MY POLAROID"
+            
             static let settingViewTitle = "SETTING"
             static let saveNewProfile = "저장"
             static let myCartLabel = "나의 장바구니 목록"

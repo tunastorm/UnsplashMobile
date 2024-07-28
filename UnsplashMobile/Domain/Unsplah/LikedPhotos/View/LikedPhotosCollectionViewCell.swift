@@ -39,7 +39,7 @@ final class LikedPhotosCollectionViewCell: BaseCollectionViewCell {
     
     private let likeButton = UIButton().then {
         $0.addTarget(self, action: #selector(likeButtonClicked), for: .touchUpInside)
-        $0.setImage(Resource.Asset.NamedImage.likeInActive, for: .normal)
+        $0.setImage(Resource.Asset.NamedImage.like, for: .normal)
         $0.titleLabel?.font = .systemFont(ofSize: 0)
         $0.imageView?.contentMode = .scaleAspectFit
     }
@@ -78,7 +78,7 @@ final class LikedPhotosCollectionViewCell: BaseCollectionViewCell {
         likeButtonView.layer.cornerRadius = likeButtonView.frame.height / 2
     }
     
-    func configCell(data: Photo, index: Int) {
+    func configCell(data: LikedPhoto, index: Int) {
         guard let urlString = data.urls?.small, let url = URL(string: urlString) else { return }
         likeButton.tag = index
         likeButton.setTitle(data.id, for: .normal)
@@ -92,22 +92,21 @@ final class LikedPhotosCollectionViewCell: BaseCollectionViewCell {
         layoutIfNeeded()
     }
     
-    func likeButtonToggle(_ isLiked: Bool = false) {
-        print(#function, "isLiked: ", isLiked)
-        likeButton.isSelected = isLiked
-        likeButton.setImage(Resource.Asset.NamedImage.like, for: .selected)
-    }
-    
+//    func likeButtonToggle(_ isLiked: Bool = false) {
+//        likeButton.isSelected = isLiked
+//        likeButton.setImage(Resource.Asset.NamedImage.like, for: .selected)
+//    }
+//    
     @objc private func likeButtonClicked(_ sender: UIButton) {
         sender.isSelected.toggle()
         let index = sender.isSelected ? sender.tag : nil
         let id = sender.isSelected ? nil : sender.title(for: .normal)
         delegate?.likeButtonToggleEvent(index, id)
-        if likeButton.isSelected {
-            likeButton.setImage(Resource.Asset.NamedImage.like, for: .selected)
-        } else {
-            likeButton.setImage(Resource.Asset.NamedImage.likeInActive, for: .normal)
-        }
+//        if likeButton.isSelected {
+//            likeButton.setImage(Resource.Asset.NamedImage.like, for: .selected)
+//        } else {
+//            likeButton.setImage(Resource.Asset.NamedImage.likeInActive, for: .normal)
+//        }
     }
     
 }

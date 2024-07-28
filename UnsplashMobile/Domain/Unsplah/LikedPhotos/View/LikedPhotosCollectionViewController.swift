@@ -15,9 +15,10 @@ extension LikedPhotosViewController {
         }
     }
     
-    private func LikedPhotosCellRegistration() -> UICollectionView.CellRegistration<LikedPhotosCollectionViewCell, Photo> {
-        UICollectionView.CellRegistration<LikedPhotosCollectionViewCell, Photo> { [weak self] cell, indexPath, itemIdentifier in
+    private func LikedPhotosCellRegistration() -> UICollectionView.CellRegistration<LikedPhotosCollectionViewCell, LikedPhoto> {
+        UICollectionView.CellRegistration<LikedPhotosCollectionViewCell, LikedPhoto> { [weak self] cell, indexPath, itemIdentifier in
             cell.delegate = self
+            print(#function, "data: ", itemIdentifier)
             cell.configCell(data: itemIdentifier, index: indexPath.item)
         }
     }
@@ -34,8 +35,10 @@ extension LikedPhotosViewController {
     }
     
    func configureLikedPhotosDataSource() {
+        print(#function, "collectionView: ", rootView?.collectionView)
         guard let collectionView = rootView?.collectionView else { return }
         let cellRegistration = LikedPhotosCellRegistration()
+        print(#function, "cellRegistration: ", cellRegistration)
         likedPhotosDataSource = UICollectionViewDiffableDataSource(collectionView: collectionView, cellProvider: { collectionView, indexPath, itemIdentifier in
             
             let cell = collectionView.dequeueConfiguredReusableCell(using: cellRegistration, for: indexPath, item: itemIdentifier)
@@ -51,9 +54,10 @@ extension LikedPhotosViewController {
         filterDataSource?.apply(snapShot)
     }
     
-    func updateLikedPhotosSnapShot(_ photoList: [Photo]) {
-        var snapShot = NSDiffableDataSourceSnapshot<SearchPhotosSection, Photo>()
+    func updateLikedPhotosSnapShot(_ photoList: [LikedPhoto]) {
+        var snapShot = NSDiffableDataSourceSnapshot<SearchPhotosSection, LikedPhoto>()
         snapShot.appendSections(SearchPhotosSection.allCases)
+        print(#function, "photoList: ", photoList)
         snapShot.sectionIdentifiers.forEach { topic in
             snapShot.appendItems(photoList, toSection: .main)
         }

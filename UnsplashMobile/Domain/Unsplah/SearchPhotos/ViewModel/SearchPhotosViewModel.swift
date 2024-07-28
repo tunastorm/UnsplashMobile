@@ -73,7 +73,7 @@ final class SearchPhotosViewModel: BaseViewModel {
     private func getColorFilter(_ indexPath: IndexPath?) -> String? {
         var color: String?
         if let indexPath {
-            color = ColorFilter.allCases[indexPath.item].rawValue
+            color = ColorFilter.allCases[indexPath.item].name
         }
         return color
     }
@@ -129,7 +129,7 @@ final class SearchPhotosViewModel: BaseViewModel {
         }
     }
     
-    @objc private func getLikeList() {
+    private func getLikeList() {
         guard let user = repository.fetchAll(obejct: User.self, sortKey: User.Column.signUpDate).last else {
             return
         }
@@ -153,6 +153,7 @@ final class SearchPhotosViewModel: BaseViewModel {
     }
     
     private func addLikedItem(_ index: Int) {
+        print(#function, "좋아요 추가")
         guard let searchResult = outputSearchPhotos.value else {
             return
         }
@@ -161,10 +162,11 @@ final class SearchPhotosViewModel: BaseViewModel {
             guard let likedList = self.user?.likedList else {
                 return
             }
-            var colorFilter = outputSelectedColorFilter.value?.item
             let photo = photoList[index]
             let likedPhoto = photo.managedObject()
-            likedPhoto.colorFilter = colorFilter
+            if let colorFilter = outputSelectedColorFilter.value?.item {
+                likedPhoto.colorFilter = colorFilter
+            }
             repository.addLikedPhoto(list: likedList, item: likedPhoto) { [weak self] result in
                 switch result {
                 case .success(let status):

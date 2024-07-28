@@ -9,13 +9,14 @@
 /* Begin PBXBuildFile section */
 		BC041C692C53CC6D0062992F /* SearchPhotosSearchBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC041C682C53CC6D0062992F /* SearchPhotosSearchBar.swift */; };
 		BC041C6B2C53CC8E0062992F /* SearchPhotosCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC041C6A2C53CC8E0062992F /* SearchPhotosCollectionViewController.swift */; };
-		BC041C6D2C54E1A30062992F /* LikedPhotosSearchBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC041C6C2C54E1A30062992F /* LikedPhotosSearchBar.swift */; };
 		BC041C6F2C54E1C30062992F /* LikedPhotosCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC041C6E2C54E1C30062992F /* LikedPhotosCollectionViewController.swift */; };
 		BC041C712C54E2AA0062992F /* LikedPhotosCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC041C702C54E2AA0062992F /* LikedPhotosCollectionViewCell.swift */; };
 		BC041C762C54E5BE0062992F /* PhotoDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC041C752C54E5BE0062992F /* PhotoDetailViewController.swift */; };
 		BC041C782C54E5DB0062992F /* PhotoDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC041C772C54E5DB0062992F /* PhotoDetailView.swift */; };
 		BC041C892C5628F70062992F /* PhotoDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC041C882C5628F70062992F /* PhotoDetailViewModel.swift */; };
 		BC041C8C2C562E720062992F /* TopicPhotosCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC041C8B2C562E720062992F /* TopicPhotosCollectionViewController.swift */; };
+		BC041C902C56686B0062992F /* Int+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC041C8F2C56686B0062992F /* Int+Extension.swift */; };
+		BC041C922C566AA00062992F /* IndexPath+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC041C912C566AA00062992F /* IndexPath+Extension.swift */; };
 		BCF5F6522C4E2058002D9EA0 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCF5F6512C4E2058002D9EA0 /* AppDelegate.swift */; };
 		BCF5F6542C4E2058002D9EA0 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCF5F6532C4E2058002D9EA0 /* SceneDelegate.swift */; };
 		BCF5F6562C4E2058002D9EA0 /* SplashViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCF5F6552C4E2058002D9EA0 /* SplashViewController.swift */; };
@@ -118,13 +119,14 @@
 /* Begin PBXFileReference section */
 		BC041C682C53CC6D0062992F /* SearchPhotosSearchBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchPhotosSearchBar.swift; sourceTree = "<group>"; };
 		BC041C6A2C53CC8E0062992F /* SearchPhotosCollectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchPhotosCollectionViewController.swift; sourceTree = "<group>"; };
-		BC041C6C2C54E1A30062992F /* LikedPhotosSearchBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LikedPhotosSearchBar.swift; sourceTree = "<group>"; };
 		BC041C6E2C54E1C30062992F /* LikedPhotosCollectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LikedPhotosCollectionViewController.swift; sourceTree = "<group>"; };
 		BC041C702C54E2AA0062992F /* LikedPhotosCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LikedPhotosCollectionViewCell.swift; sourceTree = "<group>"; };
 		BC041C752C54E5BE0062992F /* PhotoDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoDetailViewController.swift; sourceTree = "<group>"; };
 		BC041C772C54E5DB0062992F /* PhotoDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoDetailView.swift; sourceTree = "<group>"; };
 		BC041C882C5628F70062992F /* PhotoDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoDetailViewModel.swift; sourceTree = "<group>"; };
 		BC041C8B2C562E720062992F /* TopicPhotosCollectionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TopicPhotosCollectionViewController.swift; sourceTree = "<group>"; };
+		BC041C8F2C56686B0062992F /* Int+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Int+Extension.swift"; sourceTree = "<group>"; };
+		BC041C912C566AA00062992F /* IndexPath+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "IndexPath+Extension.swift"; sourceTree = "<group>"; };
 		BCF5F64E2C4E2058002D9EA0 /* UnsplashMobile.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = UnsplashMobile.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		BCF5F6512C4E2058002D9EA0 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		BCF5F6532C4E2058002D9EA0 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -246,6 +248,13 @@
 				BC041C882C5628F70062992F /* PhotoDetailViewModel.swift */,
 			);
 			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		BC041C8E2C565B5C0062992F /* Model */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Model;
 			sourceTree = "<group>";
 		};
 		BCF5F6452C4E2058002D9EA0 = {
@@ -382,6 +391,8 @@
 				BCF5F6D92C4E5E93002D9EA0 /* UIViewController + Extension.swift */,
 				BCF5F6EC2C4E7C1A002D9EA0 /* CALayer+Extension.swift */,
 				BCF654AE2C5399E0008EB2CA /* Struct+Extension.swift */,
+				BC041C8F2C56686B0062992F /* Int+Extension.swift */,
+				BC041C912C566AA00062992F /* IndexPath+Extension.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -553,6 +564,7 @@
 		BCF5F6F12C4E7E50002D9EA0 /* LikedPhotos */ = {
 			isa = PBXGroup;
 			children = (
+				BC041C8E2C565B5C0062992F /* Model */,
 				BCF5F6F92C4E7E8C002D9EA0 /* View */,
 				BCF5F6F62C4E7E73002D9EA0 /* ViewModel */,
 			);
@@ -631,7 +643,6 @@
 			children = (
 				BCF5F70E2C4E8353002D9EA0 /* LikedPhotosView.swift */,
 				BCF5F70C2C4E8340002D9EA0 /* LikedPhotosViewController.swift */,
-				BC041C6C2C54E1A30062992F /* LikedPhotosSearchBar.swift */,
 				BC041C6E2C54E1C30062992F /* LikedPhotosCollectionViewController.swift */,
 				BC041C702C54E2AA0062992F /* LikedPhotosCollectionViewCell.swift */,
 			);
@@ -767,6 +778,7 @@
 				BCF5F7672C50F2A3002D9EA0 /* PhotoStatisticsResponse.swift in Sources */,
 				BCF5F6D42C4E5CD1002D9EA0 /* SignUpViewController.swift in Sources */,
 				BCF5F69F2C4E46ED002D9EA0 /* Resource.swift in Sources */,
+				BC041C902C56686B0062992F /* Int+Extension.swift in Sources */,
 				BCF6549C2C5235EF008EB2CA /* TopicPhotosQuery.swift in Sources */,
 				BCF5F7072C4E82E8002D9EA0 /* SearchPhotosViewController.swift in Sources */,
 				BCF5F6B82C4E51F2002D9EA0 /* LikedPhoto.swift in Sources */,
@@ -820,6 +832,7 @@
 				BCF5F6D82C4E5D2C002D9EA0 /* UIImage+Extension.swift in Sources */,
 				BC041C712C54E2AA0062992F /* LikedPhotosCollectionViewCell.swift in Sources */,
 				BCF5F6CD2C4E5B2D002D9EA0 /* OnboardingView.swift in Sources */,
+				BC041C922C566AA00062992F /* IndexPath+Extension.swift in Sources */,
 				BCF654A92C526730008EB2CA /* FilterSection.swift in Sources */,
 				BCF5F68C2C4E2B30002D9EA0 /* APIError.swift in Sources */,
 				BCF5F6BF2C4E533C002D9EA0 /* TextInputFilter.swift in Sources */,
@@ -834,7 +847,6 @@
 				BCF5F6AC2C4E4F46002D9EA0 /* RespositoryResult.swift in Sources */,
 				BC041C762C54E5BE0062992F /* PhotoDetailViewController.swift in Sources */,
 				BCF5F6DC2C4E6513002D9EA0 /* BaseCollectionViewCell.swift in Sources */,
-				BC041C6D2C54E1A30062992F /* LikedPhotosSearchBar.swift in Sources */,
 				BCF654412C511A80008EB2CA /* TopicPhotosCollectionViewCell.swift in Sources */,
 				BCF5F6E92C4E797A002D9EA0 /* SelectePhotoCollectionViewCell.swift in Sources */,
 				BCF5F7092C4E8300002D9EA0 /* SearchPhotosView.swift in Sources */,
