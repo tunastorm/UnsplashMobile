@@ -33,7 +33,6 @@ final class Repository {
         }
     }
     
-    
     private let realm = try! Realm()
     
     func detectRealmURL() {
@@ -79,9 +78,27 @@ final class Repository {
     }
     
     func deleteUser(_ user: User, complitionHandler: RepositoryResult) {
+        
+        var resultDict: [String: Int] = ["success": 0, "failure": 0]
+        user.likedList.forEach { likedPhoto in
+            deleteLikedPhoto(likedPhoto) { result in
+                switch result {
+                case .success(let status): 
+                    if let count = resultDict["success"] {
+                        resultDict["success"] = count + 1
+                    }
+                case .failure(let error):
+                    if let count = resultDict["failure"] {
+                        resultDict["failure"] = count + 1
+                    }
+                }
+            }
+        }
+        guard resultDict["failure"] == 0 else {
+            return
+        }
         do {
             try realm.write {
-                realm.delete(user.likedList)
                 realm.delete(user)
             }
             complitionHandler(.success(RepositoryStatus.deleteSuccess))

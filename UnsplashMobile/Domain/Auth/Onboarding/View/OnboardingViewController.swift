@@ -14,7 +14,7 @@ protocol OnboardingViewDelegate {
 }
 
 
-final class OnboadingViewController: BaseViewController<OnboardingView, BaseViewModel> {
+final class OnboardingViewController: BaseViewController<OnboardingView, BaseViewModel> {
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -30,7 +30,7 @@ final class OnboadingViewController: BaseViewController<OnboardingView, BaseView
     }
 }
 
-extension OnboadingViewController: OnboardingViewDelegate {
+extension OnboardingViewController: OnboardingViewDelegate {
     
     func pushToSignUpViewController() {
         let vc = SignUpViewController(view: SignUpView(), viewModel: SignUpViewModel())

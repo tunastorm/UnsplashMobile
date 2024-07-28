@@ -16,6 +16,7 @@ class SignUpViewModel: BaseViewModel {
     var inputNickNameValidate: Observable<String?> = Observable(nil)
     var inputMBTIValidation: Observable<Void?> = Observable(nil)
     var inputSelectMBTIAlphabet: Observable<(Int,Int)?> = Observable(nil)
+    var inputDeleteUser: Observable<Void?> = Observable(nil)
     
     var outputUpdatePresentation: Observable<Bool> = Observable(false)
     var outputViewDidLoadTrigger: Observable<(String?,String,[Int]?)> = Observable((nil,"",nil))
@@ -23,6 +24,7 @@ class SignUpViewModel: BaseViewModel {
     var outputUpdateUserResult: Observable<RepositoryResult> = Observable(RepositoryError.updatedFailed)
     var outputValidationResult: Observable<ValidationStatus?> = Observable(nil)
     var outputUpdatedMBTIAlphabet: Observable<(Int,Int)?> = Observable(nil)
+    var outputDeleteUserResult: Observable<RepositoryResult?> = Observable(nil)
 
     var selectedPhoto: IndexPath?
     var mbtiList: [Int] = [9,9,9,9]
@@ -49,6 +51,9 @@ class SignUpViewModel: BaseViewModel {
         }
         inputUpdateUser.bind { [weak self] _ in
             self?.updateUser()
+        }
+        inputDeleteUser.bind { [weak self] _ in
+            self?.deleteUser()
         }
     }
     
@@ -156,6 +161,16 @@ class SignUpViewModel: BaseViewModel {
                 self?.outputUpdateUserResult.value = status
             case .failure(let error):
                 self?.outputUpdateUserResult.value = error
+            }
+        }
+    }
+    
+    private func deleteUser() {
+        guard let user else { return }
+        repository.deleteUser(user) { [weak self] result in
+            switch result {
+            case .success(let status): self?.outputDeleteUserResult.value = status
+            case .failure(let error): self?.outputDeleteUserResult.value = error
             }
         }
     }

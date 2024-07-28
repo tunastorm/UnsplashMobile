@@ -63,12 +63,7 @@ enum Resource {
             
             static let settingViewTitle = "SETTING"
             static let saveNewProfile = "저장"
-            static let myCartLabel = "나의 장바구니 목록"
-            static let myCartCountLabel = "개의 상품"
-            static let QnALabel = "자주 묻는 질문"
-            static let customerVoiceLabel = "1:1 문의"
-            static let notificationLabel = "알림 설정"
-            static let secessionLabel = "탈퇴하기"
+            static let secessionLabel = "회원탈퇴"
             static let secessionAlertTitle = "탈퇴하기"
             static let secessionAlertMessage = "탈퇴를 하면 데이터가 모두 초기화됩니다. 탈퇴하시겠습니까?"
             

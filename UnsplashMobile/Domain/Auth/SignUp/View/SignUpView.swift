@@ -70,6 +70,15 @@ final class SignUpView: BaseView {
         $0.isUserInteractionEnabled = false
     }
     
+    private let deleteButton = UIButton().then {
+        $0.addTarget(self, action: #selector(deleteButtonClicked), for: .touchUpInside)
+        $0.titleLabel?.textAlignment = .center
+        $0.titleLabel?.font = Resource.Asset.Font.system15
+        $0.setTitleColor(Resource.Asset.CIColor.blue, for: .normal)
+        $0.setTitle(Resource.UIConstants.Text.secessionLabel, for: .normal)
+        $0.setUnderline()
+    }
+    
     override func configHierarchy() {
         addSubview(profileView)
         profileView.addSubview(profileImageView)
@@ -81,6 +90,7 @@ final class SignUpView: BaseView {
         addSubview(completeButton)
         addSubview(mbtiLabel)
         addSubview(mbtiHorizontalStackView)
+        addSubview(deleteButton)
     }
     
     override func configLayout() {
@@ -130,6 +140,10 @@ final class SignUpView: BaseView {
         completeButton.snp.makeConstraints {
             $0.height.equalTo(40)
             $0.bottom.horizontalEdges.equalTo(safeAreaLayoutGuide).inset(20)
+        }
+        deleteButton.snp.makeConstraints { make in
+            make.height.equalTo(30)
+            make.bottom.horizontalEdges.equalTo(safeAreaLayoutGuide).inset(10)
         }
     }
     
@@ -202,6 +216,10 @@ final class SignUpView: BaseView {
         delegate?.addUser(nickname, imageName)
     }
     
+    @objc private func deleteButtonClicked(_ sender: UIButton) {
+        delegate?.deleteUserAlert()
+    }
+    
     func addTapGestureProfileView(_ tapGesture: UITapGestureRecognizer) {
         profileView.addGestureRecognizer(tapGesture)
     }
@@ -219,9 +237,11 @@ final class SignUpView: BaseView {
     func updatePresentationViewToggle(_ isUpdatePresentation: Bool?) {
         if let isUpdatePresentation, isUpdatePresentation {
             completeButton.isHidden = true
+            deleteButton.isHidden = false
             nickNameTextField.placeholder = ""
         } else {
             completeButton.isHidden = false
+            deleteButton.isHidden = true
             nickNameTextField.placeholder = Resource.UIConstants.Text.nickNamePlaceholder
         }
     }
@@ -262,4 +282,5 @@ final class SignUpView: BaseView {
         }
         return (nickname, imageName)
     }
+
 }

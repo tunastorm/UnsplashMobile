@@ -64,4 +64,5 @@ final class TopicPhotosCollectionViewCell: BaseCollectionViewCell {
         }
         layoutIfNeeded()
     }
+    
 }

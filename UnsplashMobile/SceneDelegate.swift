@@ -68,6 +68,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         
         UIView.transition(with: window, duration: 2.0, options: [.transitionCrossDissolve], animations: nil, completion: nil)
     }
+    
+    
 
 }
 

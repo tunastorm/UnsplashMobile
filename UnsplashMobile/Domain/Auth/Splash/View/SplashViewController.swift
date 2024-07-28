@@ -39,7 +39,7 @@ class SplashViewController: BaseViewController<BaseView, SplashViewModel> {
             nextView = tabBar
             withNavi = false
         } else {
-            let nextVC = OnboadingViewController(view: OnboardingView())
+            let nextVC = OnboardingViewController(view: OnboardingView())
             nextView = nextVC
             withNavi = true
         }
