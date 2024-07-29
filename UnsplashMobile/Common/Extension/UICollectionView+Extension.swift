@@ -34,8 +34,6 @@ extension UICollectionView {
             make.centerX.equalTo(emptyView.snp.centerX)
             make.centerY.equalTo(emptyView.snp.centerY)
         }
-        
-        print(#function, "백그라운드 뷰 생성완료")
         self.backgroundView = emptyView
     
     }

@@ -163,7 +163,6 @@ extension SignUpViewController: SignUpViewDelegate {
     
     func deleteUserAlert() {
         showAlert(style: .alert, title: Resource.UIConstants.Text.secessionAlertTitle, message: Resource.UIConstants.Text.secessionAlertMessage) { [weak self] _ in
-            print(#function, "회원탈퇴")
             self?.viewModel?.inputDeleteUser.value = ()
         }
     }

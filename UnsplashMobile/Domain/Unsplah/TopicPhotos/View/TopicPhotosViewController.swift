@@ -104,7 +104,6 @@ class TopicPhotosViewController: BaseViewController<TopicPhotosView, TopicPhotos
 extension TopicPhotosViewController: TopicPhotosCustomViewDelegate {
     
     @objc func pushToEditProfile() {
-       print(#function, "클릭됨")
        let vc = SignUpViewController(view: SignUpView(), viewModel: SignUpViewModel())
        vc.viewModel?.inputUpdatePresentation.value = ()
        pushAfterView(view: vc, backButton: true, animated: true)

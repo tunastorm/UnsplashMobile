@@ -56,7 +56,6 @@ final class Repository {
     }
     
     func updateUser(object: User.Type, value: [String: Any], complitionHandler: RepositoryResult) {
-        print(#function, value)
         do {
             try realm.write {
                 realm.create(object, value: value, update: .modified)

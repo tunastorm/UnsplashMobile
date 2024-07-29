@@ -34,7 +34,6 @@ final class LikedPhotosViewController: BaseViewController<LikedPhotosView, Liked
     }
     
     override func configInteraction() {
-        print(#function, "configInteraction 실행")
         rootView?.configInteractionWithViewController(viewController: self)
     }
     
@@ -68,7 +67,6 @@ final class LikedPhotosViewController: BaseViewController<LikedPhotosView, Liked
             return
         }
         rootView?.noLikedPhotosToggle(isNoLiked: photoList.count == 0)
-        print(#function, "조회 결과 수: ", photoList.count)
         updateLikedPhotosSnapShot(photoList)
     }
     

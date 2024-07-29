@@ -137,7 +137,6 @@ final class LikedPhotosView: BaseView {
         }
         delegate?.queryWithSortFilter(sender.tag)
         let sortList = Repository.Sorting.allCases
-        print(#function, "sort(\(sender.tag): ", sortList[sender.tag])
         sortFilterButton.setTitle(sortList[sender.tag].krName, for: .normal)
     }
     

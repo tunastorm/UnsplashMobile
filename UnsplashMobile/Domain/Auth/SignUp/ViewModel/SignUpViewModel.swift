@@ -62,7 +62,6 @@ class SignUpViewModel: BaseViewModel {
         let nickname = user?.nickname == nil ? nil : user?.nickname
         let imageName = user?.profileImage == nil ? Resource.Asset.NamedImage.randomProfile.name : user?.profileImage
         let mbtiList = user?.mbti == nil ? mbtiList : MBTI.convertToIntegerArray(combination: user?.mbti ?? "ESTJ")
-        print(#function, "mbtiList: ", mbtiList)
         self.mbtiList = mbtiList
         guard let imageName, let row = Int(imageName.replacingOccurrences(of: "profile_", with: "")) else {
             return
@@ -77,14 +76,12 @@ class SignUpViewModel: BaseViewModel {
         case .nickname: validationStatus.0 = nicknameValidation()
         case .mbti: validationStatus.1 = mbtiValidation()
         }
-        print(#function, "validationStatus: ", validationStatus)
         switch validationStatus {
         case (.nicknameIsValid, .mbtiIsValid): result = .allIsValid
         default:
             result = validationStatus.0
         }
         outputValidationResult.value = result
-        print(#function, "outputValidationResult: ",outputValidationResult.value)
     }
     
     private func nicknameValidation() -> ValidationStatus {
@@ -107,7 +104,6 @@ class SignUpViewModel: BaseViewModel {
     }
     
     private func mbtiValidation() -> ValidationStatus {
-        print(#function,"| start | validationStatus: ", validationStatus)
         let mbtiCheckSum = mbtiList.reduce(0, +)
         if  mbtiCheckSum > 4 ||  mbtiCheckSum < 0 {
             return ValidationStatus.mbtiInCorrect
@@ -120,12 +116,10 @@ class SignUpViewModel: BaseViewModel {
             return
         }
         mbtiList[indexInfo.0] = indexInfo.1
-        print(#function, "mbtiList: ", mbtiList)
         outputUpdatedMBTIAlphabet.value = indexInfo
     }
 
     private func addUser() {
-        print(#function, "user: ", inputAddUser.value)
         guard let nickname = inputAddUser.value?.0, let imageName = inputAddUser.value?.1 else {
             return
         }

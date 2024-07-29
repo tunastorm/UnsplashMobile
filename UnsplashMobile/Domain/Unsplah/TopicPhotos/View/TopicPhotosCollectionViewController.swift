@@ -38,7 +38,6 @@ extension TopicPhotosViewController {
     }
     
     func updateSnapShot(_ sectionDict: SectionDict) {
-        print(#function, "resultDict.keys: ", sectionDict.keys)
         let sectionList = Array(sectionDict.keys)
         var snapShot = NSDiffableDataSourceSnapshot<SectionType, CellType>()
         snapShot.appendSections(sectionList)

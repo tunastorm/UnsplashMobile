@@ -94,7 +94,6 @@ final class SearchPhotosCollectionViewCell: BaseCollectionViewCell {
     }
     
     func likeButtonToggle(_ isLiked: Bool = false) {
-        print(#function, "isLiked: ", isLiked)
         likeButton.isSelected = isLiked
         likeButton.setImage(Resource.Asset.NamedImage.like, for: .selected)
     }

@@ -19,7 +19,6 @@ class BaseViewModel {
     var user: User?
     
     init() {
-        print(self.self, #function)
         repository.detectRealmURL()
         transform()
     }

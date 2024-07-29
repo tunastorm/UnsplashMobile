@@ -20,7 +20,6 @@ final class PhotoDetailViewController: BaseViewController<PhotoDetailView, Photo
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        print(self.self, #function)
         rootView?.configData()
         viewModel?.inputGetLikedPhotos.value = ()
     }
@@ -43,7 +42,6 @@ extension PhotoDetailViewController: PhotoDetailViewDelegate {
     }
     
     func likeButtonToggle(id: String?) {
-        print(#function, "좋아요버튼 토글 이벤트")
         viewModel?.inputLikeButtonClicked.value = id
     }
     

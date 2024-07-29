@@ -62,17 +62,14 @@ final class SearchPhotosViewModel: BaseViewModel {
     private func callRequestSearchPhotos() {
         
         guard let keyword = inputRequestSearchPhotos.value else {
-            print(#function, "검색캔슬: ", inputRequestSearchPhotos.value )
             return
         }
-        print(#function, "검색시작: ", keyword)
         guard let page = pageNation() else { return }
         let color = getColorFilter(inputSelectedColorFilter.value)
         let sort = getSortFilter(inputSortFilter.value)
         let query = SearchPhotosQuery(query: keyword, sort: sort, color: color, page: page)
         let router = APIRouter.searchPhotos(query)
         
-        print(#function, "keyword: ", keyword, "sort: ", sort)
         APIManager.request(SearchPhotosResponse<Photo>.self, router: router) { [weak self] response in
             self?.searchCompletion(response)
         } failure: { [weak self] error in
@@ -110,7 +107,6 @@ final class SearchPhotosViewModel: BaseViewModel {
             }
             likedPhotos.append(fetched)
         }
-        print(#function, "likedPhotos: ", likedPhotos.count)
         return likedPhotos
     }
     
@@ -118,11 +114,9 @@ final class SearchPhotosViewModel: BaseViewModel {
         if let page = responseInfo.page, page > 1, outputSearchPhotos.value != nil {
             switch outputSearchPhotos.value {
             case .success(let photoList):
-                print(#function, "스크롤 실행중")
                 var newList = photoList
                 newList.append(contentsOf: response.results)
                 let fetchedPhotos = fetchPhotosIsLiked(newList)
-                print(#function, "fetchedPhotos: ", fetchedPhotos.count)
                 outputSearchPhotos.value = .success(fetchedPhotos)
             default: break
             }
@@ -184,12 +178,10 @@ final class SearchPhotosViewModel: BaseViewModel {
             return nil
         }
         responseInfo.page = newPage
-        print(#function, responseInfo.page)
         return newPage
     }
     
     private func addLikedItem(_ index: Int) {
-        print(#function, "좋아요 추가")
         guard let searchResult = outputSearchPhotos.value else {
             return
         }
@@ -200,9 +192,13 @@ final class SearchPhotosViewModel: BaseViewModel {
             }
             let photo = photoList[index]
             let likedPhoto = photo.managedObject()
+            
             if let colorFilter = outputSelectedColorFilter.value?.item {
                 likedPhoto.colorFilter = colorFilter
+            } else if let colorFilter = ColorFilter.allCases.filter({ $0.HexaColor == likedPhoto.color }).first?.rawValue {
+                likedPhoto.colorFilter = colorFilter
             }
+            
             repository.addLikedPhoto(list: likedList, item: likedPhoto) { [weak self] result in
                 switch result {
                 case .success(let status):
@@ -221,7 +217,6 @@ final class SearchPhotosViewModel: BaseViewModel {
             return
         }
         let object = ["item": likedPhoto]
-        print(#function, "object :" , object )
         repository.deleteLikedPhoto(likedPhoto) { [weak self] result in
             switch result {
             case .success(let status):

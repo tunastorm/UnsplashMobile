@@ -14,7 +14,6 @@ extension SearchPhotosViewController: UISearchBarDelegate {
             rootView?.collectionView.setEmptyView(message: Resource.UIConstants.Text.searchPhotosIdleMessage)
             return
         }
-        print(#function, "검색실행: ", keyword)
         if let oldKeyword = viewModel?.inputRequestSearchPhotos.value, oldKeyword ==  keyword {
             return
         }

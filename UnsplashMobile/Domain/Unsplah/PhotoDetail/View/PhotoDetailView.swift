@@ -298,7 +298,6 @@ final class PhotoDetailView: BaseView {
             createdDate.text = Utils.getFormattedDate(date: date, formatter: "yyyy년 M월 d일 게시됨")
         }
         likeButton.setTitle(photo.identifier, for: .normal)
-        print(#function,"\(photo.width) x \(photo.height)")
         sizeLabel.text = "\(photo.width) x \(photo.height)"
         
         likeButtonUIToggle(isLiked)
@@ -320,7 +319,6 @@ final class PhotoDetailView: BaseView {
     }
     
     @objc private func likeButtonClicked(_ sender: UIButton) {
-        print(#function, "sender(tag: \(sender.tag)): ", sender )
         likeButton.isSelected.toggle()
         let id = likeButton.isSelected ? nil : sender.title(for: .normal)
         delegate?.likeButtonToggle(id: id)

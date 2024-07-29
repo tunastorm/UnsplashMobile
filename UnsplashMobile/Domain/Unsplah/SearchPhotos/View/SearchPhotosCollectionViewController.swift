@@ -58,7 +58,6 @@ extension SearchPhotosViewController {
         snapShot.sectionIdentifiers.forEach { section in
             snapShot.appendItems(photoList, toSection: .main)
         }
-        print(#function, "스냅샷 업데이트")
         rootView?.noResultToggle(isNoResult: snapShot.numberOfItems == 0 )
         searchPhotosDataSource?.apply(snapShot)
     }
@@ -68,7 +67,6 @@ extension SearchPhotosViewController {
 extension SearchPhotosViewController: UICollectionViewDelegate, UICollectionViewDataSourcePrefetching {
    
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        print(#function, "필터 셀 클릭됨")
         if collectionView == rootView?.filterCollectionView {
             if let before = viewModel?.outputSelectedColorFilter.value {
                 let beforeCell = collectionView.cellForItem(at: before) as? ColorFilterCollectionViewCell
