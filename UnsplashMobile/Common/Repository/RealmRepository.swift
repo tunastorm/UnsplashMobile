@@ -95,11 +95,11 @@ final class Repository {
         }
     }
     
-    func fetchLikedList(user: User) -> Result<[LikedPhoto], RepositoryError>? {
+    func fetchLikedList(user: User, sort: Repository.Sorting = .latest) -> Result<[LikedPhoto], RepositoryError>? {
         var result: Result<[LikedPhoto], RepositoryError>?
         do {
             try realm.write {
-                let results = user.likedList.where{ !$0.isDelete }.sorted(byKeyPath: LikedPhoto.Column.regDate.name, ascending: true)
+                let results = user.likedList.where{ !$0.isDelete }.sorted(byKeyPath: LikedPhoto.Column.regDate.name, ascending: sort.value)
                 result = .success(Array(results))
             }
         } catch {

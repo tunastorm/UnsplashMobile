@@ -48,7 +48,9 @@ final class LikedPhotosViewModel: BaseViewModel {
             return
         }
         self.user = user
-        outputLikedPhotos.value = .success(Array(user.likedList.filter{ !$0.isDelete }))
+        let sort = inputSortFilter.value?.getSortFilter() ?? .latest
+        let likedPhotos = user.likedList.where({ !$0.isDelete }).sorted(byKeyPath: LikedPhoto.Column.regDate.name, ascending: sort.value)
+        outputLikedPhotos.value = .success(Array(likedPhotos))
     }
     
     private func queryLikedPhotos() {
