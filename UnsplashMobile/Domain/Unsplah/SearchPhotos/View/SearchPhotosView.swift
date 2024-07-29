@@ -135,7 +135,6 @@ final class SearchPhotosView: BaseView {
     func noResultToggle(isNoResult: Bool) {
         if isNoResult {
             collectionView.setEmptyView(message: Resource.UIConstants.Text.noSearchResultMessage)
-            filterInteractionToggle(isActive: false)
         } else {
             collectionView.restoreBackgroundView()
             filterInteractionToggle(isActive: true)

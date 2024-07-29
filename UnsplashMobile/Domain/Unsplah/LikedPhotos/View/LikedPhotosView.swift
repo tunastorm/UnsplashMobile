@@ -122,7 +122,6 @@ final class LikedPhotosView: BaseView {
     func noLikedPhotosToggle(isNoLiked: Bool) {
         if isNoLiked {
             collectionView.setEmptyView(message: Resource.UIConstants.Text.noLikedPhotosMessage)
-            filterInteractionToggle()
         } else {
             collectionView.restoreBackgroundView()
             filterInteractionToggle(isActive: true)
