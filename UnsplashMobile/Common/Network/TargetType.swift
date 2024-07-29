@@ -42,8 +42,9 @@ extension TargetType{
     func asURLRequest() throws -> URLRequest {
         let url = try (baseURL + path).asURL()
         var request = try URLRequest(url: url, method: method, headers: headers)
-
-        return try parameters.map { try encoder.encode($0, into: request) } ?? request
+        let result = try parameters.map { try encoder.encode($0, into: request) } ?? request
+        print(#function, result)
+        return result
     }
 }
 

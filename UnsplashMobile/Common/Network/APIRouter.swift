@@ -61,7 +61,7 @@ extension APIRouter: TargetType {
     enum Sorting: Int, CaseIterable {
         case relevant = 0
         case latest
-    
+      
         
         var name: String {
             return switch self {

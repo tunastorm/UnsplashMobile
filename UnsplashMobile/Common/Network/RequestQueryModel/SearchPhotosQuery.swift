@@ -16,7 +16,7 @@ struct SearchPhotosQuery: Encodable {
     
     enum CodingKeys: String, CodingKey {
         case query
-        case sort
+        case sort = "order_by"
         case color
         case page
         case perPage = "per_page"

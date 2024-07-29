@@ -144,12 +144,12 @@ final class SearchPhotosView: BaseView {
     
     @objc private func sortFilterButtonClicked(_ sender: UIButton) {
         let sortList = APIRouter.Sorting.allCases
-        delegate?.searchingWithSortFilter(sortList[sender.tag].krName)
         switch sender.tag {
         case 0: sender.tag = 1
         case 1: sender.tag = 0
         default: break
         }
+        delegate?.searchingWithSortFilter(sortList[sender.tag].name)
         sortFilterButton.setTitle(sortList[sender.tag].krName, for: .normal)
         collectionView.scrollsToTop = true
     }
