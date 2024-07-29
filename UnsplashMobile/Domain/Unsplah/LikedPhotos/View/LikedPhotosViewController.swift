@@ -43,7 +43,7 @@ final class LikedPhotosViewController: BaseViewController<LikedPhotosView, Liked
         })
         viewModel?.outputLikeButtonClickResult.bind { [weak self] result in
             guard let result else { return }
-            self?.rootView?.makeToast(result.message, duration: 3.0, position: .bottom)
+            self?.rootView?.makeToast(result.likeButtonMessage, duration: 3.0, position: .bottom)
         }
         viewModel?.outputDeleteLikedPhotoFromSnapshot.bind { [weak self] _ in
             self?.deleteLikedPhoto()

@@ -32,6 +32,9 @@ final class PhotoDetailViewController: BaseViewController<PhotoDetailView, Photo
         viewModel?.outputFetchIsLiked.bind { [weak self] isLiked in
             self?.rootView?.likeButtonUIToggle(isLiked)
         }
+        viewModel?.outputLikeButtonClickResult.bind { [weak self] result in
+            self?.rootView?.makeToast(result?.likeButtonMessage, duration: 3.0, position: .bottom)
+        }
     }
 }
 

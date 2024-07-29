@@ -11,6 +11,7 @@ import Foundation
 
 protocol RepositoryResult {
     var message: String { get }
+    var likeButtonMessage: String { get }
 }
 
 enum RepositoryStatus: RepositoryResult {
@@ -27,6 +28,14 @@ enum RepositoryStatus: RepositoryResult {
             return "수정이 완료되었습니다"
         case .deleteSuccess:
             return "삭제가 완료되었습니다"
+        }
+    }
+    
+    var likeButtonMessage: String {
+        return switch self {
+        case .updateSuccess: "좋아요 설정되었습니다"
+        case .deleteSuccess: "좋아요 해제되었습니다"
+        default: "올바르지 않은 입력입니다"
         }
     }
 }
@@ -46,6 +55,14 @@ enum RepositoryError: RepositoryResult, Error {
         case .updatedFailed: "수정에 실패하였습니다."
         case .deleteFailed: "삭제에 실패하였습니다"
         case .unexpectedError: "예상치 못한 에러가 발생하였습니다."
+        }
+    }
+    
+    var likeButtonMessage: String {
+        return switch self {
+        case .updatedFailed: "좋아요 설정에 실패하였습니다"
+        case .deleteFailed: "좋아요 해제에 실패하였습니다"
+        default: "올바르지 않은 입력입니다"
         }
     }
 }

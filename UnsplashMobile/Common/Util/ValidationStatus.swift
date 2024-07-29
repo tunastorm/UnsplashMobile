@@ -32,8 +32,6 @@ enum ValidationStatus: Error {
             "닉네임을 입력하세요"
         case .nicknameIsValid, .allIsValid:
             "사용할 수 있는 닉네임이에요"
-//        case .allIsValid:
-//            "회원가입을 진행할 수 있어요!"
         case .nicknameWithSpace:
             "닉네임의 공백은 띄어쓰기 1회만 사용가능합니다"
         case .nicknameWithSpecialCharacter:

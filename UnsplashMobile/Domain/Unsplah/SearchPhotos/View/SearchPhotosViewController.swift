@@ -56,7 +56,7 @@ final class SearchPhotosViewController: BaseViewController<SearchPhotosView, Sea
         }
         viewModel?.outputLikeButtonClickResult.bind { [weak self] result in
             guard let result else { return }
-            self?.rootView?.makeToast(result.message, duration: 3.0, position: .bottom)
+            self?.rootView?.makeToast(result.likeButtonMessage, duration: 3.0, position: .bottom)
         }
         viewModel?.outputFetchedPhotos.bind { [weak self] photoList in
             self?.updateSearchPhotosSnapShot(photoList)
