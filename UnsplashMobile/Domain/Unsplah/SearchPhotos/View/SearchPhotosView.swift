@@ -159,7 +159,6 @@ final class SearchPhotosView: BaseView {
     }
     
     func filterInteractionToggle(isActive: Bool = false) {
-        print(#function, "isActive: ", isActive)
         filterCollectionView.isUserInteractionEnabled = isActive
         sortFilterButton.isEnabled = isActive
     }

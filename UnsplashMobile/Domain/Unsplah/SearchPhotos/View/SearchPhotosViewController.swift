@@ -32,7 +32,6 @@ final class SearchPhotosViewController: BaseViewController<SearchPhotosView, Sea
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        print(self.self, #function)
         viewModel?.inputFetchLikedPhotos.value = ()
         rootView?.layoutIfNeeded()
     }
@@ -66,7 +65,7 @@ final class SearchPhotosViewController: BaseViewController<SearchPhotosView, Sea
     
     private func fetchShearchPhotos() {
         guard let result = viewModel?.outputSearchPhotos.value else {
-            rootView?.filterInteractionToggle(isActive: false)
+            rootView?.filterInteractionToggle()
             return
         }
         var photoList: [Photo] = []

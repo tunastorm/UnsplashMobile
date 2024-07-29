@@ -23,7 +23,7 @@ final class LikedPhotosViewController: BaseViewController<LikedPhotosView, Liked
  
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        print(self.self, #function)
+        rootView?.filterInteractionToggle()
         viewModel?.inputGetLikedList.value = ()
         rootView?.layoutIfNeeded()
     }
@@ -56,6 +56,7 @@ final class LikedPhotosViewController: BaseViewController<LikedPhotosView, Liked
     
     private func fetchLikedPhotos() {
         guard let result = viewModel?.outputLikedPhotos.value else {
+            rootView?.filterInteractionToggle()
             return
         }
         var photoList: [LikedPhoto] = []

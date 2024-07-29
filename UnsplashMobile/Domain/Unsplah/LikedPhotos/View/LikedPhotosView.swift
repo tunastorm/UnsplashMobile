@@ -122,8 +122,10 @@ final class LikedPhotosView: BaseView {
     func noLikedPhotosToggle(isNoLiked: Bool) {
         if isNoLiked {
             collectionView.setEmptyView(message: Resource.UIConstants.Text.noLikedPhotosMessage)
+            filterInteractionToggle()
         } else {
             collectionView.restoreBackgroundView()
+            filterInteractionToggle(isActive: true)
         }
     }
     
@@ -139,7 +141,10 @@ final class LikedPhotosView: BaseView {
         sortFilterButton.setTitle(sortList[sender.tag].krName, for: .normal)
     }
     
-  
-    
+    func filterInteractionToggle(isActive: Bool = false) {
+        filterCollectionView.isUserInteractionEnabled = isActive
+        sortFilterButton.isEnabled = isActive
+    }
+
 }
 
