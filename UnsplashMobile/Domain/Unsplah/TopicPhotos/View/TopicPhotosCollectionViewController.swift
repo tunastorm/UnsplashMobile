@@ -50,7 +50,6 @@ extension TopicPhotosViewController {
     func pushToPhotoDetailViewController(_ indexPath: IndexPath, _ item: Photo) {
         let vc = PhotoDetailViewController(view: PhotoDetailView(), viewModel: PhotoDetailViewModel())
         vc.viewModel?.inputSetPhotoDetailData.value = (indexPath, item, nil)
-        vc.viewModel?.beforeViewController = .topicPhotos
         pushAfterView(view: vc, backButton: true, animated: true)
     }
     

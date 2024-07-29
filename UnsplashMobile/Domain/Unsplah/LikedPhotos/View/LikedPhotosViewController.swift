@@ -74,9 +74,6 @@ final class LikedPhotosViewController: BaseViewController<LikedPhotosView, Liked
     private func deleteLikedPhoto() {
         guard let likedPhotos = viewModel?.outputDeleteLikedPhotoFromSnapshot.value,
               let dataSource = likedPhotosDataSource else { return }
-        if let id = likedPhotos.first?.id {
-            NotificationCenter.default.post(name: NSNotification.Name(NotificationName.LikedPhotosView.searchPhotos.name), object: nil, userInfo: ["id": id])
-        }
         var snapshot = dataSource.snapshot()
         snapshot.deleteItems(likedPhotos)
         likedPhotosDataSource?.apply(snapshot, animatingDifferences: true)
@@ -91,7 +88,6 @@ final class LikedPhotosViewController: BaseViewController<LikedPhotosView, Liked
         let photo = Photo.init(managedObject: item)
         let vc = PhotoDetailViewController(view: PhotoDetailView(), viewModel: PhotoDetailViewModel())
         vc.viewModel?.inputSetPhotoDetailData.value = (indexPath, photo, colorFilter)
-        vc.viewModel?.beforeViewController = .likedPhotos
         pushAfterView(view: vc, backButton: true, animated: true)
     }
     

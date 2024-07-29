@@ -18,7 +18,6 @@ final class PhotoDetailViewModel: BaseViewModel {
     var outputFetchIsLiked: Observable<Bool> = Observable(false)
     
     
-    var beforeViewController: NotificationName.DetailView?
     private var indexPath: IndexPath?
     private var colorFilter: IndexPath?
     

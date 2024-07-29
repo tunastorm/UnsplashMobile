@@ -17,7 +17,6 @@
 		BC041C8C2C562E720062992F /* TopicPhotosCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC041C8B2C562E720062992F /* TopicPhotosCollectionViewController.swift */; };
 		BC041C902C56686B0062992F /* Int+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC041C8F2C56686B0062992F /* Int+Extension.swift */; };
 		BC041C922C566AA00062992F /* IndexPath+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC041C912C566AA00062992F /* IndexPath+Extension.swift */; };
-		BC041C952C5684050062992F /* NotificationName.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC041C942C5684050062992F /* NotificationName.swift */; };
 		BC95D8602C56E9CE003F4376 /* UIButton+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC95D85F2C56E9CE003F4376 /* UIButton+Extension.swift */; };
 		BCCB4C892C57581A00B4B950 /* UICollectionView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCCB4C882C57581A00B4B950 /* UICollectionView+Extension.swift */; };
 		BCF5F6522C4E2058002D9EA0 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCF5F6512C4E2058002D9EA0 /* AppDelegate.swift */; };
@@ -128,7 +127,6 @@
 		BC041C8B2C562E720062992F /* TopicPhotosCollectionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TopicPhotosCollectionViewController.swift; sourceTree = "<group>"; };
 		BC041C8F2C56686B0062992F /* Int+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Int+Extension.swift"; sourceTree = "<group>"; };
 		BC041C912C566AA00062992F /* IndexPath+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "IndexPath+Extension.swift"; sourceTree = "<group>"; };
-		BC041C942C5684050062992F /* NotificationName.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationName.swift; sourceTree = "<group>"; };
 		BC95D85F2C56E9CE003F4376 /* UIButton+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIButton+Extension.swift"; sourceTree = "<group>"; };
 		BCCB4C882C57581A00B4B950 /* UICollectionView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UICollectionView+Extension.swift"; sourceTree = "<group>"; };
 		BCF5F64E2C4E2058002D9EA0 /* UnsplashMobile.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = UnsplashMobile.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -259,14 +257,6 @@
 			path = Model;
 			sourceTree = "<group>";
 		};
-		BC041C932C5683F60062992F /* NotificationCenter */ = {
-			isa = PBXGroup;
-			children = (
-				BC041C942C5684050062992F /* NotificationName.swift */,
-			);
-			path = NotificationCenter;
-			sourceTree = "<group>";
-		};
 		BCF5F6452C4E2058002D9EA0 = {
 			isa = PBXGroup;
 			children = (
@@ -301,7 +291,6 @@
 		BCF5F6692C4E239C002D9EA0 /* Common */ = {
 			isa = PBXGroup;
 			children = (
-				BC041C932C5683F60062992F /* NotificationCenter */,
 				BCF5F6BB2C4E52D8002D9EA0 /* Util */,
 				BCF5F6AD2C4E4F89002D9EA0 /* Protocol */,
 				BCF5F6952C4E3360002D9EA0 /* Resource */,
@@ -816,7 +805,6 @@
 				BCF5F70D2C4E8340002D9EA0 /* LikedPhotosViewController.swift in Sources */,
 				BCF5F6B32C4E4FFC002D9EA0 /* ReusableIdentifier.swift in Sources */,
 				BC041C692C53CC6D0062992F /* SearchPhotosSearchBar.swift in Sources */,
-				BC041C952C5684050062992F /* NotificationName.swift in Sources */,
 				BCF5F66C2C4E23E5002D9EA0 /* APIKey.swift in Sources */,
 				BCF654AB2C526A94008EB2CA /* SearchPhotosCollectionViewCell.swift in Sources */,
 				BCF5F69D2C4E464C002D9EA0 /* BaseViewController.swift in Sources */,
@@ -1015,6 +1003,7 @@
 				DEVELOPMENT_TEAM = F8FT97JYZT;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = UnsplashMobile/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "유철원";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
@@ -1047,6 +1036,7 @@
 				DEVELOPMENT_TEAM = F8FT97JYZT;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = UnsplashMobile/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "유철원";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
