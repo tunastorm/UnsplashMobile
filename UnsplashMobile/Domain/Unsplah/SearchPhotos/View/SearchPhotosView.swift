@@ -67,13 +67,6 @@ final class SearchPhotosView: BaseView {
     lazy var filterCollectionView = UICollectionView(frame: .zero, collectionViewLayout: colorFilterLayout())
     lazy var collectionView = UICollectionView(frame: .zero, collectionViewLayout: searchPhotosLayout())
     
-    private let backgroundView = UIView()
-    private let messageLabel = UILabel().then {
-        $0.font = Resource.Asset.Font.boldSystem20
-        $0.textColor = Resource.Asset.CIColor.gray
-        $0.textAlignment = .center
-    }
-    
     override func configHierarchy() {
         addSubview(searchBar)
         addSubview(lineView)
@@ -81,7 +74,6 @@ final class SearchPhotosView: BaseView {
         filterView.addSubview(filterCollectionView)
         filterView.addSubview(sortFilterButton)
         addSubview(collectionView)
-        backgroundView.addSubview(messageLabel)
     }
     
     override func configLayout() {
@@ -117,21 +109,16 @@ final class SearchPhotosView: BaseView {
             make.top.equalTo(filterView.snp.bottom).offset(6)
             make.bottom.horizontalEdges.equalTo(safeAreaLayoutGuide)
         }
-        messageLabel.snp.makeConstraints { make in
-            make.height.equalTo(80)
-            make.horizontalEdges.equalToSuperview().inset(20)
-            make.center.equalToSuperview()
-        }
         
     }
     
     override func configView() {
         filterCollectionView.showsHorizontalScrollIndicator = false
-        collectionView.backgroundView = backgroundView
     }
     
     override func layoutIfNeeded() {
         super.layoutIfNeeded()
+        collectionView.setEmptyView(message: Resource.UIConstants.Text.searchPhotosIdleMessage)
         sortFilterButton.layer.maskedCorners = [.layerMinXMinYCorner, .layerMinXMaxYCorner]
         sortFilterButton.layer.cornerRadius = sortFilterButton.frame.height / 2
     }
@@ -145,6 +132,14 @@ final class SearchPhotosView: BaseView {
         collectionView.prefetchDataSource = vc
     }
     
+    func noResultToggle(isNoResult: Bool) {
+        if isNoResult {
+            collectionView.setEmptyView(message: Resource.UIConstants.Text.noSearchResultMessage)
+        } else {
+            collectionView.restoreBackgroundView()
+        }
+    }
+    
     @objc private func sortFilterButtonClicked(_ sender: UIButton) {
         let sortList = APIRouter.Sorting.allCases
         delegate?.searchingWithSortFilter(sortList[sender.tag].krName)
@@ -155,6 +150,10 @@ final class SearchPhotosView: BaseView {
         }
         sortFilterButton.setTitle(sortList[sender.tag].krName, for: .normal)
         collectionView.scrollsToTop = true
+    }
+    
+    func setSearchBarText(_ keyword: String) {
+        searchBar.text = keyword
     }
 
 }

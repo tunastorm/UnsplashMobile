@@ -38,6 +38,7 @@ final class SignUpViewController: BaseViewController<SignUpView, SignUpViewModel
         viewModel?.outputValidationResult.bind { [weak self] result in 
             guard let result else { return }
             self?.rootView?.nickNameValidationToggle(result)
+            self?.saveButtonToggle(result)
         }
         viewModel?.outputUpdatedMBTIAlphabet.bind{ [weak self] mbtiInfo in
             guard let mbtiInfo else { return }
@@ -83,6 +84,11 @@ final class SignUpViewController: BaseViewController<SignUpView, SignUpViewModel
             navigationItem.title = Resource.UIConstants.Text.profileSetting
         }
         rootView?.updatePresentationViewToggle(viewModel?.outputUpdatePresentation.value)
+    }
+    
+    private func saveButtonToggle(_ result: ValidationStatus) {
+        let isValid = result == .allIsValid
+        navigationItem.rightBarButtonItem?.isEnabled = isValid
     }
     
     private func goTopicPhotosViewController() {

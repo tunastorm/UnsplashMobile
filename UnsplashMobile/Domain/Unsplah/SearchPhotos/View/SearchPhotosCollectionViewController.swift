@@ -59,6 +59,8 @@ extension SearchPhotosViewController {
         snapShot.sectionIdentifiers.forEach { topic in
             snapShot.appendItems(photoList, toSection: .main)
         }
+        print(#function, "스냅샷 업데이트")
+        rootView?.noResultToggle(isNoResult: snapShot.numberOfItems == 0 )
         searchPhotosDataSource?.apply(snapShot)
     }
     

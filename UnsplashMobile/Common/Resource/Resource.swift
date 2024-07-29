@@ -36,6 +36,7 @@ enum Resource {
         enum Text {
             static let appTitle = "Unsplash\nMobile"
             static let applicantName = "유철원"
+            static let startButton = "시작하기"
             static let compeleteButton = "완료"
             static let searchTabBar = "검색"
             static let settingTabBar = "설정"
@@ -48,8 +49,8 @@ enum Resource {
             static let topicPhotosTitle = "OUR TOPIC"
             
             static let searchPhotosTitle = "SEARCH PHOTO"
-            static let noListMessgae = "최근 검색어가 없어요"
-            static let searchBarPlaceHolder = "브랜드, 상품 등을 입력하세요"
+            static let searchPhotosIdleMessage = "사진을 검색해보세요"
+            static let noSearchResultMessage = "검색결과가 없습니다."
             
             static let photoDetailInfoLabel = "정보"
             static let photoDetailSizeInfoLabel = "크기"
@@ -60,6 +61,8 @@ enum Resource {
             static let photoDetailDownloadChartLabel = "다운로드"
             
             static let likedPhotosTitle = "MY POLAROID"
+            static let likedPhotosIdleMessage = "마음에 드는 사진에 좋아요를 눌러보세요"
+            static let noLikedPhotosMessage = "저장된 사진이 없어요"
             
             static let settingViewTitle = "SETTING"
             static let saveNewProfile = "저장"

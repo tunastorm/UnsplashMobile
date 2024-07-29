@@ -18,6 +18,7 @@ final class SearchPhotosViewModel: BaseViewModel {
     var inputSortFilter: Observable<String?> = Observable(nil)
     var inputLikeButtonClicked: Observable<(Int?,String?)> = Observable((nil,nil))
     var inputScrollTrigger: Observable<Void?> = Observable(nil)
+    var inputCealerResultList: Observable<Void?> = Observable(nil)
     
     var outputSearchPhotos: Observable<SearchPhotosResult?> = Observable(nil)
     var outputLikedList: Observable<[LikedPhoto]> = Observable([])
@@ -51,6 +52,9 @@ final class SearchPhotosViewModel: BaseViewModel {
         inputScrollTrigger.bind { [weak self] _ in
             self?.callRequestSearchPhotos()
         }
+        inputCealerResultList.bind { [weak self] _ in
+            self?.clearSearchRecord()
+        }
         configObservers()
     }
     
@@ -60,7 +64,9 @@ final class SearchPhotosViewModel: BaseViewModel {
     }
     
     private func callRequestSearchPhotos() {
-        guard let keyword = inputRequestSearchPhotos.value else { return }
+        guard let keyword = inputRequestSearchPhotos.value else {
+            return
+        }
         guard let page = pageNation() else { return }
         let color = getColorFilter(inputSelectedColorFilter.value)
         let sort = getSortFilter(inputSortFilter.value)

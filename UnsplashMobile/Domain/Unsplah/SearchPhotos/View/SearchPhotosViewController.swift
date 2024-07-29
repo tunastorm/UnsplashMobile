@@ -46,7 +46,6 @@ final class SearchPhotosViewController: BaseViewController<SearchPhotosView, Sea
     
     override func bindData() {
         viewModel?.outputSearchPhotos.bind { [weak self] result in
-            guard let result else { return }
             self?.fetchShearchPhotos()
         }
         viewModel?.outputScrollToTop.bind { [weak self] _ in
@@ -75,7 +74,8 @@ final class SearchPhotosViewController: BaseViewController<SearchPhotosView, Sea
             self.rootView?.makeToast(error.message, duration: 3.0, position: .bottom, title: error.title)
             return
         }
-        print(#function, "검색결과 수: ", photoList.count)
+        print(#function, "photoList.count: ", photoList.count)
+        rootView?.noResultToggle(isNoResult: photoList.count == 0)
         updateSearchPhotosSnapShot(photoList)
     }
     

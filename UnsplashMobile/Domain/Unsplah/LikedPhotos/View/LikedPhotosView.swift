@@ -63,20 +63,12 @@ final class LikedPhotosView: BaseView {
     lazy var filterCollectionView = UICollectionView(frame: .zero, collectionViewLayout: colorFilterLayout())
     lazy var collectionView = UICollectionView(frame: .zero, collectionViewLayout: searchPhotosLayout())
     
-    private let backgroundView = UIView()
-    private let messageLabel = UILabel().then {
-        $0.font = Resource.Asset.Font.boldSystem20
-        $0.textColor = Resource.Asset.CIColor.gray
-        $0.textAlignment = .center
-    }
-    
     override func configHierarchy() {
         addSubview(lineView)
         addSubview(filterView)
         filterView.addSubview(filterCollectionView)
         filterView.addSubview(sortFilterButton)
         addSubview(collectionView)
-        backgroundView.addSubview(messageLabel)
     }
     
     override func configLayout() {
@@ -106,17 +98,12 @@ final class LikedPhotosView: BaseView {
             make.top.equalTo(filterView.snp.bottom).offset(6)
             make.bottom.horizontalEdges.equalTo(safeAreaLayoutGuide)
         }
-        messageLabel.snp.makeConstraints { make in
-            make.height.equalTo(80)
-            make.horizontalEdges.equalToSuperview().inset(20)
-            make.center.equalToSuperview()
-        }
         
     }
     
     override func configView() {
         filterCollectionView.showsHorizontalScrollIndicator = false
-        collectionView.backgroundView = backgroundView
+        collectionView.setEmptyView(message: Resource.UIConstants.Text.likedPhotosIdleMessage)
     }
     
     override func layoutIfNeeded() {
@@ -132,6 +119,14 @@ final class LikedPhotosView: BaseView {
         collectionView.delegate = vc
     }
     
+    func noLikedPhotosToggle(isNoLiked: Bool) {
+        if isNoLiked {
+            collectionView.setEmptyView(message: Resource.UIConstants.Text.noLikedPhotosMessage)
+        } else {
+            collectionView.restoreBackgroundView()
+        }
+    }
+    
     @objc private func sortFilterButtonClicked(_ sender: UIButton) {
         switch sender.tag {
         case 0: sender.tag = 1
@@ -143,6 +138,8 @@ final class LikedPhotosView: BaseView {
         print(#function, "sort(\(sender.tag): ", sortList[sender.tag])
         sortFilterButton.setTitle(sortList[sender.tag].krName, for: .normal)
     }
+    
+  
     
 }
 

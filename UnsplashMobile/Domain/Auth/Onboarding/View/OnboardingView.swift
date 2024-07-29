@@ -29,7 +29,7 @@ final class OnboardingView: BaseView {
         $0.backgroundColor = Resource.Asset.CIColor.blue
         $0.layer.cornerRadius = Resource.UIConstants.CornerRadious.startButton
         $0.layer.masksToBounds = true
-        $0.setTitle(Resource.UIConstants.Text.compeleteButton, for: .normal)
+        $0.setTitle(Resource.UIConstants.Text.startButton, for: .normal)
         $0.addTarget(self, action: #selector(goSignUpViewController), for: .touchUpInside)
     }
     

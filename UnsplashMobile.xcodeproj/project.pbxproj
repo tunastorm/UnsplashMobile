@@ -19,6 +19,7 @@
 		BC041C922C566AA00062992F /* IndexPath+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC041C912C566AA00062992F /* IndexPath+Extension.swift */; };
 		BC041C952C5684050062992F /* NotificationName.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC041C942C5684050062992F /* NotificationName.swift */; };
 		BC95D8602C56E9CE003F4376 /* UIButton+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC95D85F2C56E9CE003F4376 /* UIButton+Extension.swift */; };
+		BCCB4C892C57581A00B4B950 /* UICollectionView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCCB4C882C57581A00B4B950 /* UICollectionView+Extension.swift */; };
 		BCF5F6522C4E2058002D9EA0 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCF5F6512C4E2058002D9EA0 /* AppDelegate.swift */; };
 		BCF5F6542C4E2058002D9EA0 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCF5F6532C4E2058002D9EA0 /* SceneDelegate.swift */; };
 		BCF5F6562C4E2058002D9EA0 /* SplashViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCF5F6552C4E2058002D9EA0 /* SplashViewController.swift */; };
@@ -130,6 +131,7 @@
 		BC041C912C566AA00062992F /* IndexPath+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "IndexPath+Extension.swift"; sourceTree = "<group>"; };
 		BC041C942C5684050062992F /* NotificationName.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationName.swift; sourceTree = "<group>"; };
 		BC95D85F2C56E9CE003F4376 /* UIButton+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIButton+Extension.swift"; sourceTree = "<group>"; };
+		BCCB4C882C57581A00B4B950 /* UICollectionView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UICollectionView+Extension.swift"; sourceTree = "<group>"; };
 		BCF5F64E2C4E2058002D9EA0 /* UnsplashMobile.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = UnsplashMobile.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		BCF5F6512C4E2058002D9EA0 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		BCF5F6532C4E2058002D9EA0 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -404,6 +406,7 @@
 				BC041C8F2C56686B0062992F /* Int+Extension.swift */,
 				BC041C912C566AA00062992F /* IndexPath+Extension.swift */,
 				BC95D85F2C56E9CE003F4376 /* UIButton+Extension.swift */,
+				BCCB4C882C57581A00B4B950 /* UICollectionView+Extension.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -822,6 +825,7 @@
 				BCF5F69D2C4E464C002D9EA0 /* BaseViewController.swift in Sources */,
 				BCF5F6B62C4E5055002D9EA0 /* User.swift in Sources */,
 				BCF5F6C12C4E5940002D9EA0 /* Observable.swift in Sources */,
+				BCCB4C892C57581A00B4B950 /* UICollectionView+Extension.swift in Sources */,
 				BCF5F6542C4E2058002D9EA0 /* SceneDelegate.swift in Sources */,
 				BCF654AF2C5399E0008EB2CA /* Struct+Extension.swift in Sources */,
 				BCF654452C513BD8008EB2CA /* BaseCollectionResuableView.swift in Sources */,

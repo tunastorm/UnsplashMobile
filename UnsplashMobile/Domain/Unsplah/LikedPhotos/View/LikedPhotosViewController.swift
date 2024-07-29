@@ -65,8 +65,22 @@ final class LikedPhotosViewController: BaseViewController<LikedPhotosView, Liked
             self.rootView?.makeToast(error.message, duration: 3.0, position: .bottom)
             return
         }
+        rootView?.noLikedPhotosToggle(isNoLiked: photoList.count == 0)
         print(#function, "조회 결과 수: ", photoList.count)
         updateLikedPhotosSnapShot(photoList)
+    }
+    
+    
+    private func deleteLikedPhoto() {
+        guard let likedPhotos = viewModel?.outputDeleteLikedPhotoFromSnapshot.value,
+              let dataSource = likedPhotosDataSource else { return }
+        if let id = likedPhotos.first?.id {
+            NotificationCenter.default.post(name: NSNotification.Name(NotificationName.LikedPhotosView.searchPhotos.name), object: nil, userInfo: ["id": id])
+        }
+        var snapshot = dataSource.snapshot()
+        snapshot.deleteItems(likedPhotos)
+        likedPhotosDataSource?.apply(snapshot, animatingDifferences: true)
+        viewModel?.outputDeleteLikedPhotoFromSnapshot.value = nil
     }
     
     func pushToPhotoDetailViewController(_ indexPath: IndexPath, _ item: LikedPhoto) {
@@ -79,18 +93,6 @@ final class LikedPhotosViewController: BaseViewController<LikedPhotosView, Liked
         vc.viewModel?.inputSetPhotoDetailData.value = (indexPath, photo, colorFilter)
         vc.viewModel?.beforeViewController = .likedPhotos
         pushAfterView(view: vc, backButton: true, animated: true)
-    }
-    
-    private func deleteLikedPhoto() {
-        guard let likedPhotos = viewModel?.outputDeleteLikedPhotoFromSnapshot.value,
-              let dataSource = likedPhotosDataSource else { return }
-        if let id = likedPhotos.first?.id {
-            NotificationCenter.default.post(name: NSNotification.Name(NotificationName.LikedPhotosView.searchPhotos.name), object: nil, userInfo: ["id": id])
-        }
-        var snapshot = dataSource.snapshot()
-        snapshot.deleteItems(likedPhotos)
-        likedPhotosDataSource?.apply(snapshot, animatingDifferences: true)
-        viewModel?.outputDeleteLikedPhotoFromSnapshot.value = nil
     }
     
 }

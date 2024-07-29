@@ -29,6 +29,15 @@ final class TextInputFilter {
         return (inputText == trimed && trimed.count - replaced.count <= 1) ? replaced : nil
     }
     
+    func removeSerialSpaceForSearch(_ inputText: String?) -> String? {
+        guard let inputText else {
+            return nil
+        }
+        let trimed = inputText.trimmingCharacters(in: .whitespacesAndNewlines)
+        let replaced = trimed.replacingOccurrences(of: serialSpaceFilter, with:"")
+        return replaced == " " ? replaced.replacingOccurrences(of: " ", with: "") : replaced
+    }
+    
     func filterSpace(_ inputText: String ) -> ValidationStatus? {
         guard let replaced = removeSerialSpace(inputText) else {
             return ValidationStatus.nicknameWithSpace

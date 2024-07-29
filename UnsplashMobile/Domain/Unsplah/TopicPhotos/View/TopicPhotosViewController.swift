@@ -76,14 +76,6 @@ class TopicPhotosViewController: BaseViewController<TopicPhotosView, TopicPhotos
               make.edges.equalToSuperview()
               make.width.height.equalTo(40)
           }
-//        let image = UIImage(named: imageName)?.withRenderingMode(.alwaysOriginal)
-//        editProfileButton.setImage(image, for: .normal)
-//        editProfileButton.addTarget(self, action: #selector(pushToEditProfile), for: .touchUpInside)
-//        customView.addSubview(editProfileButton)
-//        editProfileButton.snp.makeConstraints { make in
-//            make.size.equalTo(40)
-//            make.trailing.verticalEdges.equalToSuperview()
-//        }
     }
     
     private func fetchProfileImage() {

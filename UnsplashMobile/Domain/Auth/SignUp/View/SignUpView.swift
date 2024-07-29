@@ -143,7 +143,9 @@ final class SignUpView: BaseView {
         }
         deleteButton.snp.makeConstraints { make in
             make.height.equalTo(30)
-            make.bottom.horizontalEdges.equalTo(safeAreaLayoutGuide).inset(10)
+            make.width.equalTo(120)
+            make.centerX.equalTo(safeAreaLayoutGuide)
+            make.bottom.equalTo(safeAreaLayoutGuide).inset(20)
         }
     }
     
@@ -265,7 +267,7 @@ final class SignUpView: BaseView {
     
     func nickNameValidationToggle(_ result: ValidationStatus) {
         let isValid = result == .allIsValid
-        completeButton.isUserInteractionEnabled =  isValid
+        completeButton.isUserInteractionEnabled = isValid
         completeButton.backgroundColor =  isValid ? Resource.Asset.CIColor.blue : Resource.Asset.CIColor.gray
         messageLabel.text = result.message
         messageLabel.textColor = (isValid || result == .nicknameIsValid)

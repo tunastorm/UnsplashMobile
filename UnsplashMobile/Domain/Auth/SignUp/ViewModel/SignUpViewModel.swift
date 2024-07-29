@@ -62,6 +62,8 @@ class SignUpViewModel: BaseViewModel {
         let nickname = user?.nickname == nil ? nil : user?.nickname
         let imageName = user?.profileImage == nil ? Resource.Asset.NamedImage.randomProfile.name : user?.profileImage
         let mbtiList = user?.mbti == nil ? mbtiList : MBTI.convertToIntegerArray(combination: user?.mbti ?? "ESTJ")
+        print(#function, "mbtiList: ", mbtiList)
+        self.mbtiList = mbtiList
         guard let imageName, let row = Int(imageName.replacingOccurrences(of: "profile_", with: "")) else {
             return
         }
