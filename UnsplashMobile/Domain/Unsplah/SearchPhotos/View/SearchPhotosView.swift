@@ -135,9 +135,10 @@ final class SearchPhotosView: BaseView {
     func noResultToggle(isNoResult: Bool) {
         if isNoResult {
             collectionView.setEmptyView(message: Resource.UIConstants.Text.noSearchResultMessage)
+            filterInteractionToggle(isActive: false)
         } else {
-            print(#function, "검색결과 있음")
             collectionView.restoreBackgroundView()
+            filterInteractionToggle(isActive: true)
         }
     }
     
@@ -155,6 +156,12 @@ final class SearchPhotosView: BaseView {
     
     func setSearchBarText(_ keyword: String) {
         searchBar.text = keyword
+    }
+    
+    func filterInteractionToggle(isActive: Bool = false) {
+        print(#function, "isActive: ", isActive)
+        filterCollectionView.isUserInteractionEnabled = isActive
+        sortFilterButton.isEnabled = isActive
     }
 
 }

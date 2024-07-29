@@ -56,10 +56,6 @@ struct Photo: Decodable, Hashable {
         self.isLiked = isLiked
     }
     
-    static func == (lhs: Self, rhs: Self) -> Bool {
-        return lhs.identifier == rhs.identifier
-    }
-    
 }
 
 struct Artist: Decodable, Hashable {

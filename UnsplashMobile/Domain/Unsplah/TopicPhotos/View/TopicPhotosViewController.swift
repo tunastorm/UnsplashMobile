@@ -98,7 +98,6 @@ class TopicPhotosViewController: BaseViewController<TopicPhotosView, TopicPhotos
         configureDataSource(Array(sectionDict.keys))
         updateSnapShot(sectionDict)
     }
-
     
 }
 

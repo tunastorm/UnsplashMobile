@@ -68,10 +68,9 @@ extension SearchPhotosViewController {
 extension SearchPhotosViewController: UICollectionViewDelegate, UICollectionViewDataSourcePrefetching {
    
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        
+        print(#function, "필터 셀 클릭됨")
         if collectionView == rootView?.filterCollectionView {
             if let before = viewModel?.outputSelectedColorFilter.value {
-                print(#function, "이전 컬러필터 UI 변경")
                 let beforeCell = collectionView.cellForItem(at: before) as? ColorFilterCollectionViewCell
                 beforeCell?.isSelected = false
                 beforeCell?.colorFilterToggle()
@@ -80,7 +79,6 @@ extension SearchPhotosViewController: UICollectionViewDelegate, UICollectionView
                     return
                 }
             }
-            print(#function, "클릭된 컬러필터 UI 변경")
             let cell = collectionView.cellForItem(at: indexPath) as? ColorFilterCollectionViewCell
             cell?.colorFilterToggle()
             viewModel?.inputSelectedColorFilter.value = indexPath

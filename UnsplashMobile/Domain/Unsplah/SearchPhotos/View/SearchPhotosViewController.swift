@@ -27,6 +27,7 @@ final class SearchPhotosViewController: BaseViewController<SearchPhotosView, Sea
         configureFilterDataSource()
         configureSearchPhotosDataSource()
         updateFilterSnapShot()
+        rootView?.filterInteractionToggle()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -65,6 +66,7 @@ final class SearchPhotosViewController: BaseViewController<SearchPhotosView, Sea
     
     private func fetchShearchPhotos() {
         guard let result = viewModel?.outputSearchPhotos.value else {
+            rootView?.filterInteractionToggle(isActive: false)
             return
         }
         var photoList: [Photo] = []
@@ -75,7 +77,8 @@ final class SearchPhotosViewController: BaseViewController<SearchPhotosView, Sea
             self.rootView?.makeToast(error.message, duration: 3.0, position: .bottom, title: error.title)
             return
         }
-        rootView?.noResultToggle(isNoResult: photoList.count == 0)
+        let isNoResult = photoList.count == 0
+        rootView?.noResultToggle(isNoResult: isNoResult)
         updateSearchPhotosSnapShot(photoList)
     }
     
