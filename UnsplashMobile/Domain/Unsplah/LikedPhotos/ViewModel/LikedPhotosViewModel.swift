@@ -112,7 +112,6 @@ final class LikedPhotosViewModel: BaseViewModel {
     }
 
     private func deleteLikedItem(_ likedPhoto: LikedPhoto) {
-        outputDeleteLikedPhotoFromSnapshot.value = [likedPhoto]
         repository.deleteLikedPhoto(likedPhoto) { [weak self] result in
             switch result {
             case .success(let status):

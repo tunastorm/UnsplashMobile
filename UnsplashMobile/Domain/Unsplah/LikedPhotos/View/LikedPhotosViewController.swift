@@ -12,7 +12,7 @@ protocol LikedPhotosViewDelegate {
 }
 
 protocol LikedPhotosCollectionViewCellDelegate {
-    func likeButtonToggleEvent(isAdd: Bool, _ index: Int)
+    func likeButtonToggleEvent(isAdd: Bool, _ item: LikedPhoto)
 }
 
 
@@ -109,9 +109,8 @@ extension LikedPhotosViewController: LikedPhotosViewDelegate {
 
 extension LikedPhotosViewController: LikedPhotosCollectionViewCellDelegate {
     
-    func likeButtonToggleEvent(isAdd: Bool, _ index: Int) {
-        guard let likedPhoto = likedPhotosDataSource?.itemIdentifier(for: IndexPath(row: index, section: 0)) else { return }
-        viewModel?.inputLikeButtonClicked.value = (isAdd, likedPhoto)
+    func likeButtonToggleEvent(isAdd: Bool, _ item: LikedPhoto) {
+        viewModel?.inputLikeButtonClicked.value = (isAdd,  item)
     }
     
 }

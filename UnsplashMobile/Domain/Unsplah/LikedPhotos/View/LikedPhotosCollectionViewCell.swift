@@ -11,6 +11,8 @@ import Then
 
 final class LikedPhotosCollectionViewCell: BaseCollectionViewCell {
     
+    private var data: LikedPhoto?
+    
     private var delegate: LikedPhotosCollectionViewCellDelegate?
     
     private let photoView = UIImageView().then {
@@ -85,10 +87,11 @@ final class LikedPhotosCollectionViewCell: BaseCollectionViewCell {
     
     func configCell(data: LikedPhoto, index: Int) {
         guard let urlString = data.urls?.small, let url = URL(string: urlString) else { return }
+        self.data = data
         likeButton.tag = index
         likeButton.setTitle(data.id, for: .normal)
         let likes = data.likes.formatted()
-        let likeButtonWidth = 34 + likes.count * 10
+        let likeButtonWidth = 30 + likes.count * 10
         photoView.kf.setImage(with: url)
         starButton.setTitle(likes, for: .normal)
         starButton.snp.updateConstraints { make in
@@ -98,8 +101,9 @@ final class LikedPhotosCollectionViewCell: BaseCollectionViewCell {
     }
 
     @objc private func likeButtonClicked(_ sender: UIButton) {
+        guard let data else { return }
         likeButton.isSelected.toggle()
-        delegate?.likeButtonToggleEvent(isAdd: isSelected, sender.tag)
+        delegate?.likeButtonToggleEvent(isAdd: isSelected, data)
         if likeButton.isSelected {
             likeButton.setImage(Resource.Asset.NamedImage.like, for: .selected)
         } else {
