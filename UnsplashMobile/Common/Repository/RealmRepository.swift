@@ -39,10 +39,10 @@ final class Repository {
         print(realm.configuration.fileURL ?? "")
     }
 
-    func createItem(_ data: Object, complitionHandler: RepositoryResult) {
+    func createUser(_ user: User, complitionHandler: RepositoryResult) {
         do {
             try realm.write {
-                realm.add(data)
+                realm.add(user)
             }
             complitionHandler(.success(RepositoryStatus.createSuccess))
         } catch {
@@ -50,22 +50,12 @@ final class Repository {
         }
     }
     
-    func fetchItem<T:Object>(object: T.Type, primaryKey: ObjectId) -> T? {
-        return realm.object(ofType: object, forPrimaryKey: primaryKey)
-    }
-    
-    func fetchAll<T: Object>(obejct: T.Type, sortKey column: any ColumnManager, acending: Bool = true, query: ((Query<T>) -> Query<Bool>)? = nil) -> [T] {
-        let value = realm.objects(obejct).sorted(byKeyPath: column.name, ascending: acending)
-        return Array(value)
-    }
-
-    func searchCompoundedFilter<T:Object>(objet: T.Type, sortKey column: any ColumnManager, acending: Bool = true, compoundPredicate: NSCompoundPredicate, filter: (Query<T>) -> Query<Bool>) -> [T] {
-        let value = realm.objects(objet).where(filter).filter(compoundPredicate).sorted(byKeyPath: column.name, ascending: acending)
-        print(#function, value)
+    func fetchUser(sortKey column: any ColumnManager, acending: Bool = true, query: ((Query<User>) -> Query<Bool>)? = nil) -> [User]{
+        let value = realm.objects(User.self).where{ !$0.isDelete }.sorted(byKeyPath: column.name, ascending: acending)
         return Array(value)
     }
     
-    func updateItem<T:Object>(object: T.Type, value: [String: Any], complitionHandler: RepositoryResult) {
+    func updateUser(object: User.Type, value: [String: Any], complitionHandler: RepositoryResult) {
         print(#function, value)
         do {
             try realm.write {
@@ -78,7 +68,6 @@ final class Repository {
     }
     
     func deleteUser(_ user: User, complitionHandler: RepositoryResult) {
-        
         var resultDict: [String: Int] = ["success": 0, "failure": 0]
         user.likedList.forEach { likedPhoto in
             deleteLikedPhoto(likedPhoto) { result in
@@ -99,12 +88,25 @@ final class Repository {
         }
         do {
             try realm.write {
-                realm.delete(user)
+                user.isDelete = true
             }
             complitionHandler(.success(RepositoryStatus.deleteSuccess))
         } catch {
             complitionHandler(.failure(RepositoryError.deleteFailed))
         }
+    }
+    
+    func fetchLikedList(user: User) -> Result<[LikedPhoto], RepositoryError>? {
+        var result: Result<[LikedPhoto], RepositoryError>?
+        do {
+            try realm.write {
+                let results = user.likedList.where{ !$0.isDelete }.sorted(byKeyPath: LikedPhoto.Column.regDate.name, ascending: true)
+                result = .success(Array(results))
+            }
+        } catch {
+            result = .failure(RepositoryError.noResult)
+        }
+        return result
     }
     
     func addLikedPhoto(list: List<LikedPhoto> , item: LikedPhoto, complitionHandler: RepositoryResult) {
@@ -133,9 +135,9 @@ final class Repository {
             try realm.write {
                 var result: Results<LikedPhoto>?
                 if let colors {
-                    result = user.likedList.where{ $0.colorFilter.in(colors) }.sorted(byKeyPath: LikedPhoto.Column.regDate.name, ascending: sort.value)
+                    result = user.likedList.where{ $0.colorFilter.in(colors) && !$0.isDelete }.sorted(byKeyPath: LikedPhoto.Column.regDate.name, ascending: sort.value)
                 } else {
-                    result = user.likedList.sorted(byKeyPath: LikedPhoto.Column.createdAt.name, ascending: sort.value)
+                    result = user.likedList.where{ !$0.isDelete }.sorted(byKeyPath: LikedPhoto.Column.createdAt.name, ascending: sort.value)
                 }
                 complitionHandler(.success(result))
             }
@@ -153,10 +155,7 @@ final class Repository {
         Utils.photoManager.removeImageFromDocument(filename: artist.realmId.stringValue)
         do {
             try realm.write {
-                realm.delete(profileImage)
-                realm.delete(artist)
-                realm.delete(urls)
-                realm.delete(item)
+                item.isDelete = true
             }
             complitionHandler(.success(RepositoryStatus.deleteSuccess))
         } catch {

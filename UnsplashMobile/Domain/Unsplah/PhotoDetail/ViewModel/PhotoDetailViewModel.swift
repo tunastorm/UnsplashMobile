@@ -11,18 +11,24 @@ final class PhotoDetailViewModel: BaseViewModel {
     
     var inputSetPhotoDetailData: Observable<(IndexPath, Photo, IndexPath?)?> = Observable(nil)
     var inputLikeButtonClicked: Observable<String?> = Observable(nil)
+    var inputGetLikedPhotos: Observable<Void?> = Observable(nil)
     
     var outputPhotoDetailData: Observable<(Photo, PhotoStatisticsResponse?, Bool)?> = Observable(nil)
-    var outputLikeButtonClickResult: Observable<(RepositoryResult)?> = Observable(nil)
+    var outputLikeButtonClickResult: Observable<RepositoryResult?> = Observable(nil)
+    var outputFetchIsLiked: Observable<Bool> = Observable(false)
+    
     
     var beforeViewController: NotificationName.DetailView?
     private var indexPath: IndexPath?
     private var colorFilter: IndexPath?
     
     override func transform() {
+        inputGetLikedPhotos.bind { [weak self] _ in
+            self?.fetchIsLiked()
+        }
         
         inputSetPhotoDetailData.bind { [weak self] _ in
-            self?.getLikeList()
+            self?.fetchIsLiked()
             self?.setDetailViewData()
         }
         
@@ -32,11 +38,20 @@ final class PhotoDetailViewModel: BaseViewModel {
         
     }
 
-    private func getLikeList() {
-        guard let user = repository.fetchAll(obejct: User.self, sortKey: User.Column.signUpDate).last else {
+    private func fetchIsLiked() {
+        guard let user = repository.fetchUser(sortKey: User.Column.signUpDate).last else {
             return
         }
         self.user = user
+        guard let data = outputPhotoDetailData.value else {
+            return
+        }
+        let photo = data.0
+        let likedList = user.likedList.filter{ !$0.isDelete }
+        print(#function, "photo.id: ", photo.identifier)
+        print(#function, "likedList")
+        dump(likedList)
+        outputFetchIsLiked.value = likedList.filter{ $0.id == photo.identifier }.count > 0
     }
     
     private func setDetailViewData() {
@@ -48,8 +63,8 @@ final class PhotoDetailViewModel: BaseViewModel {
             return
         }
         guard let likedList = user?.likedList else { return }
-        let isLiked = likedList.filter{ $0.id == photo.id }.count > 0
-        let statistics = callRequestPhotoStatistic(photo.id)
+        let isLiked = likedList.filter{ $0.id == photo.identifier && !$0.isDelete }.count > 0
+        let statistics = callRequestPhotoStatistic(photo.identifier)
         outputPhotoDetailData.value = (photo, statistics, isLiked)
         print(#function, "[ outputPhotoDetailData ]\n", outputPhotoDetailData.value)
     }
@@ -78,7 +93,7 @@ final class PhotoDetailViewModel: BaseViewModel {
     }
     
     private func addLikedItem() {
-        guard let likedList = self.user?.likedList,let photo = inputSetPhotoDetailData.value?.1 else {
+        guard let likedList = self.user?.likedList, let photo = inputSetPhotoDetailData.value?.1 else {
             print(#function, self.user)
             return
         }
@@ -90,9 +105,8 @@ final class PhotoDetailViewModel: BaseViewModel {
         repository.addLikedPhoto(list: likedList, item: likedPhoto) { [weak self] result in
             switch result {
             case .success(let status):
-                self?.getLikeList()
+                self?.fetchIsLiked()
                 self?.outputLikeButtonClickResult.value = status
-                self?.notificationLikeButtonClicked()
             case .failure(let error):
                 self?.outputLikeButtonClickResult.value = error
             }
@@ -100,34 +114,18 @@ final class PhotoDetailViewModel: BaseViewModel {
     }
 
     private func deleteLikedItem(_ id: String) {
-        guard let likedList = user?.likedList,  let likedPhoto = likedList.filter { $0.id == id }.last else {
+        guard let likedList = user?.likedList,
+              let likedPhoto = likedList.filter { $0.id == id && !$0.isDelete }.last else {
             return
-        }
-        print(#function, "좋아요한 사진 삭제")
-        if let beforeViewController, beforeViewController == .likedPhotos {
-            let object = ["item" : likedPhoto]
-            NotificationCenter.default.post(name: NSNotification.Name(beforeViewController.name), object: object, userInfo: nil)
         }
         repository.deleteLikedPhoto(likedPhoto) { [weak self] result in
             switch result {
             case .success(let status):
-                self?.getLikeList()
+                self?.fetchIsLiked()
                 self?.outputLikeButtonClickResult.value = status
-                self?.notificationLikeButtonClicked()
             case .failure(let error):
                 self?.outputLikeButtonClickResult.value = error
             }
-        }
-    }
-    
-    func notificationLikeButtonClicked() {
-        guard let beforeViewController else { return }
-        var notificationName = beforeViewController.name
-        switch beforeViewController {
-        case .searchPhotos:
-            var object = ["indexPath": indexPath]
-            NotificationCenter.default.post(name: NSNotification.Name(notificationName), object: object, userInfo: nil)
-        default: break
         }
     }
 }

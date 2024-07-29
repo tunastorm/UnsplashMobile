@@ -22,7 +22,7 @@ struct SearchPhotosResponse<T: Decodable>: Decodable {
 }
 
 struct Photo: Decodable, Hashable {
-    let id: String
+    let identifier: String
     let createdAt: String
     let width: Int
     let height: Int
@@ -30,9 +30,10 @@ struct Photo: Decodable, Hashable {
     let urls: URLs?
     let likes: Int
     let user: Artist?
+    var isLiked: Bool?
     
     enum CodingKeys: String, CodingKey {
-        case id
+        case identifier = "id"
         case createdAt = "created_at"
         case width
         case height
@@ -40,7 +41,25 @@ struct Photo: Decodable, Hashable {
         case urls
         case likes
         case user
+        case isLiked
     }
+
+    init(identifier: String, createdAt: String, width: Int, height: Int, color: String, urls: URLs?, likes: Int, user: Artist?, isLiked: Bool? = false) {
+        self.identifier = identifier
+        self.createdAt = createdAt
+        self.width = width
+        self.height = height
+        self.color = color
+        self.urls = urls
+        self.likes = likes
+        self.user = user
+        self.isLiked = isLiked
+    }
+    
+    static func == (lhs: Self, rhs: Self) -> Bool {
+        return lhs.identifier == rhs.identifier
+    }
+    
 }
 
 struct Artist: Decodable, Hashable {
@@ -56,9 +75,6 @@ struct Artist: Decodable, Hashable {
 
 struct ProfileImage: Decodable, Hashable {
     let medium: String
-    init(medium: String) {
-        self.medium = medium
-    }
 }
 
 struct URLs: Decodable, Hashable {

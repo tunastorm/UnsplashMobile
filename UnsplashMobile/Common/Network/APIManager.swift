@@ -29,7 +29,6 @@ final class APIManager {
                 switch response.result {
                 case .success:
                     guard let decodedData = response.value else {return}
-
                     success(decodedData)
                 case .failure(let AFError):
                     let error = convertAFErrorToAPIError(AFError)

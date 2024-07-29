@@ -9,6 +9,7 @@ import Foundation
 
 enum NotificationName {
     
+    
     enum DetailView {
         case searchPhotos
         case topicPhotos
@@ -45,5 +46,4 @@ enum NotificationName {
         }
     }
     
-
 }

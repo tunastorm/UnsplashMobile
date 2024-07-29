@@ -82,7 +82,7 @@ final class SearchPhotosCollectionViewCell: BaseCollectionViewCell {
     func configCell(data: Photo, index: Int) {
         guard let urlString = data.urls?.small, let url = URL(string: urlString) else { return }
         likeButton.tag = index
-        likeButton.setTitle(data.id, for: .normal)
+        likeButton.setTitle(data.identifier, for: .normal)
         let likes = data.likes.formatted()
         let likeButtonWidth = 34 + likes.count * 10
         photoView.kf.setImage(with: url)

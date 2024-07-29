@@ -20,7 +20,9 @@ final class PhotoDetailViewController: BaseViewController<PhotoDetailView, Photo
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        print(self.self, #function)
         rootView?.configData()
+        viewModel?.inputGetLikedPhotos.value = ()
     }
     
     override func configInteraction() {
@@ -28,7 +30,9 @@ final class PhotoDetailViewController: BaseViewController<PhotoDetailView, Photo
     }
     
     override func bindData() {
-    
+        viewModel?.outputFetchIsLiked.bind { [weak self] isLiked in
+            self?.rootView?.likeButtonUIToggle(isLiked)
+        }
     }
 }
 

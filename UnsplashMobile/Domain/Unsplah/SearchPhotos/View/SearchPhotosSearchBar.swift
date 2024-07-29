@@ -18,12 +18,12 @@ extension SearchPhotosViewController: UISearchBarDelegate {
         if let oldKeyword = viewModel?.inputRequestSearchPhotos.value, oldKeyword ==  keyword {
             return
         }
+        
         if viewModel?.outputSearchPhotos.value != nil {
             viewModel?.inputCealerResultList.value = ()
+            rootView?.collectionView.scrollsToTop = true
         }
-        viewModel?.inputRequestSearchPhotos.value = keyword
         rootView?.setSearchBarText(keyword)
-        rootView?.collectionView.scrollsToTop = true
         searchBar.endEditing(true)
     }
     

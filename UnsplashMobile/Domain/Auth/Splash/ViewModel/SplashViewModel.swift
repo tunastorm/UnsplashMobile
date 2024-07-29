@@ -20,6 +20,6 @@ final class SplashViewModel: BaseViewModel {
     }
 
     private func getUser() {
-        outputUser.value = repository.fetchAll(obejct: object, sortKey: User.Column.signUpDate).first
+        outputUser.value = repository.fetchUser(sortKey: User.Column.signUpDate).first
     }
 }

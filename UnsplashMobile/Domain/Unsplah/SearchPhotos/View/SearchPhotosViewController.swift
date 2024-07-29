@@ -31,7 +31,8 @@ final class SearchPhotosViewController: BaseViewController<SearchPhotosView, Sea
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        viewModel?.inputGetLikedList.value = ()
+        print(self.self, #function)
+        viewModel?.inputFetchLikedPhotos.value = ()
         rootView?.layoutIfNeeded()
     }
     
@@ -53,12 +54,12 @@ final class SearchPhotosViewController: BaseViewController<SearchPhotosView, Sea
                 rootView.collectionView.scrollToItem(at: IndexPath(row: 0, section: 0), at: .top, animated: false)
             }
         }
-        viewModel?.outputUpdatedLikeButton.bind { [weak self] _ in
-            self?.updateLikedPhoto()
-        }
         viewModel?.outputLikeButtonClickResult.bind { [weak self] result in
             guard let result else { return }
             self?.rootView?.makeToast(result.message, duration: 3.0, position: .bottom)
+        }
+        viewModel?.outputFetchedPhotos.bind { [weak self] photoList in
+            self?.updateSearchPhotosSnapShot(photoList)
         }
     }
     
@@ -74,7 +75,6 @@ final class SearchPhotosViewController: BaseViewController<SearchPhotosView, Sea
             self.rootView?.makeToast(error.message, duration: 3.0, position: .bottom, title: error.title)
             return
         }
-        print(#function, "photoList.count: ", photoList.count)
         rootView?.noResultToggle(isNoResult: photoList.count == 0)
         updateSearchPhotosSnapShot(photoList)
     }
@@ -85,15 +85,6 @@ final class SearchPhotosViewController: BaseViewController<SearchPhotosView, Sea
         vc.viewModel?.inputSetPhotoDetailData.value = (indexPath, item, colorFilter)
         vc.viewModel?.beforeViewController = .searchPhotos
         pushAfterView(view: vc, backButton: true, animated: true)
-    }
-    
-    private func updateLikedPhoto() {
-        guard let dataSource = searchPhotosDataSource,
-              let indexPath = viewModel?.outputUpdatedLikeButton.value,
-              let item = dataSource.itemIdentifier(for: indexPath) else { return }
-        var snapshot = dataSource.snapshot()
-        snapshot.reloadItems([item])
-        searchPhotosDataSource?.apply(snapshot, animatingDifferences: true)
     }
     
 }

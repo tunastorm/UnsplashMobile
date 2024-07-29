@@ -40,21 +40,15 @@ final class LikedPhotosViewModel: BaseViewModel {
         inputLikeButtonClicked.bind { [weak self] _ in
             self?.likeButtonToggle()
         }
-        configObservers()
-    }
-    
-    private func configObservers() {
-        NotificationCenter.default.addObserver(self, selector: #selector(deleteLikedPhotoFromNotification), name: NSNotification.Name(NotificationName.DetailView.likedPhotos.name), object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(deleteLikedPhotoFromNotification), name: NSNotification.Name(NotificationName.SearchPhotosView.likedPhotos.name), object: nil)
     }
     
     private func getLikeList() {
-        guard let user = repository.fetchAll(obejct: User.self, sortKey: User.Column.signUpDate).last else {
+        guard let user = repository.fetchUser(sortKey: User.Column.signUpDate).last else {
             outputLikedPhotos.value = .failure(.noResult)
             return
         }
         self.user = user
-        outputLikedPhotos.value = .success(Array(user.likedList))
+        outputLikedPhotos.value = .success(Array(user.likedList.filter{ !$0.isDelete }))
     }
     
     private func queryLikedPhotos() {
@@ -109,7 +103,6 @@ final class LikedPhotosViewModel: BaseViewModel {
                 case .success(let status):
                     self?.getLikeList()
                     self?.outputLikeButtonClickResult.value = status
-                    NotificationCenter.default.post(name: NSNotification.Name(NotificationName.LikedPhotosView.searchPhotos.name), object: nil)
                 case .failure(let error):
                     self?.outputLikeButtonClickResult.value = error
                 }
@@ -129,14 +122,6 @@ final class LikedPhotosViewModel: BaseViewModel {
                 self?.outputLikeButtonClickResult.value = error
             }
         }
-    }
-    
-    @objc private func deleteLikedPhotoFromNotification(_ notification: Notification) {
-        guard let object = notification.object as? [String : LikedPhoto], let likedPhoto = object["item"] else {
-            return
-        }
-        let likedPhotos = [likedPhoto]
-        outputDeleteLikedPhotoFromSnapshot.value = likedPhotos
     }
     
 }

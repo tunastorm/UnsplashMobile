@@ -58,7 +58,7 @@ class SignUpViewModel: BaseViewModel {
     }
     
     private func getUser() {
-        self.user = repository.fetchAll(obejct: object, sortKey: User.Column.signUpDate).first
+        self.user = repository.fetchUser(sortKey: User.Column.signUpDate).first
         let nickname = user?.nickname == nil ? nil : user?.nickname
         let imageName = user?.profileImage == nil ? Resource.Asset.NamedImage.randomProfile.name : user?.profileImage
         let mbtiList = user?.mbti == nil ? mbtiList : MBTI.convertToIntegerArray(combination: user?.mbti ?? "ESTJ")
@@ -134,7 +134,7 @@ class SignUpViewModel: BaseViewModel {
         }
         let mbti = MBTI.combination(list: mbtiList)
         let user = User(nickname: nickname, profilImage: imageName, mbti: mbti)
-        repository.createItem(user) { [weak self] result in
+        repository.createUser(user) { [weak self] result in
             switch result {
             case .success(let status):
                 self?.outputAddUserResult.value = status
@@ -157,7 +157,7 @@ class SignUpViewModel: BaseViewModel {
             User.Column.profileImage.name: imageName,
             User.Column.mbti.name: MBTI.combination(list: mbtiList)
         ]
-        repository.updateItem(object: object, value: user) { [weak self] result in
+        repository.updateUser(object: object, value: user) { [weak self] result in
             switch result {
             case .success(let status):
                 self?.outputUpdateUserResult.value = status

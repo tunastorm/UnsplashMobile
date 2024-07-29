@@ -15,6 +15,7 @@ final class User: Object {
     @Persisted var signUpDate: Date
     @Persisted var mbti: String
     @Persisted var likedList: List<LikedPhoto>
+    @Persisted var isDelete: Bool
     
     convenience init(nickname: String, profilImage: String, mbti: String) {
         self.init()
@@ -22,6 +23,7 @@ final class User: Object {
         self.profileImage = profilImage
         self.mbti = mbti
         self.signUpDate = Date()
+        self.isDelete = false
     }
     
     enum Column: String, CaseIterable, ColumnManager {
@@ -31,6 +33,7 @@ final class User: Object {
         case signUpDate
         case mbti
         case likedList
+        case isDelete
         
         var name: String {
             return self.rawValue
@@ -38,18 +41,13 @@ final class User: Object {
         
         var krName: String {
             return switch self {
-            case .id:
-               "아이디"
-            case .nickname:
-               "닉네임"
-            case .profileImage:
-               "프로필 이미지"
-            case .signUpDate:
-                "가입일"
-            case .mbti:
-                "MBTI"
-            case .likedList:
-                "좋아요 목록"
+            case .id: "아이디"
+            case .nickname: "닉네임"
+            case .profileImage: "프로필 이미지"
+            case .signUpDate: "가입일"
+            case .mbti: "MBTI"
+            case .likedList: "좋아요 목록"
+            case .isDelete: "탈퇴여부"
             }
         }
         

@@ -297,14 +297,11 @@ final class PhotoDetailView: BaseView {
         if let date = Utils.getDateFromFormattedString(dateString: photo.createdAt, formatter: "yyyy-MM-ddEEEEEHH-mm-ssZ") {
             createdDate.text = Utils.getFormattedDate(date: date, formatter: "yyyy년 M월 d일 게시됨")
         }
-        likeButton.setTitle(photo.id, for: .normal)
+        likeButton.setTitle(photo.identifier, for: .normal)
         print(#function,"\(photo.width) x \(photo.height)")
         sizeLabel.text = "\(photo.width) x \(photo.height)"
         
-        if isLiked {
-            likeButton.isSelected.toggle()
-            likeButton.setImage(Resource.Asset.NamedImage.like, for: .selected)
-        }
+        likeButtonUIToggle(isLiked)
         
         if let statistics {
             viewCountLabel.text = statistics.views.total.formatted()
@@ -312,7 +309,18 @@ final class PhotoDetailView: BaseView {
         }
     }
     
+    func likeButtonUIToggle(_ isLiked: Bool) {
+        if isLiked {
+            likeButton.isSelected = true
+            likeButton.setImage(Resource.Asset.NamedImage.like, for: .selected)
+        } else {
+            likeButton.isSelected = false
+            likeButton.setImage(Resource.Asset.NamedImage.likeInActive, for: .normal)
+        }
+    }
+    
     @objc private func likeButtonClicked(_ sender: UIButton) {
+        print(#function, "sender(tag: \(sender.tag)): ", sender )
         likeButton.isSelected.toggle()
         let id = likeButton.isSelected ? nil : sender.title(for: .normal)
         delegate?.likeButtonToggle(id: id)
@@ -324,21 +332,7 @@ final class PhotoDetailView: BaseView {
     }
     
     @objc private func didChangeValue(segment: UISegmentedControl) {
-        
         self.showingView = segment.selectedSegmentIndex
-//        if showingView == 1 && .isEmpty ||
-//           showingView == 2 && flattenAbroad.isEmpty {
-//            setRegionList()
-//            return
-//        }
-//        
-//        switch showingView {
-//        case 0: filterredArr = flattenArr
-//        case 1: filterredArr = flattenDomestic
-//        case 2: filterredArr = flattenAbroad
-//        default: return
-//        }
-//        tableView.reloadData()
     }
     
     

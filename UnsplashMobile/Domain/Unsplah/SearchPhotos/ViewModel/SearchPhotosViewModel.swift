@@ -12,7 +12,7 @@ final class SearchPhotosViewModel: BaseViewModel {
     
     typealias SearchPhotosResult = Result<[Photo], APIError>
 
-    var inputGetLikedList: Observable<Void?> = Observable(nil)
+    var inputFetchLikedPhotos: Observable<Void?> = Observable(nil)
     var inputRequestSearchPhotos: Observable<String?> = Observable(nil)
     var inputSelectedColorFilter: Observable<IndexPath?> = Observable(nil)
     var inputSortFilter: Observable<String?> = Observable(nil)
@@ -21,7 +21,7 @@ final class SearchPhotosViewModel: BaseViewModel {
     var inputCealerResultList: Observable<Void?> = Observable(nil)
     
     var outputSearchPhotos: Observable<SearchPhotosResult?> = Observable(nil)
-    var outputLikedList: Observable<[LikedPhoto]> = Observable([])
+    var outputFetchedPhotos: Observable<[Photo]> = Observable([])
     var outputSelectedColorFilter: Observable<IndexPath?> = Observable(nil)
     var outputLikeButtonClickResult: Observable<(RepositoryResult)?> = Observable(nil)
     var outputScrollToTop: Observable<Void?> = Observable(nil)
@@ -29,13 +29,15 @@ final class SearchPhotosViewModel: BaseViewModel {
    
     private var responseInfo = SearchPhotosResponse<Photo>(total: 0, page: 0, totalPages: 1)
     var showDetailPhotoIndex: IndexPath?
-
+    var likedIds: [String] = []
+    
+    
     override func transform() {
         inputRequestSearchPhotos.bind { [weak self] _ in
             self?.callRequestSearchPhotos()
         }
-        inputGetLikedList.bind { [weak self] _ in
-            self?.getLikeList()
+        inputFetchLikedPhotos.bind { [weak self] _ in
+            self?.fetchLikedPhotos(isUpdate: true)
         }
         inputSelectedColorFilter.bind { [weak self] indexPath in
             self?.outputSelectedColorFilter.value = indexPath
@@ -55,18 +57,15 @@ final class SearchPhotosViewModel: BaseViewModel {
         inputCealerResultList.bind { [weak self] _ in
             self?.clearSearchRecord()
         }
-        configObservers()
-    }
-    
-    private func configObservers() {
-        NotificationCenter.default.addObserver(self, selector: #selector(updateLikeButtonStateFromNotification), name: NSNotification.Name(NotificationName.DetailView.searchPhotos.name), object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(updateLikeButtonStateFromNotification), name: NSNotification.Name(NotificationName.LikedPhotosView.searchPhotos.name), object: nil)
     }
     
     private func callRequestSearchPhotos() {
+        
         guard let keyword = inputRequestSearchPhotos.value else {
+            print(#function, "검색캔슬: ", inputRequestSearchPhotos.value )
             return
         }
+        print(#function, "검색시작: ", keyword)
         guard let page = pageNation() else { return }
         let color = getColorFilter(inputSelectedColorFilter.value)
         let sort = getSortFilter(inputSortFilter.value)
@@ -97,10 +96,77 @@ final class SearchPhotosViewModel: BaseViewModel {
     }
     
     private func searchCompletion(_ response: SearchPhotosResponse<Photo>){
-        getLikeList()
         setNewResponse(response)
     }
-
+    
+    private func fetchPhotosIsLiked(_ photos: [Photo]) -> [Photo]{
+        var likedList = likedIds
+        var likedPhotos: [Photo] = []
+        for photo in photos {
+            var fetched = photo
+            if likedList.contains(photo.identifier) {
+                fetched.isLiked = true
+                likedList.removeAll(where: { $0 == photo.identifier})
+            }
+            likedPhotos.append(fetched)
+        }
+        print(#function, "likedPhotos: ", likedPhotos.count)
+        return likedPhotos
+    }
+    
+    private func setNewResponse(_ response: SearchPhotosResponse<Photo>) {
+        if let page = responseInfo.page, page > 1, outputSearchPhotos.value != nil {
+            switch outputSearchPhotos.value {
+            case .success(let photoList):
+                print(#function, "스크롤 실행중")
+                var newList = photoList
+                newList.append(contentsOf: response.results)
+                let fetchedPhotos = fetchPhotosIsLiked(newList)
+                print(#function, "fetchedPhotos: ", fetchedPhotos.count)
+                outputSearchPhotos.value = .success(fetchedPhotos)
+            default: break
+            }
+            return
+        }
+        if responseInfo.page == 1 {
+            responseInfo.total = response.total
+            responseInfo.totalPages = response.totalPages
+            let fetchedPhotos = fetchPhotosIsLiked(response.results)
+            outputSearchPhotos.value = .success(fetchedPhotos)
+            return
+        }
+    }
+    
+    @objc private func fetchLikedPhotos(isUpdate: Bool = false) {
+        guard let user = repository.fetchUser(sortKey: User.Column.signUpDate).last else {
+            return
+        }
+        self.user = user
+        likedIds = user.likedList.filter { !$0.isDelete }.map{ $0.id }
+        if isUpdate {
+            switch outputSearchPhotos.value {
+            case .success(let searchPhotos):
+                outputFetchedPhotos.value = fetchPhotosIsLiked(searchPhotos)
+            default: break
+            }
+        }
+    }
+    
+    private func likeButtonToggle() {
+        var likedInfo = inputLikeButtonClicked.value
+        if likedInfo == (nil, nil) { // DetailView에서 좋아요 누른 경우
+            likedInfo = (showDetailPhotoIndex?.item, nil)
+        }
+        if let index = likedInfo.0 {
+            addLikedItem(index)
+            return
+        }
+        if let id = likedInfo.1  {
+            deleteLikedItem(id)
+           return
+        }
+    }
+    
     private func clearSearchRecord() {
         outputSearchPhotos.value = nil
         responseInfo.total = 0
@@ -122,47 +188,6 @@ final class SearchPhotosViewModel: BaseViewModel {
         return newPage
     }
     
-    private func setNewResponse(_ response: SearchPhotosResponse<Photo>) {
-        if let page = responseInfo.page, page > 1, outputSearchPhotos.value != nil {
-            switch outputSearchPhotos.value {
-            case .success(let photoList):
-                var newList = photoList
-                newList.append(contentsOf: response.results)
-                outputSearchPhotos.value = .success(newList)
-            default: break
-            }
-            return
-        }
-        if responseInfo.page == 1 {
-            responseInfo.total = response.total
-            responseInfo.totalPages = response.totalPages
-            outputSearchPhotos.value = .success(response.results)
-        }
-    }
-    
-    @objc private func getLikeList() {
-        guard let user = repository.fetchAll(obejct: User.self, sortKey: User.Column.signUpDate).last else {
-            return
-        }
-        self.user = user
-        outputLikedList.value = Array(user.likedList)
-    }
-    
-    private func likeButtonToggle() {
-        var likedInfo = inputLikeButtonClicked.value
-        if likedInfo == (nil, nil) { // DetailView에서 좋아요 누른 경우
-            likedInfo = (showDetailPhotoIndex?.item, nil)
-        }
-        if let index = likedInfo.0 {
-            addLikedItem(index)
-            return
-        }
-        if let id = likedInfo.1  {
-            deleteLikedItem(id)
-           return
-        }
-    }
-    
     private func addLikedItem(_ index: Int) {
         print(#function, "좋아요 추가")
         guard let searchResult = outputSearchPhotos.value else {
@@ -181,7 +206,7 @@ final class SearchPhotosViewModel: BaseViewModel {
             repository.addLikedPhoto(list: likedList, item: likedPhoto) { [weak self] result in
                 switch result {
                 case .success(let status):
-                    self?.getLikeList()
+                    self?.fetchLikedPhotos(isUpdate: true)
                     self?.outputLikeButtonClickResult.value = status
                 case .failure(let error):
                     self?.outputLikeButtonClickResult.value = error
@@ -192,49 +217,19 @@ final class SearchPhotosViewModel: BaseViewModel {
     }
 
     private func deleteLikedItem(_ id: String) {
-        let likedPhoto = outputLikedList.value.filter { $0.id == id }.last
-        guard let likedPhoto else {
+        guard let likedPhoto = user?.likedList.filter{ !$0.isDelete && $0.id == id }.last else {
             return
         }
         let object = ["item": likedPhoto]
         print(#function, "object :" , object )
-        NotificationCenter.default.post(name:  NSNotification.Name(NotificationName.SearchPhotosView.likedPhotos.name) , object: object)
         repository.deleteLikedPhoto(likedPhoto) { [weak self] result in
             switch result {
             case .success(let status):
-                self?.getLikeList()
+                self?.fetchLikedPhotos(isUpdate: true)
                 self?.outputLikeButtonClickResult.value = status
-                print(#function, status.message)
-//                self?.outputUpdatedLikeButton.value = showDetailPhotoIndex
             case .failure(let error):
                 self?.outputLikeButtonClickResult.value = error
             }
         }
-    }
-    
-    @objc private func updateLikeButtonStateFromNotification(_ notification: Notification) {
-        var indexPath: IndexPath?
-        if let userInfo = notification.userInfo as? [String:String]  {
-            var index: Int?
-            switch outputSearchPhotos.value {
-            case .success(let photoList):
-                for (idx, photo) in photoList.enumerated() {
-                    if photo.id == userInfo["id"] {
-                        index = idx
-                        break
-                    }
-                }
-            default: break }
-            guard let index else { return }
-            print(#function, "index: ", index)
-            indexPath = IndexPath(item: index, section: 0)
-        }
-        
-        if let object = notification.object as? [String:IndexPath] {
-            print(#function, "object: ", object)
-            indexPath = object["indexPath"]
-        }
-        getLikeList()
-        outputUpdatedLikeButton.value = indexPath
     }
 }

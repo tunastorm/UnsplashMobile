@@ -20,7 +20,7 @@ public protocol Persistable {
 extension Photo: Persistable {
   
     init(managedObject: LikedPhoto) {
-        self.id = managedObject.id
+        self.identifier = managedObject.id
         self.createdAt = managedObject.createdAt
         self.width = managedObject.width
         self.height = managedObject.height
@@ -40,7 +40,7 @@ extension Photo: Persistable {
     
     func managedObject() -> LikedPhoto {
         let likedPhoto = LikedPhoto()
-        likedPhoto.id = self.id
+        likedPhoto.id = self.identifier
         likedPhoto.createdAt = self.createdAt
         likedPhoto.width = self.width
         likedPhoto.height = self.height

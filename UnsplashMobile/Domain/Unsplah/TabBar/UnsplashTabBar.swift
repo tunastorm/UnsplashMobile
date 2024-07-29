@@ -23,22 +23,22 @@ class UnsplashTabBarController: UITabBarController {
         
         let topicTabBar = UITabBarItem(title: "", image: Resource.Asset.NamedImage.tabTrendInActive, tag: 0)
         topicTabBar.selectedImage = Resource.Asset.NamedImage.tabTrend
-        
-        let randomTabBar = UITabBarItem(title: "", image: Resource.Asset.NamedImage.tabRandomInActive, tag: 1)
-        randomTabBar.selectedImage = Resource.Asset.NamedImage.tabRandom
-        
-        let searchTabBar = UITabBarItem(title: "", image: Resource.Asset.NamedImage.tabSearchInActive, tag: 2)
+//
+//        let randomTabBar = UITabBarItem(title: "", image: Resource.Asset.NamedImage.tabRandomInActive, tag: 1)
+//        randomTabBar.selectedImage = Resource.Asset.NamedImage.tabRandom
+//
+        let searchTabBar = UITabBarItem(title: "", image: Resource.Asset.NamedImage.tabSearchInActive, tag: 1)
         searchTabBar.selectedImage = Resource.Asset.NamedImage.tabSearch
         
-        let likeTabBar = UITabBarItem(title: "", image: Resource.Asset.NamedImage.tabLikeInActive, tag: 3)
+        let likeTabBar = UITabBarItem(title: "", image: Resource.Asset.NamedImage.tabLikeInActive, tag: 2)
         likeTabBar.selectedImage = Resource.Asset.NamedImage.like
         
         topicNavi.tabBarItem = topicTabBar
-        randomNavi.tabBarItem = randomTabBar
+//        randomNavi.tabBarItem = randomTabBar
         searchNavi.tabBarItem = searchTabBar
         likeNavi.tabBarItem = likeTabBar
 
-        setViewControllers([topicNavi, randomNavi, searchNavi, likeNavi], animated: true)
+        setViewControllers([topicNavi, searchNavi, likeNavi], animated: true)
     }
 
 }

@@ -136,6 +136,7 @@ final class SearchPhotosView: BaseView {
         if isNoResult {
             collectionView.setEmptyView(message: Resource.UIConstants.Text.noSearchResultMessage)
         } else {
+            print(#function, "검색결과 있음")
             collectionView.restoreBackgroundView()
         }
     }

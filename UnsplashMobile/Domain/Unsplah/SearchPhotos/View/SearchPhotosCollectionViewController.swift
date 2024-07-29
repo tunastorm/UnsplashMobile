@@ -17,10 +17,9 @@ extension SearchPhotosViewController {
     
     private func SearchPhotosCellRegistration() -> UICollectionView.CellRegistration<SearchPhotosCollectionViewCell, Photo> {
         UICollectionView.CellRegistration<SearchPhotosCollectionViewCell, Photo> { [weak self] cell, indexPath, itemIdentifier in
-            let isLiked = self?.viewModel?.outputLikedList.value.filter{ $0.id == itemIdentifier.id }.count ?? 0 > 0
             cell.delegate = self
             cell.configCell(data: itemIdentifier, index: indexPath.item)
-            cell.likeButtonToggle(isLiked)
+            cell.likeButtonToggle(itemIdentifier.isLiked ?? false)
         }
     }
     
@@ -56,7 +55,7 @@ extension SearchPhotosViewController {
     func updateSearchPhotosSnapShot(_ photoList: [Photo]) {
         var snapShot = NSDiffableDataSourceSnapshot<SearchPhotosSection, Photo>()
         snapShot.appendSections(SearchPhotosSection.allCases)
-        snapShot.sectionIdentifiers.forEach { topic in
+        snapShot.sectionIdentifiers.forEach { section in
             snapShot.appendItems(photoList, toSection: .main)
         }
         print(#function, "스냅샷 업데이트")

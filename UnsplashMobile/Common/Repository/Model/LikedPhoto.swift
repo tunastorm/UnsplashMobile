@@ -11,6 +11,7 @@ import RealmSwift
 final class LikedPhoto: Object {
     @Persisted(primaryKey: true) var realmId: ObjectId
     @Persisted var id: String
+    @Persisted var isDelete: Bool
     @Persisted var createdAt: String
     @Persisted var width: Int
     @Persisted var height: Int
@@ -23,6 +24,7 @@ final class LikedPhoto: Object {
     
     convenience init(id: String, createdAt: String, width: Int, height: Int, color: String, urls: RealmURLs? = nil, likes: Int, user: RealmArtist? = nil, colorFilter: Int? = nil) {
         self.init()
+        self.isDelete = false
         self.id = id
         self.createdAt = createdAt
         self.width = width
@@ -33,12 +35,12 @@ final class LikedPhoto: Object {
         self.user = user
         self.colorFilter = colorFilter
         self.regDate = Date()
-        
     }
     
     enum Column: String, ColumnManager {
         
         case id
+        case isDelete
         case createdAt
         case width
         case height
@@ -55,26 +57,17 @@ final class LikedPhoto: Object {
         
         var krName: String {
             return switch self {
-            case .id:
-                "사진 id"
-            case .createdAt:
-                "게시일"
-            case .width:
-                "가로 길이"
-            case .height:
-                "세로 길이"
-            case .color:
-                "색상"
-            case .urls:
-                "주소"
-            case .likes:
-                "좋아요 수"
-            case .user:
-                "작성자"
-            case .colorFilter:
-                "색상 필터"
-            case .regDate:
-                "등록일"
+            case .id: "사진 id"
+            case .isDelete: "삭제 여부"
+            case .createdAt: "게시일"
+            case .width: "가로 길이"
+            case .height: "세로 길이"
+            case .color: "색상"
+            case .urls: "주소"
+            case .likes: "좋아요 수"
+            case .user: "작성자"
+            case .colorFilter: "색상 필터"
+            case .regDate: "등록일"
             }
         }
         

@@ -23,6 +23,7 @@ final class LikedPhotosViewController: BaseViewController<LikedPhotosView, Liked
  
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        print(self.self, #function)
         viewModel?.inputGetLikedList.value = ()
         rootView?.layoutIfNeeded()
     }
